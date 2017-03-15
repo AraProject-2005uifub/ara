@@ -57,6 +57,7 @@ feature -- Execution
 						if data.at (1) ~ "prof1" and data.at (2) ~ "password" then
 							create html_page.make_html ("www\prof.html")
 							response.send (html_page)
+
 						else
 							create answer.make_from_string ("Invalid username or password")
 							response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-type", "text/html"], ["Content-lenght", answer.count.out]>>)

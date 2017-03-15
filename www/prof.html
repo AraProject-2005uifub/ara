@@ -4,29 +4,42 @@
   <title>Ara | Report page</title>
 </head>
 <body>
-	<div class="container" style="margin-top:20px">
-	<div class="col-md-4">
-    	<div class="panel panel-default">
-  	<div class="panel-heading"><h2 class="panel-title"><strong><p>Welcome, professor! <p> <p>Please, fill correctly the form and press submit button to send a report:<p></strong></h2></div>
-  	<div class="panel-body">
+	<h2 class="panel-title"><p>Welcome, professor! <p> <p>Please, fill correctly the form and press submit button to send a report:<p></h2>
+  	
    <form action="/report/" method="POST" role="form">
-  <div class="form-group">
+
     <label for="Name of unit"><p>Name of unit:<p></label>
     <input type="text" name="unit_name" class="form-control" id="unit_name" placeholder="Your answer">
-  </div>
-
-	<div class="form-group">
-    		<label for="Name of head of unit"><p>Name of head of unit:<p></label>
-    		<input type="text" name="head_of_unit_name" class="form-control" id="head_of_unit_name" placeholder="Your answer">
-  </div>
+    
+    <label for="Name of head of unit"><p>Name of head of unit:<p></label>
+    <input type="text" name="head_of_unit_name" class="form-control" id="head_of_unit_name" placeholder="Your answer">
 	
 	<form>
-   		<p>Start of reporting period <input type="date" name="calendar">
+   		<p>Start of reporting period:<p> <input type="date" name="calendar">
 	</form>	
 	
 	<form>
-   		<p>End of reporting period <input type="date" name="calendar">
+   		<p>End of reporting period:<p> <input type="date" name="calendar">
 	</form>
+
+  <form>
+  <label for="Courses taught"><p>Courses taught:<p></label>
+  <ol>
+    <li>
+    <input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name">
+    <select>
+      <option>Fall</option>
+      <option>Spring</option>
+    </select>
+    <select>
+      <option>Bachelor</option>
+      <option>Master</option>
+      <option>PhD</option>
+    </select>
+    <input type="text" name="number of students" class="form-control" id="number of students" placeholder="Number of students">
+    </li>
+  </ol>
+  </form>
 
   	<button type="submit" class="btn btn-sm btn-default">Submit</button>
 </form>
