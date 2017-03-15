@@ -24,9 +24,10 @@ feature -- Execution
 			-- and `response' to send response back to the client
 		local
 				--	mesg: WSF_PAGE_RESPONSE
+			header: HTTP_HEADER
 			html_page: WSF_FILE_RESPONSE
 			answer: STRING
-			data: ARRAY [STRING]
+			user: USER
 		do
 				--| As example, you can use {WSF_PAGE_RESPONSE}
 				--| To send back easily a simple plaintext message.
@@ -48,18 +49,18 @@ feature -- Execution
 				end
 			elseif request.is_post_request_method then
 				if request.path_info.same_string ("/auth/") then
-					create data.make_filled ("", 1, 2)
+					create user.make
 					if attached {WSF_STRING} request.form_parameter ("username") as username then
-						data.put (username.string_representation, 1)
+						user.set_username (username.string_representation)
 					end
 					if attached {WSF_STRING} request.form_parameter ("password") as password then
-						data.put (password.string_representation, 2)
+						user.set_password (password.string_representation)
 					end
-					if data.at (1) ~ "admin" and data.at (2) ~ "admin" then
+					if user.username ~ "admin" and user.password ~ "admin" then
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
 						response.redirect_now ("/admin/")
 					else
-						if data.at (1) ~ "prof1" and data.at (2) ~ "password" then
+						if user.username ~ "prof1" and user.password ~ "password" then
 							response.set_status_code ({HTTP_STATUS_CODE}.found)
 							response.redirect_now ("/report/")
 
