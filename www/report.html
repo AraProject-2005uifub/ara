@@ -2,49 +2,115 @@
 <html lang="en">
 <head>
   <title>Ara | Report page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 </head>
 <body>
-	<h2 class="panel-title"><p>Welcome, professor! <p> <p>Please, fill correctly the form and press submit button to send a report:<p></h2>
+	<div class="container" style="margin-top:30px">
+
+  <div class="form-group"><h2><STRONG><p>Welcome, professor! </p> <p>Please, fill correctly the form and press submit button to send a report:</p></STRONG></h2>
+  </div>
   	
-   <form action="/report/" method="POST" role="form">
+   
+   <form action="/report_submit/" method="POST" role="form">
 
-    <label for="Name of unit"><p>Name of unit:<p></label>
-    <input type="text" name="unit_name" class="form-control" id="unit_name" placeholder="Your answer">
+    <div class="col-xs-10">
+    <div class="form-group">
+    <label for="Name of unit"><p>Name of unit:</p></label>
+    <input type="text" name="unit_name" id="unit_name" class="form-control" placeholder="Your answer">
+    </div>
     
-    <label for="Name of head of unit"><p>Name of head of unit:<p></label>
+    <div class="form-group">
+    <label for="Name of head of unit"><p>Name of head of unit:</p></label>
     <input type="text" name="head_of_unit_name" class="form-control" id="head_of_unit_name" placeholder="Your answer">
-	
-	<form>
-   		<p>Start of reporting period:<p> <input type="date" name="calendar">
-	</form>	
-	
-	<form>
-   		<p>End of reporting period:<p> <input type="date" name="calendar">
-	</form>
+    </div>
 
-  <form>
-  <label for="Courses taught"><p>Courses taught:<p></label>
+    <div class="form-group">
+   		<p><strong>Start of reporting period:</strong></p> <input type="date" class="form-control" name="calendar_start"></p>
+    </div>
+
+   	<div class="form-group">	
+      <p><strong>End of reporting period:</strong></p> <input type="date" class="form-control" name="calendar_end">
+    </div>
+
+  <label for="Courses taught"><p>Courses taught:</p></label>
   <ol>
+    <button type="button">Add course</button>
+    <button type="button">Remove course</button>
     <li>
     <input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name">
-    <select>
+    <select id="semester" name="semester" class="form-control">
       <option>Fall</option>
       <option>Spring</option>
     </select>
-    <select>
+    <select id="level" name="level" class="form-control">
       <option>Bachelor</option>
       <option>Master</option>
       <option>PhD</option>
     </select>
-    <input type="text" name="number of students" class="form-control" id="number of students" placeholder="Number of students">
+    <input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students">
     </li>
   </ol>
-  </form>
+
+  <label for="Examinations"><p>Examinations:</p></label>
+  <ol>
+    <button type="button">Add examination</button>
+    <button type="button">Remove examination</button>
+    <li>
+      <input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name">
+      <select id="semester" name="semester" class="form-control">
+      <option>Fall</option>
+      <option>Spring</option>
+    </select>
+    <select id="kind_of_exam" name="kind_of_exam" class="form-control">
+      <option>Final exam</option>
+      <option>Repetition exam</option>
+      <input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students taken exam">
+    </select>
+    </li>
+  </ol>
+
+  <label for="Student(s) supervised"><p>Student(s) supervised:</p> </label>
+  <ol>
+    <button type="button">Add student</button>
+    <button type="button">Remove student</button>
+    <li>
+      <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name">
+      <input type="text" name="nature_of_work" class="form-control" id="nature_of_work" placeholder="Nature of work(e.g. bachelor thesis, master thesis, summer internship)">
+    </li>
+  </ol>
+
+  <label for="Completed student reports"><p>Completed student reports:</p></label>
+  <ol>
+    <button type="button">Add report</button>
+    <button type="button">Remove report</button>
+    <li>
+      <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name">
+      <input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title">
+      <input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)">
+    </li>
+  </ol>
+
+  <label for="Completed PhD theses"><p>Completed PhD theses:</p></label>
+  <ol>
+    <button type="button">Add thesis</button>
+    <button type="button">Remove thesis</button>
+    <li>
+      <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name">
+      <input type="text" name="degree" class="form-control" id="degree" placeholder="Degree">
+      <input type="text" name="supervisor_name" class="form-control" id="supervisor_name" placeholder="Supervisor name">
+      <input type="text" name="others" class="form-control" id="others" placeholder="Names of other committee members">
+      <input type="text" name="institute" class="form-control" id="institute" placeholder="Name of degree-granting institution (Innopolis or other)">
+      <input type="text" name="title" class="form-control" id="title" placeholder="Title of dissertation">
+    </li>
+  </ol>
 
   	<button type="submit" class="btn btn-sm btn-default">Submit</button>
+    </div>
 </form>
-  </div>
-</div>
 </div>
 </body>
 </html>
