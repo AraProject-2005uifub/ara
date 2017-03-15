@@ -39,6 +39,12 @@ feature -- Execution
 				elseif request.path_info.same_string ("/auth/") then
 					create html_page.make_html ("www\auth.html")
 					response.send (html_page)
+				elseif request.path_info.same_string ("/admin/") then
+					create html_page.make_html ("www\admin.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/report/") then
+					create html_page.make_html ("www\report.html")
+					response.send (html_page)
 				end
 			elseif request.is_post_request_method then
 				if request.path_info.same_string ("/auth/") then
@@ -49,14 +55,13 @@ feature -- Execution
 					if attached {WSF_STRING} request.form_parameter ("password") as password then
 						data.put (password.string_representation, 2)
 					end
-					if data.at (1) ~ "test" and data.at (2) ~ "password" then
-						create answer.make_from_string ("Successful log in")
-						response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-type", "text/html"], ["Content-lenght", answer.count.out]>>)
-						response.put_string (answer)
+					if data.at (1) ~ "admin" and data.at (2) ~ "admin" then
+						response.set_status_code ({HTTP_STATUS_CODE}.found)
+						response.redirect_now ("/admin/")
 					else
 						if data.at (1) ~ "prof1" and data.at (2) ~ "password" then
-							create html_page.make_html ("www\prof.html")
-							response.send (html_page)
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/report/")
 
 						else
 							create answer.make_from_string ("Invalid username or password")
