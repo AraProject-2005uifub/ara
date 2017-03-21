@@ -35,16 +35,16 @@ feature -- Execution
 				-- response.send (mesg)
 			if request.is_get_request_method then
 				if request.path_info.same_string ("/") then
-					create html_page.make_html ("www\index.html")
+					create html_page.make_html ("www/index.html")
 					response.send (html_page)
 				elseif request.path_info.same_string ("/auth/") then
-					create html_page.make_html ("www\auth.html")
+					create html_page.make_html ("www/auth.html")
 					response.send (html_page)
 				elseif request.path_info.same_string ("/admin/") then
-					create html_page.make_html ("www\admin.html")
+					create html_page.make_html ("www/admin.html")
 					response.send (html_page)
 				elseif request.path_info.same_string ("/report/") then
-					create html_page.make_html ("www\report.html")
+					create html_page.make_html ("www/report.html")
 					response.send (html_page)
 				end
 			elseif request.is_post_request_method then
@@ -65,9 +65,8 @@ feature -- Execution
 							response.redirect_now ("/report/")
 
 						else
-							create answer.make_from_string ("Invalid username or password")
-							response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-type", "text/html"], ["Content-lenght", answer.count.out]>>)
-							response.put_string (answer)
+							create html_page.make_html ("www/auth_bad.html")
+							response.send(html_page)
 						end
 					end
 				end
