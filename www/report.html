@@ -7,22 +7,86 @@
    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  <script>
+    function addCourse() {
+      document.getElementById("courses").innerHTML = document.getElementById("courses").innerHTML + document.getElementById("course").innerHTML;
+    }
+    function addExamination() {
+      document.getElementById("examinations").innerHTML = document.getElementById("examinations").innerHTML + document.getElementById("examination").innerHTML;
+    }
+    function addStudentSupervised() {
+      document.getElementById("supervised_students").innerHTML = document.getElementById("supervised_students").innerHTML + document.getElementById("student_supervised").innerHTML;
+    }
+    function addStudentReport() {
+      document.getElementById("students_reports").innerHTML = document.getElementById("students_reports").innerHTML + document.getElementById("student_report").innerHTML;
+    }
+    function addThesis() {
+      document.getElementById("theses").innerHTML = document.getElementById("theses").innerHTML + document.getElementById("thesis").innerHTML;
+    }
+  </script>
+  <script id="thesis" language="text">
+  <hr>
+  <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+  <p><input type="text" name="degree" class="form-control" id="degree" placeholder="Degree"></p>
+  <p><input type="text" name="supervisor_name" class="form-control" id="supervisor_name" placeholder="Supervisor name"></p>
+  <p><input type="text" name="others" class="form-control" id="others" placeholder="Names of other committee members"></p>
+  <p><input type="text" name="institute" class="form-control" id="institute" placeholder="Name of degree-granting institution (Innopolis or other)"></p>
+  <p><input type="text" name="title" class="form-control" id="title" placeholder="Title of dissertation"></p>
+  </script>
+  <script id="student_report" language="text">
+  <hr>
+  <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+  <p><input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title"></p>
+  <p><input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)"></p>
+  </script>
+  <script id="student_supervised" language="text">
+  <hr>
+  <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+  <p><input type="text" name="nature_of_work" class="form-control" id="nature_of_work" placeholder="Nature of work(e.g. bachelor thesis, master thesis, summer internship)"></p>
+  </script>
+  <script id="course" language="text">
+  <hr>
+  <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name"></p>
+  <p><select id="semester" name="semester" class="form-control">
+    <option>Fall</option>
+    <option>Spring</option>
+  </select></p>
+  <p><select id="level" name="level" class="form-control">
+    <option>Bachelor</option>
+    <option>Master</option>
+    <option>PhD</option>
+  </select></p>
+  <p><input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students"></p>
+  </script>
+  <script id="examination" language="text">
+  <hr>
+  <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name"></p>
+  <p><select id="semester" name="semester" class="form-control">
+  <option>Fall</option>
+  <option>Spring</option>
+</select></p>
+<p><select id="kind_of_exam" name="kind_of_exam" class="form-control">
+  <option>Final exam</option>
+  <option>Repetition exam</option>
+</select></p>
+<p><input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students taken exam"></p>
+  </script>
 </head>
 <body>
 	<div class="container" style="margin-top:30px">
-
-  <div class="form-group"><h2><STRONG><p>Welcome, professor! </p> <p>Please, fill correctly the form and press submit button to send a report:</p></STRONG></h2>
+  <div class="col-md-8 col-md-offset-2">
+  <div class="panel panel-default">
+  <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Welcome, professor! </p> <p>Please, fill correctly the form and press submit button to send a report:</p></STRONG></h2>
   </div>
-  	
-   
+  <div class="panel-body">
+
    <form action="/report_submit/" method="POST" role="form">
 
-    <div class="col-xs-10">
     <div class="form-group">
     <label for="Name of unit"><p>Name of unit:</p></label>
     <input type="text" name="unit_name" id="unit_name" class="form-control" placeholder="Your answer">
     </div>
-    
+
     <div class="form-group">
     <label for="Name of head of unit"><p>Name of head of unit:</p></label>
     <input type="text" name="head_of_unit_name" class="form-control" id="head_of_unit_name" placeholder="Your answer">
@@ -32,83 +96,74 @@
    		<p><strong>Start of reporting period:</strong></p> <input type="date" class="form-control" name="calendar_start"></p>
     </div>
 
-   	<div class="form-group">	
+   	<div class="form-group">
       <p><strong>End of reporting period:</strong></p> <input type="date" class="form-control" name="calendar_end">
     </div>
 
   <label for="Courses taught"><p>Courses taught:</p></label>
-  <ol>
-    <button type="button">Add course</button>
-    <button type="button">Remove course</button>
-    <li>
-    <input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name">
-    <select id="semester" name="semester" class="form-control">
+    <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
+    <button type="button" class="btn btn-sm btn-default" onclick="addCourse()" style="float: right">+</button>
+    <div id="courses">
+    <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name"></p>
+    <p><select id="semester" name="semester" class="form-control">
       <option>Fall</option>
       <option>Spring</option>
-    </select>
-    <select id="level" name="level" class="form-control">
+    </select></p>
+    <p><select id="level" name="level" class="form-control">
       <option>Bachelor</option>
       <option>Master</option>
       <option>PhD</option>
-    </select>
-    <input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students">
-    </li>
-  </ol>
+    </select></p>
+    <p><input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students"></p>
+  </div>
 
   <label for="Examinations"><p>Examinations:</p></label>
-  <ol>
-    <button type="button">Add examination</button>
-    <button type="button">Remove examination</button>
-    <li>
-      <input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name">
-      <select id="semester" name="semester" class="form-control">
+    <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
+    <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addExamination()">+</button>
+    <div id="examinations">
+      <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name"></p>
+      <p><select id="semester" name="semester" class="form-control">
       <option>Fall</option>
       <option>Spring</option>
-    </select>
-    <select id="kind_of_exam" name="kind_of_exam" class="form-control">
+    </select></p>
+    <p><select id="kind_of_exam" name="kind_of_exam" class="form-control">
       <option>Final exam</option>
       <option>Repetition exam</option>
-      <input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students taken exam">
-    </select>
-    </li>
-  </ol>
+    </select></p>
+    <p><input type="number" name="number of students" class="form-control" id="number of students" placeholder="Number of students taken exam"></p>
+  </div>
 
-  <label for="Student(s) supervised"><p>Student(s) supervised:</p> </label>
-  <ol>
-    <button type="button">Add student</button>
-    <button type="button">Remove student</button>
-    <li>
-      <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name">
-      <input type="text" name="nature_of_work" class="form-control" id="nature_of_work" placeholder="Nature of work(e.g. bachelor thesis, master thesis, summer internship)">
-    </li>
-  </ol>
+  <label for="Student(s) supervised"><p>Student(s) supervised:</p></label>
+    <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
+    <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addStudentSupervised()">+</button>
+    <div id="supervised_students"
+      <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+      <p><input type="text" name="nature_of_work" class="form-control" id="nature_of_work" placeholder="Nature of work(e.g. bachelor thesis, master thesis, summer internship)"></p>
+    </div>
 
   <label for="Completed student reports"><p>Completed student reports:</p></label>
-  <ol>
-    <button type="button">Add report</button>
-    <button type="button">Remove report</button>
-    <li>
-      <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name">
-      <input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title">
-      <input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)">
-    </li>
-  </ol>
+    <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
+    <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addStudentReport()">+</button>
+    <div id="students_reports">
+      <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+      <p><input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title"></p>
+      <p><input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)"></p>
+    </div>
 
   <label for="Completed PhD theses"><p>Completed PhD theses:</p></label>
-  <ol>
-    <button type="button">Add thesis</button>
-    <button type="button">Remove thesis</button>
-    <li>
-      <input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name">
-      <input type="text" name="degree" class="form-control" id="degree" placeholder="Degree">
-      <input type="text" name="supervisor_name" class="form-control" id="supervisor_name" placeholder="Supervisor name">
-      <input type="text" name="others" class="form-control" id="others" placeholder="Names of other committee members">
-      <input type="text" name="institute" class="form-control" id="institute" placeholder="Name of degree-granting institution (Innopolis or other)">
-      <input type="text" name="title" class="form-control" id="title" placeholder="Title of dissertation">
-    </li>
-  </ol>
-
-  	<button type="submit" class="btn btn-sm btn-default">Submit</button>
+    <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
+    <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addThesis()">+</button>
+    <div id="theses">
+      <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+      <p><input type="text" name="degree" class="form-control" id="degree" placeholder="Degree"></p>
+      <p><input type="text" name="supervisor_name" class="form-control" id="supervisor_name" placeholder="Supervisor name"></p>
+      <p><input type="text" name="others" class="form-control" id="others" placeholder="Names of other committee members"></p>
+      <p><input type="text" name="institute" class="form-control" id="institute" placeholder="Name of degree-granting institution (Innopolis or other)"></p>
+      <p><input type="text" name="title" class="form-control" id="title" placeholder="Title of dissertation"></p>
+    </div>
+  	<button type="submit" class="btn btn-sm btn-default" style="float: right">Submit</button>
+</div>
+</div>
     </div>
 </form>
 </div>
