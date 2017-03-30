@@ -90,9 +90,9 @@ feature -- Execution
 					if attached {WSF_STRING} request.form_parameter ("role") as role then
 						user.set_role (role.string_representation)
 					end
-					if user.role ~ "System Administrator" then
+					if user.role ~ "sysadmin" then
 						db.add_admin (user.full_name, user.username, user.password, "bruh")
-					elseif user.role ~ "University Administrator" then
+					elseif user.role ~ "uadministrator" then
 						db.add_univerity_admin (user.full_name, user.username, user.password, "bruh")
 					end
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
