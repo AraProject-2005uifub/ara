@@ -29,6 +29,7 @@ feature -- Execution
 			answer, role_db: STRING
 			user: USER
 			db: DB_ADAPTER
+			report_iterator: ITERATION_CURSOR[WSF_VALUE]
 		do
 				--| As example, you can use {WSF_PAGE_RESPONSE}
 				--| To send back easily a simple plaintext message.
@@ -97,6 +98,15 @@ feature -- Execution
 					end
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/admin/")
+				elseif request.path_info.same_string ("/report_submit/") then
+					create user.make
+					from
+						report_iterator := request.form_parameters.new_cursor
+					until
+						report_iterator.after
+					loop
+						user.add_data (report_iterator.item)
+					end
 				end
 			end
 		end

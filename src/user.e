@@ -19,6 +19,7 @@ feature -- Initialization
 			create password.make_empty
 			create cookie_session.make_empty
 			create role.make_empty
+			create report_data.make
 		end
 
 	make_with_username_password(l_full_name, l_username, l_password: STRING)
@@ -32,12 +33,13 @@ feature -- Initialization
 			full_name := l_full_name
 			create cookie_session.make_empty
 			create role.make_empty
+			create report_data.make
 		ensure
 			username_is_set: l_username = username
 			password_is_set: l_password = password
 			full_name_is_set: l_full_name = full_name
 		end
-feature -- Setters and getters
+feature
 	set_full_name(l_full_name: STRING)
 	require
 		full_name_not_void: l_full_name /= Void
@@ -83,6 +85,16 @@ feature -- Setters and getters
 			cookie_session_is_set: l_cookie_session = cookie_session
 		end
 
+	add_data(item: WSF_VALUE)
+		require
+			item_is_not_void: item /= Void
+		do
+			report_data.extend (item)
+		ensure
+			item_is_added: report_data.last = item
+		end
+
 feature -- Access
 	username, password, cookie_session, role, full_name: STRING;
+	report_data: LINKED_LIST[WSF_VALUE]
 end
