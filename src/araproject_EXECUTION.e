@@ -44,14 +44,18 @@ feature -- Execution
 				if request.path_info.same_string ("/") then
 					create html_page.make_html ("www/index.html")
 					response.send (html_page)
-				elseif request.path_info.same_string ("/auth/") then
+				elseif request.path_info.same_string ("/auth/") or request.path_info.same_string ("/auth") then
 					create html_page.make_html ("www/auth.html")
 					response.send (html_page)
-				elseif request.path_info.same_string ("/admin/") then
+				elseif request.path_info.same_string ("/admin/") or request.path_info.same_string ("/admin") then
 					create html_page.make_html ("www/admin.html")
 					response.send (html_page)
-				elseif request.path_info.same_string ("/report/") then
+				elseif request.path_info.same_string ("/report/") or request.path_info.same_string ("/report") then
 					create html_page.make_html ("www/report.html")
+					response.send (html_page)
+				else
+					create html_page.make_html ("www/404.html")
+					response.set_status_code ({HTTP_STATUS_CODE}.not_found)
 					response.send (html_page)
 				end
 			elseif request.is_post_request_method then
