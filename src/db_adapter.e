@@ -25,16 +25,16 @@ feature -- Initialization
 
 	db_first_init
 			-- Initializes a new main database.
-			--
+			--s
 			-- WARNING! If db exists, it will be dropped and recreated!
 		require
 			file_name_correct (db_file_name)
 		do
 			create db.make_create_read_write (db_file_name)
 			execute_insertion_query_from_file (new_db_creation_query)
-			io.put_string ("DB " + db_file_name + " is created successfully!")
+			log ("DB: " + db_file_name + " is created successfully!")
 			execute_insertion_query_from_file (default_insertions_statement)
-			io.put_string ("DB " + db_file_name + " is filled with default values.")
+			log ("DB: " + db_file_name + " is filled with default values.")
 		end
 
 	open
@@ -43,7 +43,7 @@ feature -- Initialization
 			db_file_exist (db_file_name)
 		do
 			create db.make_open_read_write (db_file_name)
-			io.put_string ("DB " + db_file_name + " is opened successfully!")
+			log ("DB: " + db_file_name + " is opened successfully!")
 		end
 
 feature {NONE} -- Implementation
@@ -57,6 +57,7 @@ feature {NONE} -- Implementation
 		local
 			db_insert_statement: SQLITE_INSERT_STATEMENT
 		do
+			log ("DB: attempt to execute_insertion_query: query = " + a_query)
 			create db_insert_statement.make (a_query, db)
 			db_insert_statement.execute
 		end
@@ -76,15 +77,16 @@ feature {NONE} -- Implementation
 			execute_insertion_query (query)
 		end
 
-	execute_selection_query (query: STRING): ARRAY [STRING]
+	execute_selection_query (a_query: STRING): ARRAY [STRING]
 		local
 			db_query_statement: SQLITE_QUERY_STATEMENT
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			i: NATURAL
 			reply: ARRAY [STRING]
 		do
+			log ("DB: atempt to execute_selection_query: query = " + a_query)
 			create reply.make_empty
-			create db_query_statement.make (query, db)
+			create db_query_statement.make (a_query, db)
 			cursor := db_query_statement.execute_new
 			from
 				cursor.start
@@ -98,6 +100,12 @@ feature {NONE} -- Implementation
 				i := i + 1
 			end
 			Result := reply
+		end
+
+	log (log_string: STRING)
+			-- Logs
+		do
+			io.put_string (log_string  + "%N")
 		end
 
 feature -- Queries running
