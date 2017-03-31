@@ -491,7 +491,7 @@ CREATE TABLE "unit_members" (
 
 "unit_id" INTEGER NOT NULL,
 
-"name" TEXT NOT NULL,
+"name" TEXT UNIQUE NOT NULL,
 
 "ui_employee_id" INTEGER,
 
@@ -523,7 +523,7 @@ CREATE TABLE "users" (
 
 "name" TEXT NOT NULL,
 
-"username" TEXT NOT NULL,
+"username" TEXT UNIQUE NOT NULL,
 
 "password" TEXT NOT NULL,
 
@@ -551,12 +551,4 @@ CREATE TABLE "kinds_of_users" (
 PRIMARY KEY ("id")
 
 );
-
-
-INSERT INTO kinds_of_users (kind) VALUES ("Technical administrator");
-
-INSERT INTO kinds_of_users (kind) VALUES ("Head of Unit");
-
-INSERT INTO kinds_of_users (kind) VALUES ("University administrator");
-
 
