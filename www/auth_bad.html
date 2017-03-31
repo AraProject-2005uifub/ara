@@ -14,7 +14,7 @@
     for ( var i=0; i < 16; i++ )
         cookieValue += alphabet.charAt(Math.random() * alphabet.length-1);
 	}
-	
+
 	function setCookie(value) {
 		document.cookie = "session_id="+value+"; expires=0; path=/";
 	}
@@ -26,15 +26,15 @@
     <div class="panel panel-default">
   <div class="panel-heading"><h3 class="panel-title"><strong>Log in form</strong></h3></div>
   <div class="panel-body">
-  <p class="text-danger">Wrong username or password</p>
+    <p class="text-danger">Wrong username or password</p>
    <form action="/auth/" method="POST" role="form">
   <div class="form-group">
     <label for="username">Username</label>
-    <input type="text" name="username" class="form-control" id="username" placeholder="Enter username">
+    <input type="text" name="username" class="form-control" id="username" placeholder="Enter username" required>
   </div>
   <div class="form-group">
     <label for="password">Password</label>
-    <input type="password" name="password" class="form-control" id="password" placeholder="Enter password">
+    <input type="password" name="password" class="form-control" id="password" placeholder="Enter password" required>
   </div>
   <button type="submit" onclick="setCookie(window.cookieValue)" class="btn btn-sm btn-default">Log in</button>
 </form>
