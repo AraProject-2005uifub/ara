@@ -28,3 +28,4 @@ DROP TABLE "unit_members";
 DROP TABLE "units";
 DROP TABLE "users";
 DROP TABLE "organisation_types";
+DROP TABLE "kinds_of_users";

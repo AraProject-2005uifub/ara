@@ -148,6 +148,14 @@ feature -- Queries running
 
 		--		end
 
+	update_cookie (username, cookie: STRING)
+		local
+			query: STRING
+		do
+			query := "UPDATE users SET cookie = %"" + cookie + "%" WHERE username = %"" + username + "%";"
+			execute_insertion_query (query)
+		end
+
 feature -- Precondition checkers
 
 	db_file_exist (a_file_name: STRING): BOOLEAN

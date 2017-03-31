@@ -17,6 +17,12 @@ create
 
 feature {NONE} -- Initialization
 
+	db: DB_ADAPTER
+		once ("OBJECT")
+			create Result.open
+				--	Result.add_admin ("Admin Adminich", "admin", "admin", "111")
+		end
+
 feature -- Execution
 
 	execute
@@ -28,8 +34,7 @@ feature -- Execution
 			html_page: WSF_FILE_RESPONSE
 			answer, role_db: STRING
 			user: USER
-			db: DB_ADAPTER
-			report_iterator: ITERATION_CURSOR[WSF_VALUE]
+			report_iterator: ITERATION_CURSOR [WSF_VALUE]
 		do
 				--| As example, you can use {WSF_PAGE_RESPONSE}
 				--| To send back easily a simple plaintext message.
@@ -58,29 +63,33 @@ feature -- Execution
 					if attached {WSF_STRING} request.form_parameter ("password") as password then
 						user.set_password (password.string_representation)
 					end
-					create db.open
 					role_db := db.check_password (user.username, user.password)
-					if role_db ~ "admin"  then
+					if role_db ~ "admin" then
+						if attached {WSF_STRING} request.cookie ("session_id") as session then
+							db.update_cookie (user.username, session.string_representation)
+						end
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
 						response.redirect_now ("/admin/")
+					else
+						create html_page.make_html ("www/auth_bad.html/")
+						response.send (html_page)
 					end
---					if user.username ~ "admin" and user.password ~ "admin" then
---						response.set_status_code ({HTTP_STATUS_CODE}.found)
---						response.redirect_now ("/admin/")
---					else
---						if user.username ~ "prof1" and user.password ~ "password" then
---							response.set_status_code ({HTTP_STATUS_CODE}.found)
---							response.redirect_now ("/report/")
---						else
---							create html_page.make_html ("www/auth_bad.html")
---							response.send(html_page)
---						end
---					end
+						--					if user.username ~ "admin" and user.password ~ "admin" then
+						--						response.set_status_code ({HTTP_STATUS_CODE}.found)
+						--						response.redirect_now ("/admin/")
+						--					else
+						--						if user.username ~ "prof1" and user.password ~ "password" then
+						--							response.set_status_code ({HTTP_STATUS_CODE}.found)
+						--							response.redirect_now ("/report/")
+						--						else
+						--							create html_page.make_html ("www/auth_bad.html")
+						--							response.send(html_page)
+						--						end
+						--					end
 				elseif request.path_info.same_string ("/add_user/") then
 					create user.make
-					create db.open
 					if attached {WSF_STRING} request.form_parameter ("full_name") as full_name then
-						user.set_full_name(full_name.string_representation)
+						user.set_full_name (full_name.string_representation)
 					end
 					if attached {WSF_STRING} request.form_parameter ("username") as username then
 						user.set_username (username.string_representation)

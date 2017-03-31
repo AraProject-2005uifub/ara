@@ -7,7 +7,7 @@ note
 
 class
 	ARAPROJECT
-	
+
 
 inherit
 	WSF_LAUNCHABLE_SERVICE
@@ -15,10 +15,12 @@ inherit
 			initialize
 		end
 	APPLICATION_LAUNCHER [ARAPROJECT_EXECUTION]
-	
+
 
 create
 	make_and_launch
+
+feature -- Access
 
 feature {NONE} -- Initialization
 
