@@ -103,7 +103,7 @@ feature -- Execution
 					if user.role ~ "sysadmin" then
 						db.add_admin (user.full_name, user.username, user.password)
 					elseif user.role ~ "uadministrator" then
-						db.add_univerity_admin (user.full_name, user.username, user.password)
+						db.add_university_admin (user.full_name, user.username, user.password)
 					end
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/admin/")

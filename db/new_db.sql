@@ -521,6 +521,8 @@ CREATE TABLE "users" (
 
 "id" INTEGER NOT NULL,
 
+"name" TEXT NOT NULL,
+
 "username" TEXT NOT NULL,
 
 "password" TEXT NOT NULL,

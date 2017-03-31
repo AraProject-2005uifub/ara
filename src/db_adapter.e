@@ -113,7 +113,7 @@ feature -- Queries running
 			execute_insertion_query (query)
 		end
 
-	add_univerity_admin (name: STRING; username: STRING; password: STRING)
+	add_university_admin (name: STRING; username: STRING; password: STRING)
 		local
 			query: STRING
 			hash: STRING
@@ -124,15 +124,21 @@ feature -- Queries running
 			execute_insertion_query (query)
 		end
 
-	add_head_of_unit (name: STRING; username: STRING; password: STRING)
+	add_head_of_unit (name, username, password: STRING)
 			-- Adds user in the table
 		local
 			query: STRING
+			unit_member_id: STRING
 			hash: STRING
 		do
 			hash := password + password_salt
 			hash := hash.hash_code.to_hex_string
-			query := "INSERT INTO users (name, username, password, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", 2);"
+			query := "INSERT INTO unit_members (unit_id, name) VALUES ( -1, %"" + name + "%");"
+			execute_insertion_query (query)
+			query := "SELECT id FROM unit_members WHERE name == %"" + name + "%");"
+			unit_member_id := execute_selection_query (query).at (1)
+
+			query := "INSERT INTO users (username, password, name, unit_memeber_id, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + ", %"" + name + "%", %"" + unit_member_id + "%", 2);"
 			execute_insertion_query (query)
 		end
 
