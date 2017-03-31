@@ -17,6 +17,10 @@ feature -- Constant statements
 
 	frozen default_insertions_statement: STRING = "db/first_inserts.sql"
 
+feature {NONE} -- Secret constant elements
+
+	frozen password_salt: STRING = "sdmv12 3k e"
+
 feature -- Initialization
 
 	db_first_init
@@ -98,25 +102,37 @@ feature {NONE} -- Implementation
 
 feature -- Queries running
 
-	add_admin (name: STRING; username: STRING; password: STRING; cookie: STRING)
+	add_admin (name: STRING; username: STRING; password: STRING)
 		local
 			query: STRING
 			hash: STRING
 		do
-			hash := password + "sdmv12 3k e"
+			hash := password + password_salt
 			hash := hash.hash_code.to_hex_string
-			query := "INSERT INTO users (name, username, password, cookie, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", %"" + cookie + "%", 1);"
+			query := "INSERT INTO users (name, username, password, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", 1);"
 			execute_insertion_query (query)
 		end
 
-	add_univerity_admin (name: STRING; username: STRING; password: STRING; cookie: STRING)
+	add_univerity_admin (name: STRING; username: STRING; password: STRING)
 		local
 			query: STRING
 			hash: STRING
 		do
-			hash := password + "sdmv12 3k e"
+			hash := password + password_salt
 			hash := hash.hash_code.to_hex_string
-			query := "INSERT INTO users (name, username, password, cookie, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", %"" + cookie + "%", 3);"
+			query := "INSERT INTO users (name, username, password, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", 3);"
+			execute_insertion_query (query)
+		end
+
+	add_head_of_unit (name: STRING; username: STRING; password: STRING)
+			-- Adds user in the table
+		local
+			query: STRING
+			hash: STRING
+		do
+			hash := password + password_salt
+			hash := hash.hash_code.to_hex_string
+			query := "INSERT INTO users (name, username, password, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", 2);"
 			execute_insertion_query (query)
 		end
 
@@ -140,15 +156,6 @@ feature -- Queries running
 				Result := "ui_admin"
 			end
 		end
-
-		--	add_head_of_unit(name: STRING; unit_name: STRING; username: STRING; password: STRING; cookie: STRING)
-		--			-- Adds user in the table
-		--		local
-		--			query: STRING
-		--		do
-		--		--	query := "INSERT INTO unit_members  VALUES
-
-		--		end
 
 	update_cookie (username, cookie: STRING)
 		local

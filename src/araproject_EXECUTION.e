@@ -101,9 +101,9 @@ feature -- Execution
 						user.set_role (role.string_representation)
 					end
 					if user.role ~ "sysadmin" then
-						db.add_admin (user.full_name, user.username, user.password, "bruh")
+						db.add_admin (user.full_name, user.username, user.password)
 					elseif user.role ~ "uadministrator" then
-						db.add_univerity_admin (user.full_name, user.username, user.password, "bruh")
+						db.add_univerity_admin (user.full_name, user.username, user.password)
 					end
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/admin/")
