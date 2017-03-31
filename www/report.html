@@ -21,8 +21,8 @@
     function addExamination() {
       var examination = document.getElementById("examination").innerHTML;
       examinationIter++;
-      examination = examination.replace(/course_name/g, "course_name"+examinationIter);
-      examination = examination.replace(/semester/g, "semester"+examinationIter);
+      examination = examination.replace(/e_course_name/g, "e_course_name"+examinationIter);
+      examination = examination.replace(/e_semester/g, "e_semester"+examinationIter);
       examination = examination.replace(/kind_of_exam/g, "kind_of_exam"+examinationIter);
       examination = examination.replace(/number_of_students/g, "number_of_students"+examinationIter);
       document.getElementById("examinations").innerHTML = document.getElementById("examinations").innerHTML + examination;
@@ -37,7 +37,7 @@
     function addStudentReport() {
       var student_report = document.getElementById("student_report").innerHTML;
       studentReportIter++;
-      student_report = student_report.replace(/student_name/g, "student_name"+studentReportIter);
+      student_report = student_report.replace(/r_student_name/g, "r_student_name"+studentReportIter);
       student_report = student_report.replace(/report_title/g, "report_title"+studentReportIter);
       student_report = student_report.replace(/publication_plans/g, "publication_plans"+studentReportIter);
       document.getElementById("students_reports").innerHTML = document.getElementById("students_reports").innerHTML + student_report;
@@ -45,7 +45,7 @@
     function addThesis() {
       var thesis = document.getElementById("thesis").innerHTML;
       thesisIter++;
-      thesis = thesis.replace(/student_name/g, "student_name"+thesisIter);
+      thesis = thesis.replace(/t_student_name/g, "t_student_name"+thesisIter);
       thesis = thesis.replace(/degree/g, "degree"+thesisIter);
       thesis = thesis.replace(/supervisor_name/g, "supervisor_name"+thesisIter);
       thesis = thesis.replace(/others/g, "others"+thesisIter);
@@ -56,7 +56,7 @@
   </script>
   <script id="thesis" language="text">
   <hr>
-  <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+  <p><input type="text" name="t_student_name" class="form-control" id="t_student_name" placeholder="Student name"></p>
   <p><input type="text" name="degree" class="form-control" id="degree" placeholder="Degree"></p>
   <p><input type="text" name="supervisor_name" class="form-control" id="supervisor_name" placeholder="Supervisor name"></p>
   <p><input type="text" name="others" class="form-control" id="others" placeholder="Names of other committee members"></p>
@@ -65,7 +65,7 @@
   </script>
   <script id="student_report" language="text">
   <hr>
-  <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name"></p>
+  <p><input type="text" name="r_student_name" class="form-control" id="r_student_name" placeholder="Student name"></p>
   <p><input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title"></p>
   <p><input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)"></p>
   </script>
@@ -90,8 +90,8 @@
   </script>
   <script id="examination" language="text">
   <hr>
-  <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name"></p>
-  <p><select id="semester" name="semester" class="form-control">
+  <p><input type="text" name="e_course_name" class="form-control" id="e_course_name" placeholder="Course name"></p>
+  <p><select id="e_semester" name="e_semester" class="form-control">
   <option>Fall</option>
   <option>Spring</option>
 </select></p>
@@ -151,8 +151,8 @@
     <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
     <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addExamination()">+</button>
     <div id="examinations">
-      <p><input type="text" name="course_name1" class="form-control" id="course_name1" placeholder="Course name"></p>
-      <p><select id="semester1" name="semester1" class="form-control">
+      <p><input type="text" name="e_course_name1" class="form-control" id="e_course_name1" placeholder="Course name"></p>
+      <p><select id="e_semester1" name="e_semester1" class="form-control">
       <option>Fall</option>
       <option>Spring</option>
     </select></p>
@@ -175,7 +175,7 @@
     <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
     <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addStudentReport()">+</button>
     <div id="students_reports">
-      <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name"></p>
+      <p><input type="text" name="r_student_name1" class="form-control" id="r_student_name1" placeholder="Student name"></p>
       <p><input type="text" name="report_title1" class="form-control" id="report_title1" placeholder="Report title"></p>
       <p><input type="text" name="publication_plans1" class="form-control" id="publication_plans1" placeholder="Publication_plans (if any)"></p>
     </div>
@@ -184,7 +184,7 @@
     <button type="button" class="btn btn-sm btn-default" style="float: right">-</button>
     <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addThesis()">+</button>
     <div id="theses">
-      <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name"></p>
+      <p><input type="text" name="t_student_name1" class="form-control" id="t_student_name1" placeholder="Student name"></p>
       <p><input type="text" name="degree1" class="form-control" id="degree1" placeholder="Degree"></p>
       <p><input type="text" name="supervisor_name1" class="form-control" id="supervisor_name1" placeholder="Supervisor name"></p>
       <p><input type="text" name="others1" class="form-control" id="others1" placeholder="Names of other committee members"></p>
