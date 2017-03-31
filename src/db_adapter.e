@@ -72,25 +72,25 @@ feature {NONE} -- Implementation
 			execute_insertion_query (query)
 		end
 
-	execute_selection_query (query: STRING; num_of_columns: NATURAL): ARRAY [STRING]
+	execute_selection_query (query: STRING): ARRAY [STRING]
 		local
 			db_query_statement: SQLITE_QUERY_STATEMENT
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			i: NATURAL
 			reply: ARRAY [STRING]
 		do
-			create reply.make_filled ("", 1, num_of_columns.as_integer_32)
+			create reply.make_empty
 			create db_query_statement.make (query, db)
 			cursor := db_query_statement.execute_new
 			from
 				cursor.start
-				reply [1] := cursor.item.string_value (1)
-				i := 2
+				i := 1
 			until
-				i >= num_of_columns + 1
+				cursor.after
 			loop
+				reply.force (cursor.item.string_value (i), i.as_integer_32)
+					-- reply.put (cursor.item.string_value (i), i.as_integer_32)
 				cursor.forth
-				reply.put (cursor.item.string_value (i), i.as_integer_32)
 				i := i + 1
 			end
 			Result := reply
@@ -120,7 +120,7 @@ feature -- Queries running
 			execute_insertion_query (query)
 		end
 
-	check_password (username: STRING; password: STRING): STRING
+	check_password (username, password: STRING): STRING
 		local
 			hash: STRING
 			reply: ARRAY [STRING]
@@ -129,8 +129,10 @@ feature -- Queries running
 			Result := ""
 			hash := password + "sdmv12 3k e"
 			hash := hash.hash_code.to_hex_string
-			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE username == %"" + username + "%" AND password == %"" + hash + "%";", 1)
-			if reply [1] ~ "1" then
+			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE username == %"" + username + "%" AND password == %"" + hash + "%";")
+			if reply.is_empty then
+				Result := ""
+			elseif reply [1] ~ "1" then
 				Result := "admin"
 			elseif reply [1] ~ "2" then
 				Result := "head_of_unit"
