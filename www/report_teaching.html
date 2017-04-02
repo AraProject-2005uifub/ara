@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ara | Report page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container" style="margin-top:30px">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Teaching information:</p></STRONG></h2>
+        </div>
+        <div class="panel-body">
+
+         <form action="/report_research/" method="POST" role="form">
+
+          <label for="Courses taught"><p>Courses taught:</p></label>
+          <button type="button" class="btn btn-sm btn-default" onclick="removeCourse()" style="float: right">Remove course</button>
+          <button type="button" class="btn btn-sm btn-default" onclick="addCourse()" style="float: right">Add course</button>
+          <div id="courses">
+            <div id = "courseNumber1">
+              <p><input type="text" name="course_name1" class="form-control" id="course_name1" placeholder="Course name" required></p>
+              <p><select id="semester1" name="semester1" class="form-control">
+                <option>Fall</option>
+                <option>Spring</option>
+              </select></p>
+              <p><select id="level1" name="level1" class="form-control">
+                <option>Bachelor</option>
+                <option>Master</option>
+                <option>PhD</option>
+              </select></p>
+              <p><input type="number" name="number of students1" class="form-control" id="number of students1" placeholder="Number of students" required></p>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Examinations"><p>Examinations:</p></label>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="removeExamination()">Remove examination</button>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addExamination()">Add examination</button>
+          <div id="examinations">
+            <div id="examinationNumber1">
+              <p><input type="text" name="course_name1" class="form-control" id="course_name1" placeholder="Course name" required></p>
+              <p><select id="semester1" name="semester1" class="form-control">
+                <option>Fall</option>
+                <option>Spring</option>
+              </select></p>
+              <p><select id="kind_of_exam1" name="kind_of_exam1" class="form-control">
+                <option>Final exam</option>
+                <option>Repetition exam</option>
+              </select></p>
+              <p><input type="number" name="number_of_students1" class="form-control" id="number_of_students1" placeholder="Number of students taken exam" required></p>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Student(s) supervised"><p>Student(s) supervised:</p></label>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="removeStudentSupervised()">Remove student</button>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addStudentSupervised()">Add student</button>
+          <div id="supervised_students">
+            <div id="supervised_studentsNumber1">
+              <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name" required></p>
+              <p><input type="text" name="nature_of_work1" class="form-control" id="nature_of_work1" placeholder="Nature of work(e.g. bachelor thesis, master thesis, summer internship)" required></p>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Completed student reports"><p>Completed student reports:</p></label>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="removeStudentReport()">Remove report</button>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addStudentReport()">Add report</button>
+          <div id="students_reports">
+            <div id="student_reportNumber1">
+              <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name" required></p>
+              <p><input type="text" name="report_title1" class="form-control" id="report_title1" placeholder="Report title" required></p>
+              <p><input type="text" name="publication_plans1" class="form-control" id="publication_plans1" placeholder="Publication_plans (if any)" required></p>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Completed PhD theses"><p>Completed PhD theses:</p></label>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="removeThesis()">Remove thesis</button>
+          <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addThesis()">Add thesis</button>
+          <div id="theses">
+            <div id="thesisNumber1">
+              <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name" required></p>
+              <p><input type="text" name="degree1" class="form-control" id="degree1" placeholder="Degree" required></p>
+              <p><input type="text" name="supervisor_name1" class="form-control" id="supervisor_name1" placeholder="Supervisor name" required></p>
+              <p><input type="text" name="others1" class="form-control" id="others1" placeholder="Names of other committee members" required></p>
+              <p><input type="text" name="institute1" class="form-control" id="institute1" placeholder="Name of degree-granting institution (Innopolis or other)" required></p>
+              <p><input type="text" name="title1" class="form-control" id="title1" placeholder="Title of dissertation" required></p>
+            </div>
+          </div>
+          <p>&nbsp;</p>
+          <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+<script>
+  var courseIter = 1, examinationIter = 1, studentSupervisedIter = 1, studentReportIter = 1, thesisIter = 1;
+
+  function addCourse() {
+    var course = document.getElementById("course").innerHTML;
+    courseIter++;
+    course = course.replace(/courseNumber/, "courseNumber" + courseIter);
+    course = course.replace(/course_name/g, "course_name"+courseIter);
+    course = course.replace(/semester/g, "semester"+courseIter);
+    course = course.replace(/level/g, "level"+courseIter);
+    course = course.replace(/number_of_students/g, "number_of_students"+courseIter);
+    $("#courses").append(course);
+  }
+
+  function removeCourse() {
+    $("#courseNumber" + courseIter).remove();
+    courseIter--;
+  }
+
+  function addExamination() {
+    var examination = document.getElementById("examination").innerHTML;
+    examinationIter++;
+    examination = examination.replace(/examinationNumber/, "examinationNumber" + examinationIter);
+    examination = examination.replace(/course_name/g, "course_name" + examinationIter);
+    examination = examination.replace(/semester/g, "semester" + examinationIter);
+    examination = examination.replace(/kind_of_exam/g, "kind_of_exam" + examinationIter);
+    examination = examination.replace(/number_of_students/g, "number_of_students" + examinationIter);
+    $("#examinations").append(examination);
+  }
+
+  function removeExamination() {
+    $("#examinationNumber" + examinationIter).remove();
+    examinationIter--;
+  }
+
+  function addStudentSupervised() {
+    var student_supervised = document.getElementById("student_supervised").innerHTML;
+    studentSupervisedIter++;
+    student_supervised = student_supervised.replace(/supervised_studentsNumber/, "supervised_studentsNumber" + studentSupervisedIter);
+    student_supervised = student_supervised.replace(/student_name/g, "student_name" + studentSupervisedIter);
+    student_supervised = student_supervised.replace(/nature_of_work/g, "nature_of_work" + studentSupervisedIter);
+    $("#supervised_students").append(student_supervised);
+  }
+
+  function removeStudentSupervised() {
+    $("#supervised_studentsNumber" + studentSupervisedIter).remove();
+    studentSupervisedIter--;
+  }
+
+  function addStudentReport() {
+    var student_report = document.getElementById("student_report").innerHTML;
+    studentReportIter++;
+    student_report = student_report.replace(/student_reportNumber/, "student_reportNumber" + studentReportIter);
+    student_report = student_report.replace(/student_name/g, "student_name" + studentReportIter);
+    student_report = student_report.replace(/report_title/g, "report_title" + studentReportIter);
+    student_report = student_report.replace(/publication_plans/g, "publication_plans" + studentReportIter);
+    $("#students_reports").append(student_report);
+  }
+
+  function removeStudentReport() {
+    $("#student_reportNumber" + studentReportIter).remove();
+    studentReportIter--;
+  }
+
+  function addThesis() {
+    var thesis = document.getElementById("thesis").innerHTML;
+    thesisIter++;
+    thesis = thesis.replace(/thesisNumber/, "thesisNumber" + thesisIter);
+    thesis = thesis.replace(/student_name/g, "student_name" + thesisIter);
+    thesis = thesis.replace(/degree/g, "degree" + thesisIter);
+    thesis = thesis.replace(/supervisor_name/g, "supervisor_name" + thesisIter);
+    thesis = thesis.replace(/others/g, "others" + thesisIter);
+    thesis = thesis.replace(/institute/g, "institute" + thesisIter);
+    thesis = thesis.replace(/title/g, "title" + thesisIter);
+    $("#theses").append(thesis);
+  }
+
+  function removeThesis() {
+    $("#thesisNumber" + thesisIter).remove();
+    thesisIter--;
+  }
+
+</script>
+
+<script id="course" language="text">
+  <div id="courseNumber">
+    <hr>
+    <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name" required></p>
+    <p><select id="semester" name="semester" class="form-control">
+      <option>Fall</option>
+      <option>Spring</option>
+    </select></p>
+    <p><select id="level" name="level" class="form-control">
+      <option>Bachelor</option>
+      <option>Master</option>
+      <option>PhD</option>
+    </select></p>
+    <p><input type="number" name="number_of_students" class="form-control" id="number_of_students" placeholder="Number of students" required></p>
+  </div>
+</script>
+
+<script id="examination" language="text">
+  <div id="examinationNumber">
+    <hr>
+    <p><input type="text" name="course_name" class="form-control" id="course_name" placeholder="Course name" required></p>
+    <p><select id="semester" name="semester" class="form-control">
+      <option>Fall</option>
+      <option>Spring</option>
+    </select></p>
+    <p><select id="kind_of_exam" name="kind_of_exam" class="form-control">
+      <option>Final exam</option>
+      <option>Repetition exam</option>
+    </select></p>
+    <p><input type="number" name="number_of_students" class="form-control" id="number_of_students" placeholder="Number of students taken exam" required></p></div>
+  </script>
+
+  <script id="student_supervised" language="text">
+    <div id="supervised_studentsNumber">
+      <hr>
+      <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name" required></p>
+      <p><input type="text" name="nature_of_work" class="form-control" id="nature_of_work" placeholder="Nature of work(e.g. bachelor thesis, master thesis, summer internship)" required></p></div>
+    </script>
+
+    <script id="student_report" language="text">
+      <div id="student_reportNumber">
+        <hr>
+        <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name" required></p>
+        <p><input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title" required></p>
+        <p><input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)" required></p></div>
+      </script>
+
+      <script id="thesis" language="text">
+        <div id="thesisNumber">
+          <hr>
+          <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name" required></p>
+          <p><input type="text" name="degree" class="form-control" id="degree" placeholder="Degree" required></p>
+          <p><input type="text" name="supervisor_name" class="form-control" id="supervisor_name" placeholder="Supervisor name" required></p>
+          <p><input type="text" name="others" class="form-control" id="others" placeholder="Names of other committee members" required></p>
+          <p><input type="text" name="institute" class="form-control" id="institute" placeholder="Name of degree-granting institution (Innopolis or other)" required></p>
+          <p><input type="text" name="title" class="form-control" id="title" placeholder="Title of dissertation" required></p>
+        </div>
+      </script>
+
+      </html>

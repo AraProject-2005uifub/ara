@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ara | Report page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body>
+	<div class="container" style="margin-top:30px">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Research information:</p></STRONG></h2>
+        </div>
+        <div class="panel-body">
+
+         <form action="/report_technology_transfer/" method="POST" role="form">
+
+          <label for="Grants"><p>Grants:</p></label>
+          <button type="button" class="btn btn-sm btn-default" onclick="removeGrant()" style="float: right">Remove grant</button>
+          <button type="button" class="btn btn-sm btn-default" onclick="addGrant()" style="float: right">Add grant</button>
+          <div id="grants">
+            <div id = "grantNumber1">
+              <p><input type="text" name="project_title1" class="form-control" id="project_title1" placeholder="Project title" required></p>
+              <p><input type="text" name="granting_agency1" class="form-control" id="granting_agency1" placeholder="Granting agency" required></p>
+              <p>Start of grant period:</p> <p> <input type="date" class="form-control" id="grant_period_start1" name="grant_period_start1" required></p>
+              <p>End of grant period:</p> <p> <input type="date" class="form-control" id="grant_period_end1" name="grant_period_end1" required> </p>
+              <p><input type="text" name="grant_continuation1" class="form-control" id="grant_continuation1" placeholder="Continuation of which grant (Type '-' if there is no any)" required></p>
+              <p><input type="number" name="grant_amount1" class="form-control" id="grant_amount1" placeholder="Grant amount" required></p>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Research_projects"><p>Research projects:</p></label>
+          <button type="button" class="btn btn-sm btn-default" onclick="removeResProject()" style="float: right">Remove project</button>
+          <button type="button" class="btn btn-sm btn-default" onclick="addResProject()" style="float: right">Add project</button>
+          <div id = "resProjects">
+            <div id = "resProject1">
+                <p><input type="text" name="project_title1" class="form-control" id="project_title1" placeholder="Project title" required></p>
+                <p><input type="text" name="Inno_personnel_involved1" class="form-control" id="Inno_personnel_involved1" placeholder="Innopolis University personnel involved" required></p>
+                <p><input type="text" name="external_personnel1" class="form-control" id="external_personnel1" placeholder="External personnel involved (Type '-' if there is no any)" required></p>
+                <p>Start date of project:</p> <p> <input type="date" class="form-control" id="start_date1" name="start_date1" required></p>
+                <p>Expected end date of project:</p> <p> <input type="date" class="form-control" id="end_date1" name="end_date1" required></p>
+                <p><input type="text" name="source_of_financing1" class="form-control" id="source_of_financing1" placeholder="Source of financing" required></p>
+            </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Research_collaborations"><p>Research collaborations:</p></label>
+          <button type="button" class="btn btn-sm btn-default" onclick="removeResCol()" style="float: right">Remove collaboration</button>
+          <button type="button" class="btn btn-sm btn-default" onclick="addResCol()" style="float: right">Add collaboration</button>
+          <div id = "resCols">
+              <div id = "resCol1">
+                  <p><input type="text" name="country1" class="form-control" id="country1" placeholder="Сountry of institution" required></p>
+                  <p><input type="text" name="institution_name1" class="form-control" id="institution_name1" placeholder="Institution name (and department or unit if relevant)" required></p>
+                  <p><input type="text" name="contacts1" class="form-control" id="contacts1" placeholder="Principal and/or important contacts" required></p>
+                  <p><input type="text" name="nature1" class="form-control" id="nature1" placeholder="Nature of collaboration" required></p>
+              </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Conference_publications"><p>Conference publications:</p></label>
+          <button type="button" class="btn btn-sm btn-default" onclick="removeConPub()" style="float: right">Remove publication</button>
+          <button type="button" class="btn btn-sm btn-default" onclick="addConPub()" style="float: right">Add publication</button>
+          <div id = "conference_publications">
+              <div id = "conference_publication1">
+                  <p><input type="text" name="con_publication1" class="form-control" id="con_publication1" placeholder="Publication author and name" required></p>
+              </div>
+          </div>
+
+          <p>&nbsp;</p>
+          <p>&nbsp;</p>
+
+          <label for="Journal_publications"><p>Journal publications:</p></label>
+          <button type="button" class="btn btn-sm btn-default" onclick="removeJouPub()" style="float: right">Remove publication</button>
+          <button type="button" class="btn btn-sm btn-default" onclick="addJouPub()" style="float: right">Add publication</button>
+          <div id = "journal_publications">
+              <div id = "journal_publication1">
+                  <p><input type="text" name="jou_publication1" class="form-control" id="jou_publication1" placeholder="Publication author and name" required></p>
+              </div>
+          </div>
+
+          <p>&nbsp;</p>
+
+          <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+</body>
+
+<script>
+  var grantIter = 1;  resProjectIter = 1; collaborationIter = 1; conferenceIter = 1; journalIter = 1;
+
+  function addGrant() {
+    var grant = document.getElementById("grant").innerHTML;
+    grantIter++;
+    grant = grant.replace(/grantNumber/, "grantNumber" + grantIter);
+    grant = grant.replace(/project_title/g, "project_title" + grantIter);
+    grant = grant.replace(/granting_agency/g, "granting_agency" + grantIter);
+    grant = grant.replace(/grant_period_start/g, "grant_period_start" + grantIter);
+    grant = grant.replace(/grant_period_end/g, "grant_period_end" + grantIter);
+    grant = grant.replace(/grant_continuation/g, "grant_continuation" + grantIter);
+    grant = grant.replace(/grant_amount/g, "grant_amount" + grantIter);
+    $("#grants").append(grant);
+  }
+
+  function removeGrant() {
+    $("#grantNumber" + grantIter).remove();
+    grantIter--;
+  }
+
+  function addResProject() {
+    var resProject = document.getElementById("research_project").innerHTML;
+    resProjectIter++;
+    resProject = resProject.replace(/resProject/, "resProject" +  resProjectIter);
+    resProject = resProject.replace(/project_title/g, "project_title" + resProjectIter);
+    resProject = resProject.replace(/Inno_personnel_involved/g, "Inno_personnel_involved" + resProjectIter);
+    resProject = resProject.replace(/external_personnel/g, "external_personnel" + resProjectIter);
+    resProject = resProject.replace(/start_date/g, "start_date" + resProjectIter);
+    resProject = resProject.replace(/end_date/g, "end_date" + resProjectIter);
+    resProject = resProject.replace(/source_of_financing/g, "source_of_financing" + resProjectIter);
+    $("#resProjects").append(resProject);
+  }
+
+  function removeResProject() {
+    $("#resProject" + resProjectIter).remove();
+    resProjectIter--;
+  }
+
+  function addResCol() {
+    var resCol = document.getElementById("res_collaboration").innerHTML;
+    collaborationIter++;
+    resCol = resCol.replace(/resCol/, "resCol" + collaborationIter);
+    resCol = resCol.replace(/country/g, "country" + collaborationIter);
+    resCol = resCol.replace(/institution_name/g, "institution_name" + collaborationIter);
+    resCol = resCol.replace(/contacts/g, "contacts" + collaborationIter);
+    resCol = resCol.replace(/nature/g, "nature" + collaborationIter);
+    $("#resCols").append(resCol);
+  }
+
+  function removeResCol() {
+    $("#resCol" + collaborationIter).remove();
+    collaborationIter--;
+  }
+
+  function addConPub() {
+    var conPub = document.getElementById("conferencepublication").innerHTML;
+    conferenceIter++;
+    conPub = conPub.replace(/conference_publication/, "conference_publication" + conferenceIter);
+    conPub = conPub.replace(/con_publication/g, "con_publication" + conferenceIter);
+    $("#conference_publications").append(conPub);
+  }
+
+  function removeConPub() {
+    $("#conference_publication" + conferenceIter).remove();
+    conferenceIter--;
+  }
+
+  function addJouPub() {
+    var jouPub = document.getElementById("journalpublication").innerHTML;
+    journalIter++;
+    jouPub = jouPub.replace(/journal_publication/, "journal_publication" + journalIter);
+    jouPub = jouPub.replace(/jou_publication/g, "jou_publication" + journalIter);
+    $("#journal_publications").append(jouPub);
+  }
+
+  function removeJouPub() {
+    $("#journal_publication" + journalIter).remove();
+    journalIter--;
+  }
+</script>
+
+<script id="grant" language="text">
+  <div id = "grantNumber">
+    <hr>
+    <p><input type="text" name="project_title" class="form-control" id="project_title" placeholder="Project title" required></p>
+    <p><input type="text" name="granting_agency" class="form-control" id="granting_agency" placeholder="Granting agency" required></p>
+    <p>Start of grant period:</p> <p> <input type="date" class="form-control" id="grant_period_start" name="grant_period_start" required></p>
+    <p>End of grant period:</p> <p> <input type="date" class="form-control" id="grant_period_end" name="grant_period_end" required> </p>
+    <p><input type="text" name="grant_continuation" class="form-control" id="grant_continuation" placeholder="Continuation of which grant (Type '-' if there is no any)" required></p>
+    <p><input type="number" name="grant_amount" class="form-control" id="grant_amount" placeholder="Grant amount" required></p>
+  </div>
+</script>
+
+<script id="research_project" language="text">
+  <div id = "resProject">
+    <hr>
+                <p><input type="text" name="project_title" class="form-control" id="project_title" placeholder="Project title" required></p>
+                <p><input type="text" name="Inno_personnel_involved" class="form-control" id="Inno_personnel_involved" placeholder="Innopolis University personnel involved" required></p>
+                <p><input type="text" name="external_personnel" class="form-control" id="external_personnel" placeholder="External personnel involved (Type '-' if there is no any)" required></p>
+                <p>Start date of project:</p> <p> <input type="date" class="form-control" id="start_date" name="start_date" required></p>
+                <p>Expected end date of project:</p> <p> <input type="date" class="form-control" id="end_date" name="end_date" required></p>
+                <p><input type="text" name="source_of_financing" class="form-control" id="source_of_financing" placeholder="Source of financing" required></p>
+            </div>
+</script>
+
+<script id = "res_collaboration" language = "text">
+    <div id = "resCol">
+      <hr>
+                  <p><input type="text" name="country" class="form-control" id="country" placeholder="Сountry of institution" required></p>
+                  <p><input type="text" name="institution_name" class="form-control" id="institution_name" placeholder="Institution name (and department or unit if relevant)" required></p>
+                  <p><input type="text" name="contacts" class="form-control" id="contacts" placeholder="Principal and/or important contacts" required></p>
+                  <p><input type="text" name="nature" class="form-control" id="nature" placeholder="Nature of collaboration" required></p>
+              </div>
+</script>
+
+<script id = "conferencepublication" language = "text">
+    <div id = "conference_publication">
+      <hr>
+                  <p><input type="text" name="con_publication" class="form-control" id="con_publication" placeholder="Publication author and name" required></p>
+              </div>
+</script>
+
+<script id = "journalpublication" language = "text">
+    <div id = "journal_publication">
+      <hr>
+                  <p><input type="text" name="jou_publication" class="form-control" id="jou_publication" placeholder="Publication author and name" required></p>
+              </div>
+</script>
+</html>
