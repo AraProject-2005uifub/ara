@@ -30,7 +30,8 @@
 		<cluster name="launcher" location=".\launcher\">
 			<cluster name="any_launcher" location="$|any\"/>
 		</cluster>
-		<cluster name="src" location=".\src\" recursive="true"/>
+		<cluster name="src" location=".\src\" recursive="true">
+		</cluster>
 	</target>
 	<target name="araproject_standalone" extends="common">
 		<root class="ARAPROJECT" feature="make_and_launch"/>

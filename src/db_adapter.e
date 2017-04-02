@@ -28,7 +28,7 @@ feature -- Initialization
 			--s
 			-- WARNING! If db exists, it will be dropped and recreated!
 		require
-			file_name_correct (db_file_name)
+			db_file_name_correct:  is_normal_string(db_file_name)
 		do
 			create db.make_create_read_write (db_file_name)
 			execute_insertion_query_from_file (new_db_creation_query)
@@ -77,29 +77,39 @@ feature {NONE} -- Implementation
 			execute_insertion_query (query)
 		end
 
-	execute_selection_query (a_query: STRING): ARRAY [STRING]
+	execute_selection_query (a_query: STRING): ARRAY2 [STRING]
 		local
 			db_query_statement: SQLITE_QUERY_STATEMENT
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
-			i: NATURAL
-			reply: ARRAY [STRING]
+			col, row: INTEGER
+			reply: ARRAY2 [STRING]
 		do
 			log ("DB: atempt to execute_selection_query: query = " + a_query)
-			create reply.make_empty
+
+			create Result.make_filled ("", 1, 1)
 			create db_query_statement.make (a_query, db)
 			cursor := db_query_statement.execute_new
+
 			from
 				cursor.start
-				i := 1
+				row := 1
 			until
 				cursor.after
 			loop
-				reply.force (cursor.item.string_value (i), i.as_integer_32)
-					-- reply.put (cursor.item.string_value (i), i.as_integer_32)
+				from
+					col := 1
+				until
+					col > cursor.item.count.as_integer_32
+				loop
+					Result.resize_with_default ("", row, col)
+					Result.put (cursor.item.string_value (col.as_natural_32), row, col)
+					col := col + 1
+				end
 				cursor.forth
-				i := i + 1
+				row := row + 1
 			end
-			Result := reply
+
+			log ("DB: execute_selection_query: finished successfully")
 		end
 
 	log (log_string: STRING)
@@ -108,7 +118,7 @@ feature {NONE} -- Implementation
 			io.put_string (log_string  + "%N")
 		end
 
-feature -- Queries running
+feature -- Insertion queries
 
 	add_admin (name: STRING; username: STRING; password: STRING)
 		local
@@ -150,14 +160,39 @@ feature -- Queries running
 			execute_insertion_query (query)
 		end
 
+	add_section_1 (a_section_1: SECTION_1)
+			-- Writes info from the argument into the database.
+		require
+			a_section_1_not_void: a_section_1 /= Void
+		do
+			--a_section_1.head_of_unit_cookie
+		end
+
+	update_cookie (username, cookie: STRING)
+		require
+			username_not_empty: is_normal_string(username)
+			cookie_not_empty: is_normal_string(cookie)
+		local
+			query: STRING
+		do
+			query := "UPDATE users SET cookie = %"" + cookie + "%" WHERE username = %"" + username + "%";"
+			execute_insertion_query (query)
+		end
+
+feature -- Selection queries
+
 	check_password (username, password: STRING): STRING
+		require
+			username_not_empty: is_normal_string(username)
+			password_not_empty: is_normal_string(password)
+
 		local
 			hash: STRING
 			reply: ARRAY [STRING]
 		do
 			create reply.make_filled ("", 1, 1)
 			Result := ""
-			hash := password + "sdmv12 3k e"
+			hash := password + password_salt
 			hash := hash.hash_code.to_hex_string
 			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE username == %"" + username + "%" AND password == %"" + hash + "%";")
 			if reply.is_empty then
@@ -171,30 +206,22 @@ feature -- Queries running
 			end
 		end
 
-	update_cookie (username, cookie: STRING)
-		local
-			query: STRING
-		do
-			query := "UPDATE users SET cookie = %"" + cookie + "%" WHERE username = %"" + username + "%";"
-			execute_insertion_query (query)
-		end
-
-feature -- Precondition checkers
+feature -- Contract checkers
 
 	db_file_exist (a_file_name: STRING): BOOLEAN
 			-- Checks if db file with such name exists.
 			-- FIXME! ! ! -- doesn't work at all
 		require
-			file_name_correct (a_file_name)
+			a_file_name_correct: is_normal_string(a_file_name)
 		do
 				-- TODO: Check if works as validator for file existence: and (create {RAW_FILE}.make_with_name (a_file_name)).exists
 			Result := True
 		end
 
-	file_name_correct (a_file_name: STRING): BOOLEAN
-			-- Returns if filename is not void and not empty.
+	is_normal_string (a_string: STRING): BOOLEAN
+			-- Returns if string is not void and not empty.
 		do
-			Result := a_file_name /= Void and not a_file_name.is_empty
+			Result := a_string /= Void and not a_string.is_empty
 		end
 
 invariant
