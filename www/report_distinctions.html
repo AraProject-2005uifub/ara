@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ara | Report page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+	<div class="container" style="margin-top:30px">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h2 class="panel-title"><STRONG>Distinctions:</STRONG></h2></div>
+
+        <div class="panel-body">
+
+          <form action="/report_outside_activities/" method="POST" role="form">
+
+            <label for="award"><p>Paper awards:</p></label>
+            <button type="button" class="btn btn-sm btn-default" onclick="removeAward()" style="float: right">Remove article</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="addAward()" style="float: right">Add article</button>
+            <div id = "awards">
+              <div id = "award1">
+                <p><input type="text" name="author1" class="form-control" id="author1" placeholder="Author" required></p>
+                <p><input type="text" name="title1" class="form-control" id="title1" placeholder="Title of article" required></p>
+                <p><input type="text" name="conference1" class="form-control" id="conference1" placeholder="Awarding conference or journal" required></p>
+                <p><input type="text" name="wording1" class="form-control" id="wording1" placeholder="Exact wording of award" required></p>
+                <p>Date:</p> <p> <input type="date" class="form-control" id="date_info1" name="date_info1" required></p>
+              </div>
+            </div>
+
+            <p> &nbsp; </p>
+            <p> &nbsp; </p>
+
+            <label for="memberships"><p>Memberships:</p></label>
+            <button type="button" class="btn btn-sm btn-default" onclick="removeMembership()" style="float: right">Remove membership</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="addMembership()" style="float: right">Add membership</button>
+            <div id = "memberships">
+              <div id = "membership1">
+                <p><input type="text" name="member_name1" class="form-control" id="member_name1" placeholder="Member name" required></p>
+                <p>Date of membership:</p> <p> <input type="date" class="form-control" id="date_info1" name="date_info1" required></p>
+              </div>
+            </div>
+
+            <p> &nbsp; </p>
+            <p> &nbsp; </p>
+
+            <label for="prizes"><p>Prizes:</p></label>
+            <button type="button" class="btn btn-sm btn-default" onclick="removePrize()" style="float: right">Remove prize</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="addPrize()" style="float: right">Add prize</button>
+            <div id = "prizes">
+              <div = id = "prize1">
+                <p><input type="text" name="recepient1" class="form-control" id="recepient1" placeholder="Recepient" required></p>
+                <p><input type="text" name="prize_name1" class="form-control" id="prize_name1" placeholder="Prize name" required></p>
+                <p><input type="text" name="institution1" class="form-control" id="institution1" placeholder="Granting institution" required></p>
+                <p>Date:</p> <p> <input type="date" class="form-control" id="date_info1" name="date_info1" required></p>
+              </div>
+            </div>
+
+            <p> &nbsp; </p>
+
+
+            <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+
+<script>
+  var awardIter = 1; membershipIter = 1; prizeIter = 1;
+
+  function addAward() {
+    var award = document.getElementById("award").innerHTML;
+    awardIter++;
+    award = award.replace(/award/, "award" + awardIter);
+    award = award.replace(/author/g, "author1" + awardIter);
+    award = award.replace(/title/g, "title" + awardIter);
+    award = award.replace(/conference/g, "conference" + awardIter);
+    award = award.replace(/wording/g, "wording" + awardIter);
+    award = award.replace(/date_info/g, "date_info" + awardIter);
+    $("#awards").append(award);
+  }
+
+  function removeAward() {
+    $("#award" + awardIter).remove();
+    awardIter--;
+  }
+
+  function addMembership() {
+    var membership = document.getElementById("membership").innerHTML;
+    membershipIter++;
+    membership = membership.replace(/membership/, "membership" + membershipIter);
+    membership = membership.replace(/member_name/, "member_name" + membershipIter);
+    membership = membership.replace(/date_info/, "date_info" + membershipIter);
+    $("#memberships").append(membership);
+  }
+
+  function removeMembership() {
+    $("#membership" + membershipIter).remove();
+    membershipIter--;
+  }
+
+  function addPrize() {
+    var prize = document.getElementById("prize").innerHTML;
+    prizeIter++;
+    prize = prize.replace(/prize/, "prize" + prizeIter);
+    prize = prize.replace(/recepient/, "recepient" + prizeIter);
+    prize = prize.replace(/prize_name/, "prize_name" + prizeIter);
+    prize = prize.replace(/institution/, "institution" + prizeIter);
+    prize = prize.replace(/date_info/, "date_info" + prizeIter);
+    $("#prizes").append(prize);
+  }
+
+  function removePrize() {
+    $("#prize" + prizeIter).remove();
+    prizeIter--;
+  }
+
+</script>
+
+<script id = "award" language = "text">
+  <div id = "award">
+    <hr>
+    <p><input type="text" name="author" class="form-control" id="author" placeholder="Author" required></p>
+    <p><input type="text" name="title" class="form-control" id="title" placeholder="Title of article" required></p>
+    <p><input type="text" name="conference" class="form-control" id="conference" placeholder="Awarding conference or journal" required></p>
+    <p><input type="text" name="wording" class="form-control" id="wording" placeholder="Exact wording of award" required></p>
+    <p>Date:</p> <p> <input type="date" class="form-control" id="date_info" name="date_info" required></p>
+  </div>
+
+</script>
+
+<script id = "membership" language = "text"> 
+  <div id = "membership">
+    <hr>
+    <p><input type="text" name="member_name" class="form-control" id="member_name" placeholder="Member name" required></p>
+    <p>Date of membership:</p> <p> <input type="date" class="form-control" id="date_info" name="date_info" required></p>
+  </div>
+</script>
+
+<script id = "prize" language = "text">
+  <div = id = "prize">
+    <hr>
+    <p><input type="text" name="recepient" class="form-control" id="recepient" placeholder="Recepient" required></p>
+    <p><input type="text" name="prize_name" class="form-control" id="prize_name" placeholder="Prize name" required></p>
+    <p><input type="text" name="institution" class="form-control" id="institution" placeholder="Granting institution" required></p>
+    <p>Date:</p> <p> <input type="date" class="form-control" id="date_info" name="date_info" required></p>
+  </div>
+</script>
+</html>

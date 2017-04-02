@@ -40,12 +40,12 @@
           <button type="button" class="btn btn-sm btn-default" onclick="addResProject()" style="float: right">Add project</button>
           <div id = "resProjects">
             <div id = "resProject1">
-                <p><input type="text" name="project_title1" class="form-control" id="project_title1" placeholder="Project title" required></p>
-                <p><input type="text" name="Inno_personnel_involved1" class="form-control" id="Inno_personnel_involved1" placeholder="Innopolis University personnel involved" required></p>
-                <p><input type="text" name="external_personnel1" class="form-control" id="external_personnel1" placeholder="External personnel involved (Type '-' if there is no any)" required></p>
-                <p>Start date of project:</p> <p> <input type="date" class="form-control" id="start_date1" name="start_date1" required></p>
-                <p>Expected end date of project:</p> <p> <input type="date" class="form-control" id="end_date1" name="end_date1" required></p>
-                <p><input type="text" name="source_of_financing1" class="form-control" id="source_of_financing1" placeholder="Source of financing" required></p>
+              <p><input type="text" name="project_title1" class="form-control" id="project_title1" placeholder="Project title" required></p>
+              <p><input type="text" name="Inno_personnel_involved1" class="form-control" id="Inno_personnel_involved1" placeholder="Innopolis University personnel involved" required></p>
+              <p><input type="text" name="external_personnel1" class="form-control" id="external_personnel1" placeholder="External personnel involved (Type '-' if there is no any)" required></p>
+              <p>Start date of project:</p> <p> <input type="date" class="form-control" id="start_date1" name="start_date1" required></p>
+              <p>Expected end date of project:</p> <p> <input type="date" class="form-control" id="end_date1" name="end_date1" required></p>
+              <p><input type="text" name="source_of_financing1" class="form-control" id="source_of_financing1" placeholder="Source of financing" required></p>
             </div>
           </div>
 
@@ -56,12 +56,12 @@
           <button type="button" class="btn btn-sm btn-default" onclick="removeResCol()" style="float: right">Remove collaboration</button>
           <button type="button" class="btn btn-sm btn-default" onclick="addResCol()" style="float: right">Add collaboration</button>
           <div id = "resCols">
-              <div id = "resCol1">
-                  <p><input type="text" name="country1" class="form-control" id="country1" placeholder="Сountry of institution" required></p>
-                  <p><input type="text" name="institution_name1" class="form-control" id="institution_name1" placeholder="Institution name (and department or unit if relevant)" required></p>
-                  <p><input type="text" name="contacts1" class="form-control" id="contacts1" placeholder="Principal and/or important contacts" required></p>
-                  <p><input type="text" name="nature1" class="form-control" id="nature1" placeholder="Nature of collaboration" required></p>
-              </div>
+            <div id = "resCol1">
+              <p><input type="text" name="country1" class="form-control" id="country1" placeholder="Сountry of institution" required></p>
+              <p><input type="text" name="institution_name1" class="form-control" id="institution_name1" placeholder="Institution name (and department or unit if relevant)" required></p>
+              <p><input type="text" name="contacts1" class="form-control" id="contacts1" placeholder="Principal and/or important contacts" required></p>
+              <p><input type="text" name="nature1" class="form-control" id="nature1" placeholder="Nature of collaboration" required></p>
+            </div>
           </div>
 
           <p>&nbsp;</p>
@@ -71,9 +71,9 @@
           <button type="button" class="btn btn-sm btn-default" onclick="removeConPub()" style="float: right">Remove publication</button>
           <button type="button" class="btn btn-sm btn-default" onclick="addConPub()" style="float: right">Add publication</button>
           <div id = "conference_publications">
-              <div id = "conference_publication1">
-                  <p><input type="text" name="con_publication1" class="form-control" id="con_publication1" placeholder="Publication author and name" required></p>
-              </div>
+            <div id = "conference_publication1">
+              <p><input type="text" name="con_publication1" class="form-control" id="con_publication1" placeholder="Publication author and name" required></p>
+            </div>
           </div>
 
           <p>&nbsp;</p>
@@ -83,9 +83,9 @@
           <button type="button" class="btn btn-sm btn-default" onclick="removeJouPub()" style="float: right">Remove publication</button>
           <button type="button" class="btn btn-sm btn-default" onclick="addJouPub()" style="float: right">Add publication</button>
           <div id = "journal_publications">
-              <div id = "journal_publication1">
-                  <p><input type="text" name="jou_publication1" class="form-control" id="jou_publication1" placeholder="Publication author and name" required></p>
-              </div>
+            <div id = "journal_publication1">
+              <p><input type="text" name="jou_publication1" class="form-control" id="jou_publication1" placeholder="Publication author and name" required></p>
+            </div>
           </div>
 
           <p>&nbsp;</p>
@@ -195,36 +195,36 @@
 <script id="research_project" language="text">
   <div id = "resProject">
     <hr>
-                <p><input type="text" name="project_title" class="form-control" id="project_title" placeholder="Project title" required></p>
-                <p><input type="text" name="Inno_personnel_involved" class="form-control" id="Inno_personnel_involved" placeholder="Innopolis University personnel involved" required></p>
-                <p><input type="text" name="external_personnel" class="form-control" id="external_personnel" placeholder="External personnel involved (Type '-' if there is no any)" required></p>
-                <p>Start date of project:</p> <p> <input type="date" class="form-control" id="start_date" name="start_date" required></p>
-                <p>Expected end date of project:</p> <p> <input type="date" class="form-control" id="end_date" name="end_date" required></p>
-                <p><input type="text" name="source_of_financing" class="form-control" id="source_of_financing" placeholder="Source of financing" required></p>
-            </div>
+    <p><input type="text" name="project_title" class="form-control" id="project_title" placeholder="Project title" required></p>
+    <p><input type="text" name="Inno_personnel_involved" class="form-control" id="Inno_personnel_involved" placeholder="Innopolis University personnel involved" required></p>
+    <p><input type="text" name="external_personnel" class="form-control" id="external_personnel" placeholder="External personnel involved (Type '-' if there is no any)" required></p>
+    <p>Start date of project:</p> <p> <input type="date" class="form-control" id="start_date" name="start_date" required></p>
+    <p>Expected end date of project:</p> <p> <input type="date" class="form-control" id="end_date" name="end_date" required></p>
+    <p><input type="text" name="source_of_financing" class="form-control" id="source_of_financing" placeholder="Source of financing" required></p>
+  </div>
 </script>
 
 <script id = "res_collaboration" language = "text">
-    <div id = "resCol">
-      <hr>
-                  <p><input type="text" name="country" class="form-control" id="country" placeholder="Сountry of institution" required></p>
-                  <p><input type="text" name="institution_name" class="form-control" id="institution_name" placeholder="Institution name (and department or unit if relevant)" required></p>
-                  <p><input type="text" name="contacts" class="form-control" id="contacts" placeholder="Principal and/or important contacts" required></p>
-                  <p><input type="text" name="nature" class="form-control" id="nature" placeholder="Nature of collaboration" required></p>
-              </div>
+  <div id = "resCol">
+    <hr>
+    <p><input type="text" name="country" class="form-control" id="country" placeholder="Сountry of institution" required></p>
+    <p><input type="text" name="institution_name" class="form-control" id="institution_name" placeholder="Institution name (and department or unit if relevant)" required></p>
+    <p><input type="text" name="contacts" class="form-control" id="contacts" placeholder="Principal and/or important contacts" required></p>
+    <p><input type="text" name="nature" class="form-control" id="nature" placeholder="Nature of collaboration" required></p>
+  </div>
 </script>
 
 <script id = "conferencepublication" language = "text">
-    <div id = "conference_publication">
-      <hr>
-                  <p><input type="text" name="con_publication" class="form-control" id="con_publication" placeholder="Publication author and name" required></p>
-              </div>
+  <div id = "conference_publication">
+    <hr>
+    <p><input type="text" name="con_publication" class="form-control" id="con_publication" placeholder="Publication author and name" required></p>
+  </div>
 </script>
 
 <script id = "journalpublication" language = "text">
-    <div id = "journal_publication">
-      <hr>
-                  <p><input type="text" name="jou_publication" class="form-control" id="jou_publication" placeholder="Publication author and name" required></p>
-              </div>
+  <div id = "journal_publication">
+    <hr>
+    <p><input type="text" name="jou_publication" class="form-control" id="jou_publication" placeholder="Publication author and name" required></p>
+  </div>
 </script>
 </html>

@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ara | Report page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+  
+</head>
+<body>
+	<div class="container" style="margin-top:30px">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+        <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Technology transfer:</p></STRONG></h2></div>
+        
+
+        <div class="panel-body">
+
+          <form action="/report_distinctions/" method="POST" role="form">
+
+            <label for="Patents"><p>Patents:</p></label>
+            <button type="button" class="btn btn-sm btn-default" onclick="removePatent()" style="float: right">Remove patent</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="addPatent()" style="float: right">Add patent</button>
+            <div id = "patents">
+              <div id = "patent1">
+                <p><input type="text" name="patent_country1" class="form-control" id="patent_country1" placeholder="Patent country" required></p>
+                <p><input type="text" name="patent_info1" class="form-control" id="patent_info1" placeholder="Patent description" required></p>
+              </div>
+            </div>
+
+            <p>&nbsp;</p>
+            <p>&nbsp;</p>
+
+            <label for="Licensing"><p>IP Licensing (software or others):</p></label>
+            <button type="button" class="btn btn-sm btn-default" onclick="removeLicense()" style="float: right">Remove license</button>
+            <button type="button" class="btn btn-sm btn-default" onclick="addLicense()" style="float: right">Add license</button>
+            <div id = "licenses">
+              <div id = "license1">
+                <p><input type="text" name="license_info1" class="form-control" id="license_info1" placeholder="License description" required></p>
+              </div>
+            </div>
+
+            <p>&nbsp;</p>
+
+            <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>
+</body>
+<script>
+  var patentIter = 1; licenseIter = 1;
+
+  function addPatent() {
+    var patent = document.getElementById("patent").innerHTML;
+    patentIter++;
+    patent = patent.replace(/patent/, "patent" + patentIter);
+    patent = patent.replace(/patent_country/g, "patent_country" + patentIter);
+    patent = patent.replace(/patent_info/g, "patent_info" + patentIter);
+    $("#patents").append(patent);
+  }
+
+  function removePatent() {
+    $("#patent" + patentIter).remove();
+    patentIter--;
+  }
+
+  function addLicense() {
+    var license = document.getElementById("license").innerHTML;
+    licenseIter++;
+    license = license.replace(/license/, "license" + licenseIter);
+    license = license.replace(/license_info/, "license_info" + licenseIter);
+    $("#licenses").append(license);
+  }
+
+  function removeLicense() {
+    $("#license" + licenseIter).remove();
+    licenseIter--;
+  }
+
+</script>
+
+<script id = "patent" language = "text">
+  <div id = "patent">
+    <hr>
+    <p><input type="text" name="patent_country" class="form-control" id="patent_country" placeholder="Patent country" required></p>
+    <p><input type="text" name="patent_info" class="form-control" id="patent_info" placeholder="Patent description" required></p>
+  </div>
+</script>
+
+<script id = "license" language = "text">
+  <div id = "license">
+    <hr>
+    <p><input type="text" name="license_info" class="form-control" id="license_info" placeholder="License description" required></p>
+  </div>
+</script>
+</html>
