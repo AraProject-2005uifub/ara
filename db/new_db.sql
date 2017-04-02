@@ -98,7 +98,9 @@ CREATE TABLE "grants" (
 
 "granting_agency_id" INTEGER NOT NULL,
 
-"period" TEXT NOT NULL,
+"start_of_period" TEXT NOT NULL,
+
+"end_of_period" TEXT NOT NULL,
 
 "previous_grant_id" INTEGER,
 
@@ -195,7 +197,9 @@ CREATE TABLE "memberships" (
 
 "organisation_id" INTEGER NOT NULL,
 
-"period" TEXT NOT NULL,
+"start_of_period" TEXT NOT NULL,
+
+"end_of_period" TEXT NOT NULL,
 
 PRIMARY KEY ("id") ,
 
@@ -364,7 +368,9 @@ CREATE TABLE "reports" (
 
 "unit_id" INTEGER NOT NULL,
 
-"period" TEXT NOT NULL,
+"start_of_period" TEXT NOT NULL,
+
+"end_of_period" TEXT NOT NULL,
 
 "other_information" TEXT,
 
@@ -423,7 +429,9 @@ CREATE TABLE "research_projects" (
 
 "title" TEXT NOT NULL,
 
-"period" TEXT NOT NULL,
+"start_of_period" TEXT NOT NULL,
+
+"end_of_period" TEXT NOT NULL,
 
 "sources_of_financing" TEXT,
 
