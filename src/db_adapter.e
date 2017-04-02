@@ -28,7 +28,7 @@ feature -- Initialization
 			--s
 			-- WARNING! If db exists, it will be dropped and recreated!
 		require
-			db_file_name_correct:  is_normal_string(db_file_name)
+			db_file_name_correct: is_normal_string (db_file_name)
 		do
 			create db.make_create_read_write (db_file_name)
 			execute_insertion_query_from_file (new_db_creation_query)
@@ -62,19 +62,42 @@ feature {NONE} -- Implementation
 			db_insert_statement.execute
 		end
 
-	execute_insertion_query_from_file (file_name: STRING)
+	execute_insertion_query_from_file (a_file_name: STRING)
 			-- Executes query from sql files
 		require
 			db_opened: not db.is_closed
+			a_file_name_not_empty: is_normal_string (a_file_name)
 		local
 			query: STRING
 			sql_file: PLAIN_TEXT_FILE
 		do
-			create sql_file.make_open_read (file_name)
+			create sql_file.make_open_read (a_file_name)
 			sql_file.read_stream (sql_file.count)
 			query := sql_file.last_string
 			sql_file.close
 			execute_insertion_query (query)
+		end
+
+	execute_selection_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING]): ARRAY2 [STRING]
+		require
+			a_file_name_not_empty: is_normal_string (a_file_name)
+			args_not_empty: True -- TODO FIX
+			-- TODO check bounds of the array
+		local
+			query: STRING
+			i: INTEGER
+		do
+			query := read_whole_file (a_file_name)
+			from
+				i := args.lower
+			until
+				i > args.upper
+			loop
+					-- TODO finish
+					-- query.index_of ('$', 1)
+				i := i + 1
+			end
+			Result := execute_selection_query (query)
 		end
 
 	execute_selection_query (a_query: STRING): ARRAY2 [STRING]
@@ -82,14 +105,11 @@ feature {NONE} -- Implementation
 			db_query_statement: SQLITE_QUERY_STATEMENT
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			col, row: INTEGER
-			reply: ARRAY2 [STRING]
 		do
 			log ("DB: atempt to execute_selection_query: query = " + a_query)
-
 			create Result.make_filled ("", 1, 1)
 			create db_query_statement.make (a_query, db)
 			cursor := db_query_statement.execute_new
-
 			from
 				cursor.start
 				row := 1
@@ -108,14 +128,24 @@ feature {NONE} -- Implementation
 				cursor.forth
 				row := row + 1
 			end
-
 			log ("DB: execute_selection_query: finished successfully")
+		end
+
+	read_whole_file (a_file_name: STRING): STRING
+		require
+			a_file_name_not_empty: is_normal_string (a_file_name)
+		local
+			file: PLAIN_TEXT_FILE
+		do
+			create file.make_open_read (a_file_name)
+			file.read_stream (file.count)
+			Result := file.last_string
 		end
 
 	log (log_string: STRING)
 			-- Logs
 		do
-			io.put_string (log_string  + "%N")
+			io.put_string (log_string + "%N")
 		end
 
 feature -- Insertion queries
@@ -155,7 +185,6 @@ feature -- Insertion queries
 			execute_insertion_query (query)
 			query := "SELECT id FROM unit_members WHERE name == %"" + name + "%");"
 			unit_member_id := execute_selection_query (query).at (1)
-
 			query := "INSERT INTO users (username, password, name, unit_memeber_id, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + ", %"" + name + "%", %"" + unit_member_id + "%", 2);"
 			execute_insertion_query (query)
 		end
@@ -165,13 +194,13 @@ feature -- Insertion queries
 		require
 			a_section_1_not_void: a_section_1 /= Void
 		do
-			--a_section_1.head_of_unit_cookie
+				--a_section_1.head_of_unit_cookie
 		end
 
 	update_cookie (username, cookie: STRING)
 		require
-			username_not_empty: is_normal_string(username)
-			cookie_not_empty: is_normal_string(cookie)
+			username_not_empty: is_normal_string (username)
+			cookie_not_empty: is_normal_string (cookie)
 		local
 			query: STRING
 		do
@@ -183,9 +212,8 @@ feature -- Selection queries
 
 	check_password (username, password: STRING): STRING
 		require
-			username_not_empty: is_normal_string(username)
-			password_not_empty: is_normal_string(password)
-
+			username_not_empty: is_normal_string (username)
+			password_not_empty: is_normal_string (password)
 		local
 			hash: STRING
 			reply: ARRAY [STRING]
@@ -212,7 +240,7 @@ feature -- Contract checkers
 			-- Checks if db file with such name exists.
 			-- FIXME! ! ! -- doesn't work at all
 		require
-			a_file_name_correct: is_normal_string(a_file_name)
+			a_file_name_correct: is_normal_string (a_file_name)
 		do
 				-- TODO: Check if works as validator for file existence: and (create {RAW_FILE}.make_with_name (a_file_name)).exists
 			Result := True
