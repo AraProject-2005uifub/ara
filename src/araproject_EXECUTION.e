@@ -28,30 +28,42 @@ feature -- Execution
 	execute
 			-- Use `request' to get data for the incoming http request
 			-- and `response' to send response back to the client
+			-- To get access to admin panel: admin:admin
+			-- To get access to head of unit page: prof:prof
+			-- To get access to uadmin page: uadmin:uadmin
 		local
-				--	mesg: WSF_PAGE_RESPONSE
 			header: HTTP_HEADER
 			html_page: WSF_FILE_RESPONSE
 			answer, role_db: STRING
 			user: USER
 			report_iterator: ITERATION_CURSOR [WSF_VALUE]
+			report_general: SECTION_1
+			report_teaching: SECTION_2
 		do
-				--| As example, you can use {WSF_PAGE_RESPONSE}
-				--| To send back easily a simple plaintext message.
-				-- create mesg.make_with_body ("Hello Eiffel Web")
-				-- response.send (mesg)
 			if request.is_get_request_method then
 				if request.path_info.same_string ("/") then
 					create html_page.make_html ("www/index.html")
 					response.send (html_page)
 				elseif request.path_info.same_string ("/auth/") or request.path_info.same_string ("/auth") then
 					create html_page.make_html ("www/auth.html")
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						io.put_string ("Eiffel Web Server: New user connection with cookie '"+session.string_representation+"'")
+						io.new_line
+					end
 					response.send (html_page)
 				elseif request.path_info.same_string ("/admin/") or request.path_info.same_string ("/admin") then
 					create html_page.make_html ("www/admin.html")
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						io.put_string ("Eiffel Web Server: System Administrator with cookie '"+session.string_representation+"' accessed admin page")
+						io.new_line
+					end
 					response.send (html_page)
 				elseif request.path_info.same_string ("/report/") or request.path_info.same_string ("/report") then
-					create html_page.make_html ("www/report.html")
+					create html_page.make_html ("www/report_general.html")
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						io.put_string ("Eiffel Web Server: Head of Unit with cookie '"+session.string_representation+"' accessed report page")
+						io.new_line
+					end
 					response.send (html_page)
 				else
 					create html_page.make_html ("www/404.html")
@@ -108,18 +120,24 @@ feature -- Execution
 						db.add_admin (user.full_name, user.username, user.password)
 					elseif user.role ~ "uadministrator" then
 						db.add_university_admin (user.full_name, user.username, user.password)
+					elseif user.role ~ "headofunit" then
+						db.add_head_of_unit (user.full_name, user.username, user.password)
 					end
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/admin/")
-				elseif request.path_info.same_string ("/report_submit/") then
-					create user.make
-					from
-						report_iterator := request.form_parameters.new_cursor
-					until
-						report_iterator.after
-					loop
-						user.add_data (report_iterator.item)
+				elseif request.path_info.same_string ("/report_general/") then
+					report_iterator := request.form_parameters.new_cursor
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_general.make (report_iterator, session.string_representation)
 					end
+					create html_page.make_html ("www/report_teaching.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/report_teaching/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_teaching.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					create html_page.make_html ("www/report_research.html")
+					response.send (html_page)
 				end
 			end
 		end

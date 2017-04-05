@@ -16,7 +16,7 @@
         </div>
         <div class="panel-body">
 
-         <form action="/report_research/" method="POST" role="form">
+         <form action="/report_teaching/" method="POST" role="form">
 
           <label for="Courses taught"><p>Courses taught:</p></label>
           <button type="button" class="btn btn-sm btn-default" onclick="removeCourse()" style="float: right">Remove course</button>
@@ -33,7 +33,7 @@
                 <option>Master</option>
                 <option>PhD</option>
               </select></p>
-              <p><input type="number" name="number of students1" class="form-control" id="number of students1" placeholder="Number of students" required></p>
+              <p><input type="number" name="number_of_students1" class="form-control" id="number_of_students1" placeholder="Number of students" required></p>
             </div>
           </div>
 
@@ -45,8 +45,8 @@
           <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addExamination()">Add examination</button>
           <div id="examinations">
             <div id="examinationNumber1">
-              <p><input type="text" name="course_name1" class="form-control" id="course_name1" placeholder="Course name" required></p>
-              <p><select id="semester1" name="semester1" class="form-control">
+              <p><input type="text" name="e_course_name1" class="form-control" id="e_course_name1" placeholder="Course name" required></p>
+              <p><select id="e_semester1" name="e_semester1" class="form-control">
                 <option>Fall</option>
                 <option>Spring</option>
               </select></p>
@@ -54,7 +54,7 @@
                 <option>Final exam</option>
                 <option>Repetition exam</option>
               </select></p>
-              <p><input type="number" name="number_of_students1" class="form-control" id="number_of_students1" placeholder="Number of students taken exam" required></p>
+              <p><input type="number" name="e_number_of_students1" class="form-control" id="e_number_of_students1" placeholder="Number of students taken exam" required></p>
             </div>
           </div>
 
@@ -79,7 +79,7 @@
           <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addStudentReport()">Add report</button>
           <div id="students_reports">
             <div id="student_reportNumber1">
-              <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name" required></p>
+              <p><input type="text" name="r_student_name1" class="form-control" id="r_student_name1" placeholder="Student name" required></p>
               <p><input type="text" name="report_title1" class="form-control" id="report_title1" placeholder="Report title" required></p>
               <p><input type="text" name="publication_plans1" class="form-control" id="publication_plans1" placeholder="Publication_plans (if any)" required></p>
             </div>
@@ -93,7 +93,7 @@
           <button type="button" class="btn btn-sm btn-default" style="float: right" onclick="addThesis()">Add thesis</button>
           <div id="theses">
             <div id="thesisNumber1">
-              <p><input type="text" name="student_name1" class="form-control" id="student_name1" placeholder="Student name" required></p>
+              <p><input type="text" name="t_student_name1" class="form-control" id="t_student_name1" placeholder="Student name" required></p>
               <p><input type="text" name="degree1" class="form-control" id="degree1" placeholder="Degree" required></p>
               <p><input type="text" name="supervisor_name1" class="form-control" id="supervisor_name1" placeholder="Supervisor name" required></p>
               <p><input type="text" name="others1" class="form-control" id="others1" placeholder="Names of other committee members" required></p>
@@ -132,10 +132,10 @@
     var examination = document.getElementById("examination").innerHTML;
     examinationIter++;
     examination = examination.replace(/examinationNumber/, "examinationNumber" + examinationIter);
-    examination = examination.replace(/course_name/g, "course_name" + examinationIter);
-    examination = examination.replace(/semester/g, "semester" + examinationIter);
+    examination = examination.replace(/course_name/g, "e_course_name" + examinationIter);
+    examination = examination.replace(/semester/g, "e_semester" + examinationIter);
     examination = examination.replace(/kind_of_exam/g, "kind_of_exam" + examinationIter);
-    examination = examination.replace(/number_of_students/g, "number_of_students" + examinationIter);
+    examination = examination.replace(/number_of_students/g, "e_number_of_students" + examinationIter);
     $("#examinations").append(examination);
   }
 
@@ -162,7 +162,7 @@
     var student_report = document.getElementById("student_report").innerHTML;
     studentReportIter++;
     student_report = student_report.replace(/student_reportNumber/, "student_reportNumber" + studentReportIter);
-    student_report = student_report.replace(/student_name/g, "student_name" + studentReportIter);
+    student_report = student_report.replace(/student_name/g, "r_student_name" + studentReportIter);
     student_report = student_report.replace(/report_title/g, "report_title" + studentReportIter);
     student_report = student_report.replace(/publication_plans/g, "publication_plans" + studentReportIter);
     $("#students_reports").append(student_report);
@@ -177,7 +177,7 @@
     var thesis = document.getElementById("thesis").innerHTML;
     thesisIter++;
     thesis = thesis.replace(/thesisNumber/, "thesisNumber" + thesisIter);
-    thesis = thesis.replace(/student_name/g, "student_name" + thesisIter);
+    thesis = thesis.replace(/student_name/g, "t_student_name" + thesisIter);
     thesis = thesis.replace(/degree/g, "degree" + thesisIter);
     thesis = thesis.replace(/supervisor_name/g, "supervisor_name" + thesisIter);
     thesis = thesis.replace(/others/g, "others" + thesisIter);
