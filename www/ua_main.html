@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Ara | Queries page</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+</head>
+<body>
+	<div class="container" style="margin-top:30px">
+    <div class="col-md-8 col-md-offset-2">
+      <div class="panel panel-default">
+      <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Welcome, university administrator! </p> <p>Please, choose query you want to perform and press select button.</p></STRONG></h2></div>        
+
+        <div class="panel-body">
+
+          <form action="/admin_choose/" method="POST" role="form">
+
+              <select id="query" name="query" class="form-control">
+                <option>All publications of the university in a given year</option>
+                <option>Information of a given unit over several years</option>
+                <option>Courses taught by a Laboratory between initial and final date</option>
+              </select>
+
+              <p>&nbsp;</p>
+
+            <button type="select" class="btn btn-sm btn-default" style="float: right">Select</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
