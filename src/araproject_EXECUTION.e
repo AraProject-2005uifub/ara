@@ -39,6 +39,7 @@ feature -- Execution
 			report_iterator: ITERATION_CURSOR [WSF_VALUE]
 			report_general: SECTION_1
 			report_teaching: SECTION_2
+			report_research: SECTION_3
 		do
 			if request.is_get_request_method then
 				if request.path_info.same_string ("/") then
@@ -58,16 +59,18 @@ feature -- Execution
 						io.new_line
 					end
 					response.send (html_page)
-				elseif request.path_info.same_string ("/report/") or request.path_info.same_string ("/report") then
+				elseif request.path_info.same_string("/report_general/") or request.path_info.same_string ("/report_general") then
 					create html_page.make_html ("www/report_general.html")
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						io.put_string ("Eiffel Web Server: Head of Unit with cookie '"+session.string_representation+"' accessed report page")
 						io.new_line
 					end
 					response.send (html_page)
-				else
-					create html_page.make_html ("www/404.html")
-					response.set_status_code ({HTTP_STATUS_CODE}.not_found)
+				elseif request.path_info.same_string ("/report_teaching/") or request.path_info.same_string ("/report_teaching/") then
+					create html_page.make_html ("www/report_teaching.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/report_research/") or request.path_info.same_string ("/report_research/") then
+					create html_page.make_html ("www/report_research.html")
 					response.send (html_page)
 				end
 			elseif request.is_post_request_method then
@@ -130,14 +133,18 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_general.make (report_iterator, session.string_representation)
 					end
-					create html_page.make_html ("www/report_teaching.html")
-					response.send (html_page)
+					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_teaching/")
 				elseif request.path_info.same_string ("/report_teaching/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_teaching.make (request.form_parameters.new_cursor, session.string_representation)
 					end
-					create html_page.make_html ("www/report_research.html")
-					response.send (html_page)
+					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_research/")
+				elseif request.path_info.same_string ("/report_research/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_research.make (request.form_parameters.new_cursor, session.string_representation)
+					end
 				end
 			end
 		end

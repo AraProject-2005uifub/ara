@@ -37,8 +37,6 @@ feature -- Init
 			cursor.forth
 			create course.make_with_data (course_name, semester, level, number_of_students)
 			courses.force (course, i)
-			io.put_string (courses.at (i).course_name+" "+courses.at (i).semester+" "+courses.at (i).level+" "+courses.at (i).number_of_students)
-			io.new_line
 			i := i+1
 		end
 		create examinations.make_empty
@@ -57,8 +55,6 @@ feature -- Init
 			cursor.forth
 			create examination.make_with_data (course_name, semester, kind_of_exam, number_of_students)
 			examinations.force (examination, i)
-			io.put_string (examinations.at (i).course_name+" "+examinations.at (i).semester+" "+examinations.at (i).kind_of_exam+" "+examinations.at (i).number_of_students)
-			io.new_line
 			i := i+1
 		end
 		create students.make_empty
@@ -73,8 +69,6 @@ feature -- Init
 			cursor.forth
 			create student.make_with_data (student_name, nature_of_work)
 			students.force (student, i)
-			io.put_string (students.at (i).student_name + " " + students.at (i).nature_of_work)
-			io.new_line
 			i := i+1
 		end
 		create students_reports.make_empty
@@ -91,8 +85,6 @@ feature -- Init
 			cursor.forth
 			create student_report.make_with_data (student_name, report_title, publication_plans)
 			students_reports.force (student_report, i)
-			io.put_string (students_reports.at (i).student_name + " " + students_reports.at (i).report_title + " " + students_reports.at(i).publication_plans)
-			io.new_line
 			i := i+1
 		end
 		create theses.make_empty
@@ -115,8 +107,6 @@ feature -- Init
 			cursor.forth
 			create thesis.make_with_data (student_name, degree, supervisor_name, other, institute, title)
 			theses.force (thesis, i)
-			io.put_string (theses.at (i).student_name + " " + theses.at (i).degree + " " + theses.at(i).supervisor_name + " " + theses.at (i).other + " " + theses.at (i).institute + " " + theses.at (i).title)
-			io.new_line
 			i := i+1
 		end
 	end
