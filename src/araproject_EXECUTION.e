@@ -172,11 +172,11 @@ feature -- Execution
 				elseif request.path_info.same_string ("/admin_choose/") then
 					if attached {WSF_VALUE}request.form_parameter ("query") as query then
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
-						if query ~ "All publications of the university in a given year" then
-							response.redirect_now ("ua_publications")
-						elseif query ~ "Information of a given unit over several years" then
+						if query.string_representation ~ "All publications of the university in a given year" then
+							response.redirect_now ("/ua_publications/")
+						elseif query.string_representation ~ "Information of a given unit over several years" then
 							response.redirect_now ("/ua_information/")
-						elseif query ~ "Courses taught by a Laboratory between initial and final date" then
+						elseif query.string_representation ~ "Courses taught by a Laboratory between initial and final date" then
 							response.redirect_now ("/ua_courses/")
 						end
 					end
