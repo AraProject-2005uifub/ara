@@ -39,4 +39,12 @@ feature -- Fields
 
 	end_of_period: STRING
 			-- Please, keep it in format YYYY-MM-DD
+
+feature -- Serialize
+
+	serialized_string : STRING
+		do
+
+		end
+
 end

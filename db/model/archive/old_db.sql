@@ -58,7 +58,7 @@ CREATE TABLE "degrees" (
 
 "id" INTEGER NOT NULL,
 
-"name" TEXT NOT NULL,
+"degree" TEXT NOT NULL,
 
 PRIMARY KEY ("id") 
 
@@ -102,15 +102,17 @@ CREATE TABLE "grants" (
 
 "end_of_period" TEXT NOT NULL,
 
-"previous_grant_name" TEXT,
+"previous_grant_id" INTEGER,
 
-"amount" REAL NOT NULL,
+"amount" TEXT NOT NULL,
 
-PRIMARY KEY ("id"),
+PRIMARY KEY ("id") ,
 
 CONSTRAINT "fk_grants_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id"),
 
-CONSTRAINT "fk_grants_organizations_1" FOREIGN KEY ("granting_agency_id") REFERENCES "organizations" ("id")
+CONSTRAINT "fk_grants_organisations_1" FOREIGN KEY ("granting_agency_id") REFERENCES "organisations" ("id"),
+
+CONSTRAINT "fk_grants_grants_1" FOREIGN KEY ("previous_grant_id") REFERENCES "grants" ("id")
 
 );
 
@@ -130,7 +132,7 @@ PRIMARY KEY ("id") ,
 
 CONSTRAINT "fk_industry_collaboration_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id"),
 
-CONSTRAINT "fk_industry_collaboration_organizations_1" FOREIGN KEY ("company_id") REFERENCES "organizations" ("id")
+CONSTRAINT "fk_industry_collaboration_organisations_1" FOREIGN KEY ("company_id") REFERENCES "organisations" ("id")
 
 );
 
@@ -193,7 +195,7 @@ CREATE TABLE "memberships" (
 
 "report_id" INTEGER NOT NULL,
 
-"organization_id" INTEGER NOT NULL,
+"organisation_id" INTEGER NOT NULL,
 
 "start_of_period" TEXT NOT NULL,
 
@@ -203,23 +205,23 @@ PRIMARY KEY ("id") ,
 
 CONSTRAINT "fk_memberships_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id"),
 
-CONSTRAINT "fk_memberships_organizations_1" FOREIGN KEY ("organization_id") REFERENCES "organizations" ("id")
+CONSTRAINT "fk_memberships_organisations_1" FOREIGN KEY ("organisation_id") REFERENCES "organisations" ("id")
 
 );
 
 
-CREATE TABLE "organization_types" (
+CREATE TABLE "organisation_types" (
 
 "id" INTEGER NOT NULL,
 
-"name" TEXT NOT NULL,
+"type" TEXT NOT NULL,
 
 PRIMARY KEY ("id") 
 
 );
 
 
-CREATE TABLE "organizations" (
+CREATE TABLE "organisations" (
 
 "id" INTEGER NOT NULL,
 
@@ -229,7 +231,7 @@ CREATE TABLE "organizations" (
 
 PRIMARY KEY ("id") ,
 
-CONSTRAINT "fk_organizations_organization_types_1" FOREIGN KEY ("type_id") REFERENCES "organization_types" ("id")
+CONSTRAINT "fk_organisations_organisation_types_1" FOREIGN KEY ("type_id") REFERENCES "organisation_types" ("id")
 
 );
 
@@ -255,6 +257,23 @@ CONSTRAINT "fk_patents_countries_1" FOREIGN KEY ("patent_office_country_id") REF
 );
 
 
+CREATE TABLE "phd_committe_members" (
+
+"id" INTEGER NOT NULL,
+
+"phd_thesis_id" INTEGER NOT NULL,
+
+"unit_member_id" INTEGER NOT NULL,
+
+PRIMARY KEY ("id") ,
+
+CONSTRAINT "fk_phd_committe_members_unit_members_1" FOREIGN KEY ("unit_member_id") REFERENCES "unit_members" ("id"),
+
+CONSTRAINT "fk_phd_committe_members_phd_theses_1" FOREIGN KEY ("phd_thesis_id") REFERENCES "phd_theses" ("id")
+
+);
+
+
 CREATE TABLE "phd_theses" (
 
 "id" INTEGER NOT NULL,
@@ -269,9 +288,7 @@ CREATE TABLE "phd_theses" (
 
 "supervisor_id" INTEGER NOT NULL,
 
-"committe_members" TEXT,
-
-"degree_granting_organization_id" INTEGER NOT NULL,
+"degree_granting_organisation_id" INTEGER NOT NULL,
 
 PRIMARY KEY ("id") ,
 
@@ -281,7 +298,7 @@ CONSTRAINT "fk_phd_theses_unit_members_1" FOREIGN KEY ("supervisor_id") REFERENC
 
 CONSTRAINT "fk_phd_theses_degrees_1" FOREIGN KEY ("degree_id") REFERENCES "degrees" ("id"),
 
-CONSTRAINT "fk_phd_theses_granting_agencies_1" FOREIGN KEY ("degree_granting_organization_id") REFERENCES "organizations" ("id"),
+CONSTRAINT "fk_phd_theses_granting_agencies_1" FOREIGN KEY ("degree_granting_organisation_id") REFERENCES "organisations" ("id"),
 
 CONSTRAINT "fk_phd_theses_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id")
 
@@ -296,15 +313,32 @@ CREATE TABLE "prizes" (
 
 "title" TEXT NOT NULL,
 
-"granting_organization_id" INTEGER NOT NULL,
+"granting_organisation_id" INTEGER NOT NULL,
 
 "date" TEXT NOT NULL,
 
 PRIMARY KEY ("id") ,
 
-CONSTRAINT "fk_prizes_granting_agencies_1" FOREIGN KEY ("granting_organization_id") REFERENCES "organizations" ("id"),
+CONSTRAINT "fk_prizes_granting_agencies_1" FOREIGN KEY ("granting_organisation_id") REFERENCES "organisations" ("id"),
 
 CONSTRAINT "fk_prizes_unit_members_1" FOREIGN KEY ("recipient_unit_member_id") REFERENCES "unit_members" ("id")
+
+);
+
+
+CREATE TABLE "publication_authors" (
+
+"id" INTEGER NOT NULL,
+
+"publication_id" INTEGER NOT NULL,
+
+"unit_member_id" INTEGER NOT NULL,
+
+PRIMARY KEY ("id") ,
+
+CONSTRAINT "fk_publication_authors_publications_1" FOREIGN KEY ("publication_id") REFERENCES "publications" ("id"),
+
+CONSTRAINT "fk_publication_authors_unit_members_1" FOREIGN KEY ("unit_member_id") REFERENCES "unit_members" ("id")
 
 );
 
@@ -367,7 +401,26 @@ CONSTRAINT "fk_research_collaborations_countries_1" FOREIGN KEY ("country_of_ins
 
 CONSTRAINT "fk_research_collaborations_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id"),
 
-CONSTRAINT "fk_research_collaborations_organizations_1" FOREIGN KEY ("institution_id") REFERENCES "organizations" ("id")
+CONSTRAINT "fk_research_collaborations_organisations_1" FOREIGN KEY ("institution_id") REFERENCES "organisations" ("id")
+
+);
+
+
+CREATE TABLE "research_project_members" (
+
+"id" INTEGER NOT NULL,
+
+"research_project_id" INTEGER NOT NULL,
+
+"unit_member_id" INTEGER,
+
+"name" TEXT,
+
+PRIMARY KEY ("id") ,
+
+CONSTRAINT "fk_research_project_members_unit_members_1" FOREIGN KEY ("unit_member_id") REFERENCES "unit_members" ("id"),
+
+CONSTRAINT "fk_research_project_members_research_projects_1" FOREIGN KEY ("research_project_id") REFERENCES "research_projects" ("id")
 
 );
 
@@ -376,13 +429,7 @@ CREATE TABLE "research_projects" (
 
 "id" INTEGER NOT NULL,
 
-"report_id" INTEGER NOT NULL,
-
 "title" TEXT NOT NULL,
-
-"inno_personnel_involved" TEXT NOT NULL,
-
-"external_personnel_involved" TEXT NOT NULL,
 
 "start_of_period" TEXT NOT NULL,
 
@@ -390,9 +437,7 @@ CREATE TABLE "research_projects" (
 
 "sources_of_financing" TEXT,
 
-PRIMARY KEY ("id"),
-
-CONSTRAINT "fk_research_projects_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id")
+PRIMARY KEY ("id") 
 
 );
 
@@ -473,7 +518,7 @@ CREATE TABLE "units" (
 
 "name" TEXT UNIQUE NOT NULL,
 
-"head_of_unit_username" INTEGER NOT NULL,
+"head_of_unitusername" INTEGER NOT NULL,
 
 PRIMARY KEY ("id") ,
 
@@ -511,7 +556,7 @@ CREATE TABLE "kinds_of_users" (
 
 "id" INTEGER NOT NULL,
 
-"name" TEXT NOT NULL,
+"kind" TEXT NOT NULL,
 
 PRIMARY KEY ("id")
 

@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 
 	db: DB_ADAPTER
 		once ("OBJECT")
-			create Result.open
+			create Result.init_if_need_or_open
 				--	Result.add_admin ("Admin Adminich", "admin", "admin", "111")
 		end
 
@@ -133,6 +133,7 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_general.make (report_iterator, session.string_representation)
 					end
+					db.add_section_1(report_general)
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_teaching/")
 				elseif request.path_info.same_string ("/report_teaching/") then

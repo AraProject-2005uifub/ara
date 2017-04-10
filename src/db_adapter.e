@@ -7,7 +7,7 @@ class
 	DB_ADAPTER
 
 create
-	db_first_init, open
+	db_first_init, open, init_if_need_or_open
 
 feature -- Constant statements
 
@@ -16,6 +16,8 @@ feature -- Constant statements
 	frozen new_db_creation_query: STRING = "db/new_db.sql"
 
 	frozen default_insertions_statement: STRING = "db/first_inserts.sql"
+
+	frozen sql_queries_path: STRING = "db/sql_queries/"
 
 feature {NONE} -- Secret constant elements
 
@@ -30,20 +32,38 @@ feature -- Initialization
 		require
 			db_file_name_correct: is_normal_string (db_file_name)
 		do
+			log ("creating new DB file")
+			if db_file_exist then
+				(create {RAW_FILE}.make_with_name (db_file_name)).delete
+				log("old DB deleted")
+			end
 			create db.make_create_read_write (db_file_name)
 			execute_insertion_query_from_file (new_db_creation_query)
-			log ("DB: " + db_file_name + " is created successfully!")
+			log (db_file_name + " is created successfully!")
 			execute_insertion_query_from_file (default_insertions_statement)
-			log ("DB: " + db_file_name + " is filled with default values.")
+			log (db_file_name + " is filled with default values.")
 		end
 
 	open
 			-- Opens existing database with such name.
 		require
-			db_file_exist (db_file_name)
+			db_file_exist
 		do
+			log ("opening existing DB file")
 			create db.make_open_read_write (db_file_name)
-			log ("DB: " + db_file_name + " is opened successfully!")
+			log (db_file_name + " is opened successfully!")
+		end
+
+	init_if_need_or_open
+			-- Inits db if the file is not found,
+			-- opens if possible.
+		do
+			log ("trying to open or create DB, according to its existence")
+			if db_file_exist then
+				open
+			else
+				db_first_init
+			end
 		end
 
 feature {NONE} -- Implementation
@@ -57,7 +77,7 @@ feature {NONE} -- Implementation
 		local
 			db_insert_statement: SQLITE_INSERT_STATEMENT
 		do
-			log ("DB: attempt to execute_insertion_query: query = " + a_query)
+			log ("attempt to execute_insertion_query: query = " + a_query)
 			create db_insert_statement.make (a_query, db)
 			db_insert_statement.execute
 		end
@@ -85,7 +105,7 @@ feature {NONE} -- Implementation
 			-- TODO check bounds of the array
 		local
 			query: STRING
-			i: INTEGER
+			i, r: INTEGER
 		do
 			query := read_whole_file (a_file_name)
 			from
@@ -93,11 +113,35 @@ feature {NONE} -- Implementation
 			until
 				i > args.upper
 			loop
-					-- TODO finish
-					-- query.index_of ('$', 1)
+				r := query.index_of ('$', 1)
+				query.remove(r)
+				query.insert_string ( "%"" + args.at (i) + "%"", r)
 				i := i + 1
 			end
 			Result := execute_selection_query (query)
+		end
+
+	execute_inertion_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING])
+		require
+			a_file_name_not_empty: is_normal_string (a_file_name)
+			args_not_empty: True -- TODO FIX
+			-- TODO check bounds of the array
+		local
+			query: STRING
+			i, r: INTEGER
+		do
+			query := read_whole_file (a_file_name)
+			from
+				i := args.lower
+			until
+				i > args.upper
+			loop
+				r := query.index_of ('$', 1)
+				query.remove(r)
+				query.insert_string (args.at (i), r)
+				i := i + 1
+			end
+			execute_insertion_query (query)
 		end
 
 	execute_selection_query (a_query: STRING): ARRAY2 [STRING]
@@ -106,7 +150,7 @@ feature {NONE} -- Implementation
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
 			col, row: INTEGER
 		do
-			log ("DB: atempt to execute_selection_query: query = " + a_query)
+			log ("atempt to execute_selection_query: query = " + a_query)
 			create Result.make_filled ("", 1, 1)
 			create db_query_statement.make (a_query, db)
 			cursor := db_query_statement.execute_new
@@ -128,7 +172,7 @@ feature {NONE} -- Implementation
 				cursor.forth
 				row := row + 1
 			end
-			log ("DB: execute_selection_query: finished successfully")
+			log ("execute_selection_query: finished successfully")
 		end
 
 	read_whole_file (a_file_name: STRING): STRING
@@ -142,59 +186,79 @@ feature {NONE} -- Implementation
 			Result := file.last_string
 		end
 
+	hash_password(password: STRING):STRING
+		local
+			query: STRING
+			hash: STRING
+		do
+			hash := password + password_salt
+			Result := hash.hash_code.to_hex_string
+		end
+
 	log (log_string: STRING)
 			-- Logs
 		do
-			io.put_string (log_string + "%N")
+			io.put_string ("DB: " + log_string + "%N")
 		end
 
 feature -- Insertion queries
 
 	add_admin (name: STRING; username: STRING; password: STRING)
 		local
-			query: STRING
+			query_file_name: STRING
+			unit_member_id: STRING
 			hash: STRING
+			args: ARRAY[STRING]
 		do
-			hash := password + password_salt
-			hash := hash.hash_code.to_hex_string
-			query := "INSERT INTO users (name, username, password, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", 1);"
-			execute_insertion_query (query)
+			query_file_name := sql_queries_path + "add_or_change_password_admin.sql"
+			create args.make_from_array (<<name, username, hash_password(password)>>)
+			execute_inertion_query_from_file_with_args(query_file_name, args)
 		end
 
 	add_university_admin (name: STRING; username: STRING; password: STRING)
 		local
-			query: STRING
+			query_file_name: STRING
+			unit_member_id: STRING
 			hash: STRING
+			args: ARRAY[STRING]
 		do
-			hash := password + password_salt
-			hash := hash.hash_code.to_hex_string
-			query := "INSERT INTO users (name, username, password, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + "%", 3);"
-			execute_insertion_query (query)
+			query_file_name := sql_queries_path + "add_or_change_password_university_admin.sql"
+			create args.make_from_array (<<name, username, hash_password(password)>>)
+			execute_inertion_query_from_file_with_args(query_file_name, args)
 		end
 
 	add_head_of_unit (name, username, password: STRING)
 			-- Adds user in the table
 		local
-			query: STRING
+			query_file_name: STRING
 			unit_member_id: STRING
 			hash: STRING
+			args: ARRAY[STRING]
 		do
-			hash := password + password_salt
-			hash := hash.hash_code.to_hex_string
-			query := "INSERT INTO unit_members (unit_id, name) VALUES ( -1, %"" + name + "%");"
-			execute_insertion_query (query)
-			query := "SELECT id FROM unit_members WHERE name == %"" + name + "%");"
-			unit_member_id := execute_selection_query (query).at (1)
-			query := "INSERT INTO users (username, password, name, unit_memeber_id, kind_of_user_id) VALUES (%"" + name + "%", %"" + username + "%", %"" + hash + ", %"" + name + "%", %"" + unit_member_id + "%", 2);"
-			execute_insertion_query (query)
+			query_file_name := sql_queries_path + "add_or_change_password_head_of_unit.sql"
+			create args.make_from_array (<<name, name, username, hash_password(password), name>>)
+			execute_inertion_query_from_file_with_args(query_file_name, args)
 		end
 
 	add_section_1 (a_section_1: SECTION_1)
 			-- Writes info from the argument into the database.
 		require
 			a_section_1_not_void: a_section_1 /= Void
+		local
+			query_file_name: STRING
+			args: ARRAY[STRING]
 		do
-				--a_section_1.head_of_unit_cookie
+			query_file_name := sql_queries_path + "sections/add_section_1.sql"
+			-- Query args sequence:
+			-- name_of_unit, head_of_unit_cookie,
+			-- name_of_unit, start_of_period,
+			-- end_of_period, head_of_unit_cookie
+			create args.make_from_array (<<
+			a_section_1.name_of_unit, a_section_1.head_of_unit_cookie,
+			a_section_1.name_of_unit, a_section_1.start_of_period,
+			a_section_1.end_of_period, a_section_1.head_of_unit_cookie
+			>>)
+			execute_inertion_query_from_file_with_args(query_file_name, args)
 		end
 
 	update_cookie (username, cookie: STRING)
@@ -236,14 +300,11 @@ feature -- Selection queries
 
 feature -- Contract checkers
 
-	db_file_exist (a_file_name: STRING): BOOLEAN
-			-- Checks if db file with such name exists.
-			-- FIXME! ! ! -- doesn't work at all
+	db_file_exist: BOOLEAN
 		require
-			a_file_name_correct: is_normal_string (a_file_name)
+			a_file_name_correct: is_normal_string (db_file_name)
 		do
-				-- TODO: Check if works as validator for file existence: and (create {RAW_FILE}.make_with_name (a_file_name)).exists
-			Result := True
+			Result := (create {RAW_FILE}.make_with_name (db_file_name)).exists
 		end
 
 	is_normal_string (a_string: STRING): BOOLEAN
