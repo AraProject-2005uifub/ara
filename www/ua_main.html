@@ -28,9 +28,16 @@
 
             <button type="select" class="btn btn-sm btn-default" style="float: right">Select</button>
           </form>
+          <button type="logout" class="btn btn-sm btn-primary" onclick="logOut()">Log out</button>
         </div>
       </div>
     </div>
   </div>
 </body>
+<script>
+  function logOut() {
+    document.cookie = "session_id=sdsds;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    window.location.replace("/auth/");
+  }
+</script>
 </html>
