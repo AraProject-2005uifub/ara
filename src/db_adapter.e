@@ -277,6 +277,24 @@ feature -- Insertion queries
 			execute_insertion_query (query)
 		end
 
+	check_user_role_by_cookie (cookie: STRING): STRING
+		require
+			username_not_empty: is_normal_string (cookie)
+		local
+			reply: ARRAY [STRING]
+		do
+			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE cookie == %"" + cookie + "%";")
+			if reply.is_empty then
+				Result := ""
+			elseif reply [1] ~ "1" then
+				Result := admin_alias_string
+			elseif reply [1] ~ "2" then
+				Result := head_of_unit_alias_string
+			elseif reply [1] ~ "3" then
+				Result := ui_admin_alias_string
+			end
+		end
+
 feature -- Report fill
 
 	add_section_1 (a_section_1: SECTION_1)
@@ -495,6 +513,20 @@ feature -- Contract checkers
 			-- Returns if string is not void and not empty.
 		do
 			Result := a_string /= Void and not a_string.is_empty
+		end
+
+feature -- Data retrieval for university administrators
+
+	get_all_publications_of_a_given_year (year: STRING): ARRAY2
+		do
+		end
+
+	information_of_a_unit_over_several_years (unit_name: STRING; start_year: STRING; end_year: STRING): ARRAY2
+		do
+		end
+
+	courses_taught_by_unit_between_dates (unit_name: STRING; start_date: STRING; end_date: STRING): ARRAY2
+		do
 		end
 
 invariant

@@ -43,50 +43,181 @@ feature -- Execution
 		do
 			if request.is_get_request_method then
 				if request.path_info.same_string ("/") then
-					create html_page.make_html ("www/index.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as cookie then
+						role_db := db.check_user_role_by_cookie (cookie.string_representation)
+						if role_db ~ "admin" then
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/admin/")
+						elseif role_db ~ "head_of_unit" then
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/report_general/")
+						elseif role_db ~ "ui_admin" then
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/ua_main/")
+						else
+							create html_page.make_html ("www/index.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/index.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/auth/") or request.path_info.same_string ("/auth") then
-					create html_page.make_html ("www/auth.html")
-					if attached {WSF_VALUE}request.cookie ("session_id") as session then
-						io.put_string ("Eiffel Web Server: New user connection with cookie '"+session.string_representation+"'")
+					if attached {WSF_VALUE}request.cookie ("session_id") as cookie then
+						role_db := db.check_user_role_by_cookie (cookie.string_representation)
+						if role_db ~ "admin" then
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/admin/")
+						elseif role_db ~ "head_of_unit" then
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/report_general/")
+						elseif role_db ~ "ui_admin" then
+							response.set_status_code ({HTTP_STATUS_CODE}.found)
+							response.redirect_now ("/ua_main/")
+						else
+							io.put_string ("Eiffel Web Server: New user connection with cookie '"+cookie.string_representation+"'")
+						    io.new_line
+							create html_page.make_html ("www/auth.html")
+							response.send (html_page)
+						end
+					else
+						io.put_string ("Eiffel Web Server: New user connection")
 						io.new_line
+						create html_page.make_html ("www/auth.html")
+						response.send (html_page)
 					end
-					response.send (html_page)
 				elseif request.path_info.same_string ("/admin/") or request.path_info.same_string ("/admin") then
-					create html_page.make_html ("www/admin.html")
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
-						io.put_string ("Eiffel Web Server: System Administrator with cookie '"+session.string_representation+"' accessed admin page")
-						io.new_line
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "admin" then
+							create html_page.make_html ("www/admin.html")
+							io.put_string ("Eiffel Web Server: System Administrator with cookie '"+session.string_representation+"' accessed admin page")
+							io.new_line
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
 					end
-					response.send (html_page)
 				elseif request.path_info.same_string("/report_general/") or request.path_info.same_string ("/report_general") then
-					create html_page.make_html ("www/report_general.html")
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
-						io.put_string ("Eiffel Web Server: Head of Unit with cookie '"+session.string_representation+"' accessed report page")
-						io.new_line
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_general.html")
+							io.put_string ("Eiffel Web Server: Head of Unit with cookie '"+session.string_representation+"' accessed admin page")
+							io.new_line
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
 					end
-					response.send (html_page)
 				elseif request.path_info.same_string ("/report_teaching/") or request.path_info.same_string ("/report_teaching") then
-					create html_page.make_html ("www/report_teaching.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_teaching.html")
+							io.put_string ("Eiffel Web Server: Head of Unit with cookie '"+session.string_representation+"' accessed admin page")
+							io.new_line
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/report_research/") or request.path_info.same_string ("/report_research") then
-					create html_page.make_html ("www/report_research.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_research.html")
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/report_successful/") or request.path_info.same_string ("/report_successful") then
-					create html_page.make_html ("www/report_successful.html/")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_successful.html")
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/ua_main/") or request.path_info.same_string ("/ua_main") then
-					create html_page.make_html ("www/ua_main.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "ui_admin" then
+							create html_page.make_html ("www/ua_main.html")
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/ua_courses/") or request.path_info.same_string ("/ua_courses") then
-					create html_page.make_html ("www/ua_courses.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "ui_admin" then
+							create html_page.make_html ("www/ua_courses.html")
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/ua_information/") or request.path_info.same_string ("/ua_information") then
-					create html_page.make_html ("www/ua_information.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "ui_admin" then
+							create html_page.make_html ("www/ua_information.html")
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/ua_publications/") or request.path_info.same_string ("/ua_publications") then
-					create html_page.make_html ("www/ua_publications.html")
-					response.send (html_page)
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "ui_admin" then
+							create html_page.make_html ("www/ua_publications.html")
+							response.send (html_page)
+						else
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/404/") then
 					create html_page.make_html ("www/404.html")
 					response.send (html_page)
