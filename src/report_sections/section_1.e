@@ -39,4 +39,5 @@ feature -- Fields
 
 	end_of_period: STRING
 			-- Please, keep it in format YYYY-MM-DD
+
 end

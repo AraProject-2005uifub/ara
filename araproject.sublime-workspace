@@ -1,0 +1,237 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+			[
+				"un",
+				"units"
+			],
+			[
+				"unt",
+				"unit_id"
+			],
+			[
+				"read",
+				"read_whole_file"
+			],
+			[
+				"STI",
+				"STRING"
+			],
+			[
+				"sql",
+				"sql_file"
+			],
+			[
+				"exe",
+				"execute_selection_query"
+			],
+			[
+				"af",
+				"a_file_name"
+			],
+			[
+				"pa",
+				"parseInt"
+			]
+		]
+	},
+	"buffers":
+	[
+	],
+	"build_system": "",
+	"build_system_choices":
+	[
+	],
+	"build_varint": "",
+	"command_palette":
+	{
+		"height": 87.0,
+		"last_filter": "install",
+		"selected_items":
+		[
+			[
+				"install",
+				"Package Control: Advanced Install Package"
+			]
+		],
+		"width": 485.0
+	},
+	"console":
+	{
+		"height": 0.0,
+		"history":
+		[
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/Users/tolparow/ara/www/auth.html",
+		"/Users/tolparow/projects/my_django_getting_started/authorization/views2.py",
+		"/Users/tolparow/ara/db/new_db.sql",
+		"/Users/tolparow/projects/my_django_getting_started/.gitignore",
+		"/Users/tolparow/ara/src/db_adapter.e",
+		"/Users/tolparow/Downloads/database.e",
+		"/Users/tolparow/ara/araproject.ecf",
+		"/Users/tolparow/Documents/very_last.sql",
+		"/Users/tolparow/ara/db/db_drop.sql",
+		"/Users/tolparow/ara/db/very_last.sql",
+		"/Users/tolparow/ara/src/araproject_EXECUTION.e",
+		"/Users/tolparow/ara/.gitignore",
+		"/Users/tolparow/ara/.gitignore.md",
+		"/Users/tolparow/.ssh/tolparow-Bitbucket.pub",
+		"/Users/tolparow/Desktop/Internship/ui_cl_team/campus/.gitignore.py",
+		"/Users/tolparow/Eiffel User Files/17.01/projects/db_adapter/db_adapter.e",
+		"/Users/tolparow/Eiffel User Files/17.01/projects/db_adapter/new_db.sql",
+		"/Users/tolparow/Eiffel User Files/17.01/projects/db_adapter/first_inserts.sql",
+		"/Users/tolparow/ara/main_db.sql",
+		"/Users/tolparow/ara/exported.sql",
+		"/Users/tolparow/ara/main_db.sqlite.sql",
+		"/Users/tolparow/ara/main_db.db",
+		"/Users/tolparow/Downloads/final-solution-task3-localization.py",
+		"/Users/tolparow/Downloads/knapsack.py",
+		"/Users/tolparow/Desktop/ItP S17/LabSession4/Exercises/LabSessionE2/json_handler_converter.e",
+		"/Users/tolparow/Desktop/ItP S17/LabSession4/Exercises/LabSessionE2/handler.e",
+		"/Users/tolparow/Desktop/ItP S17/LabSession4/Exercises/LabSessionE2/handler_resp.e",
+		"/Users/tolparow/Desktop/ItP S17/LabSession4/Exercises/LabSessionE2/application.e",
+		"/Users/tolparow/Desktop/ItP S17/LabSession4/Exercises/LabSessionE2/application_execution.e",
+		"/Users/tolparow/Desktop/Eiffel.tmtheme",
+		"/Users/tolparow/Downloads/LabSession4/Exercises/LabSessionE/application_execution.e"
+	],
+	"find":
+	{
+		"height": 23.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+			"TABLE reports",
+			"CREATE TABLE reports",
+			"CREATE TABLEreports",
+			"reports",
+			"report_sections",
+			"period"
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"sheets":
+			[
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 31.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.find_results":
+	{
+		"height": 0.0
+	},
+	"pinned_build_system": "",
+	"project": "araproject.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"last_filter": "",
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"selected_group": 0,
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 150.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

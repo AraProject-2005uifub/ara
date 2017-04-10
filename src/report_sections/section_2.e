@@ -21,6 +21,8 @@ feature -- Init
 		student_report: STUDENT_REPORT
 		thesis: THESIS
 	do
+		head_of_unit_cookie := cookie
+		
 		create courses.make_empty
 		from
 			i := 1
@@ -111,7 +113,10 @@ feature -- Init
 		end
 	end
 
-feature -- Access
+feature -- Fields
+	head_of_unit_cookie: STRING
+			-- To identify user and his report.
+
 	courses: ARRAY[COURSE]
 	examinations: ARRAY[EXAMINATION]
 	students: ARRAY[STUDENT]

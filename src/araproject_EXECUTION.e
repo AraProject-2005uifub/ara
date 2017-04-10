@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 
 	db: DB_ADAPTER
 		once ("OBJECT")
-			create Result.open
+			create Result.init_if_need_or_open
 				--	Result.add_admin ("Admin Adminich", "admin", "admin", "111")
 		end
 
@@ -104,6 +104,8 @@ feature -- Execution
 						user.set_password (password.string_representation)
 					end
 					role_db := db.check_password (user.username, user.password)
+					io.put_string("Eiffel Web Server: Got user of type " + role_db)
+					io.new_line
 					if role_db ~ "admin" then
 						if attached {WSF_STRING} request.cookie ("session_id") as session then
 							db.update_cookie (user.username, session.string_representation)
@@ -115,7 +117,7 @@ feature -- Execution
 							db.update_cookie (user.username, session.string_representation)
 						end
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
-						response.redirect_now ("/report_teaching/")
+						response.redirect_now ("/report_general")
 					elseif role_db ~ "ui_admin" then
 						if attached {WSF_STRING} request.cookie ("session_id") as session then
 							db.update_cookie (user.username, session.string_representation)
@@ -166,19 +168,22 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_general.make (report_iterator, session.string_representation)
 					end
+					db.add_section_1(report_general)
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_teaching/")
 				elseif request.path_info.same_string ("/report_teaching/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_teaching.make (request.form_parameters.new_cursor, session.string_representation)
 					end
+					db.add_section_2(report_teaching)
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_research/")
 				elseif request.path_info.same_string ("/report_research/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_research.make (request.form_parameters.new_cursor, session.string_representation)
 					end
-					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					db.add_section_3(report_research)
+          response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_successful/")
 				elseif request.path_info.same_string ("/admin_choose/") then
 					if attached {WSF_VALUE}request.form_parameter ("query") as query then
@@ -191,7 +196,6 @@ feature -- Execution
 							response.redirect_now ("/ua_courses/")
 						end
 					end
-
 				end
 			end
 		end
