@@ -518,7 +518,13 @@ feature -- Contract checkers
 feature -- Data retrieval for university administrators
 
 	get_all_publications_of_a_given_year (year: STRING): ARRAY2[STRING]
+		local
+			query_file_name: STRING
+			args: ARRAY [STRING]
 		do
+			query_file_name := "db/sql_queries/ua_queries/get_all_publications_of_a_given_year.sql"
+			create args.make_from_array (<<year, year>>)
+			Result := execute_selection_query_from_file_with_args (query_file_name, args)
 		end
 
 	information_of_a_unit_over_several_years (unit_name: STRING; start_year: STRING; end_year: STRING): ARRAY2[STRING]
