@@ -81,7 +81,7 @@
             <div id="student_reportNumber1">
               <p><input type="text" name="r_student_name1" class="form-control" id="r_student_name1" placeholder="Student name" required></p>
               <p><input type="text" name="report_title1" class="form-control" id="report_title1" placeholder="Report title" required></p>
-              <p><input type="text" name="publication_plans1" class="form-control" id="publication_plans1" placeholder="Publication_plans (if any)" required></p>
+              <p><input type="text" name="publication_plans1" class="form-control" id="publication_plans1" placeholder="Publication plans (if any)" required></p>
             </div>
           </div>
 
@@ -124,8 +124,10 @@
   }
 
   function removeCourse() {
-    $("#courseNumber" + courseIter).remove();
-    courseIter--;
+    if (courseIter > 1) {
+      $("#courseNumber" + courseIter).remove();
+      courseIter--;
+    }
   }
 
   function addExamination() {
@@ -140,8 +142,10 @@
   }
 
   function removeExamination() {
-    $("#examinationNumber" + examinationIter).remove();
-    examinationIter--;
+    if (examinationIter > 1) {
+      $("#examinationNumber" + examinationIter).remove();
+      examinationIter--;
+    }
   }
 
   function addStudentSupervised() {
@@ -154,8 +158,10 @@
   }
 
   function removeStudentSupervised() {
-    $("#supervised_studentsNumber" + studentSupervisedIter).remove();
-    studentSupervisedIter--;
+    if (studentSupervisedIter > 1) {
+      $("#supervised_studentsNumber" + studentSupervisedIter).remove();
+      studentSupervisedIter--;
+    }
   }
 
   function addStudentReport() {
@@ -169,8 +175,10 @@
   }
 
   function removeStudentReport() {
-    $("#student_reportNumber" + studentReportIter).remove();
-    studentReportIter--;
+    if (studentReportIter > 1) {
+      $("#student_reportNumber" + studentReportIter).remove();
+      studentReportIter--;
+    }
   }
 
   function addThesis() {
@@ -178,7 +186,7 @@
     thesisIter++;
     thesis = thesis.replace(/thesisNumber/, "thesisNumber" + thesisIter);
     thesis = thesis.replace(/student_name/g, "t_student_name" + thesisIter);
-    thesis = thesis.replace(/degree/g, "degree" + thesisIter);
+    thesis = thesis.replace(/degree/, "degree" + thesisIter);
     thesis = thesis.replace(/supervisor_name/g, "supervisor_name" + thesisIter);
     thesis = thesis.replace(/others/g, "others" + thesisIter);
     thesis = thesis.replace(/institute/g, "institute" + thesisIter);
@@ -187,8 +195,10 @@
   }
 
   function removeThesis() {
-    $("#thesisNumber" + thesisIter).remove();
-    thesisIter--;
+    if (thesisIter > 1) {
+      $("#thesisNumber" + thesisIter).remove();
+      thesisIter--;
+    }
   }
 
 </script>
@@ -237,7 +247,7 @@
         <hr>
         <p><input type="text" name="student_name" class="form-control" id="student_name" placeholder="Student name" required></p>
         <p><input type="text" name="report_title" class="form-control" id="report_title" placeholder="Report title" required></p>
-        <p><input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication_plans (if any)" required></p></div>
+        <p><input type="text" name="publication_plans" class="form-control" id="publication_plans" placeholder="Publication plans (if any)" required></p></div>
       </script>
 
       <script id="thesis" language="text">

@@ -12,16 +12,17 @@
 	<div class="container" style="margin-top:30px">
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-default">
-      <div class="panel-heading"><h2 class="panel-title"><STRONG>Please, choose initial and final dates:</STRONG></h2></div>        
+        <div class="panel-heading"><h2 class="panel-title"><STRONG>Please, provide laboratory name and choose initial and final dates:</STRONG></h2></div>        
 
         <div class="panel-body">
 
           <form action="/admin_courses/" method="POST" role="form">
 
-              <p><strong>Initial date between 01.01.2000 and 31.12.2099:</strong></p> <input type="date" class="form-control" name="initial_date" min ="2000-01-01" max = "2099-12-31" required></p>
-              <p><strong>Final date between 01.01.2000 and 31.12.2099:</strong></p> <input type="date" class="form-control" name="final_date" min ="2000-01-01" max = "2099-12-31" required></p>
+            <p><input type="text" name="unit_name" class="form-control" id="unit_name" placeholder="Laboratory (unit) name" required></p>
+            <p><strong>Initial date between 01.01.2000 and 31.12.2099:</strong></p> <input type="date" class="form-control" name="initial_date" min ="2000-01-01" max = "2099-12-31" required></p>
+            <p><strong>Final date between 01.01.2000 and 31.12.2099:</strong></p> <input type="date" class="form-control" name="final_date" min ="2000-01-01" max = "2099-12-31" required></p>
 
-              <p>&nbsp;</p>
+            <p>&nbsp;</p>
 
             <button type="select" class="btn btn-sm btn-primary" style="float: right">Perform</button>
           </form>
