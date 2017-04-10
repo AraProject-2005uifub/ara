@@ -517,15 +517,15 @@ feature -- Contract checkers
 
 feature -- Data retrieval for university administrators
 
-	get_all_publications_of_a_given_year (year: STRING): ARRAY2
+	get_all_publications_of_a_given_year (year: STRING): ARRAY2[STRING]
 		do
 		end
 
-	information_of_a_unit_over_several_years (unit_name: STRING; start_year: STRING; end_year: STRING): ARRAY2
+	information_of_a_unit_over_several_years (unit_name: STRING; start_year: STRING; end_year: STRING): ARRAY2[STRING]
 		do
 		end
 
-	courses_taught_by_unit_between_dates (unit_name: STRING; start_date: STRING; end_date: STRING): ARRAY2
+	courses_taught_by_unit_between_dates (unit_name: STRING; start_date: STRING; end_date: STRING): ARRAY2[STRING]
 		do
 		end
 
