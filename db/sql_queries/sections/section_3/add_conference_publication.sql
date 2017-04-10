@@ -10,6 +10,6 @@ INSERT INTO publications (
 VALUES (
 	"$",
 	"$",
-	(SELECT id FROM kinds_of_publications WHERE name = "Journal")
+	(SELECT id FROM kinds_of_publications WHERE name = "Conference")
 );
 --|

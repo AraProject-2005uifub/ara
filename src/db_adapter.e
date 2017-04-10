@@ -309,7 +309,6 @@ feature -- Report fill
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_2.head_of_unit_cookie>>)
 			report_id := execute_selection_query_from_file_with_args (query_file_name, args).item (1, 1)
-
 			query_file_name := "db/sql_queries/sections/section_2/add_course_taught.sql"
 				-- report_id, name_of_course,
 				-- semester, level, num_of_students
@@ -388,7 +387,6 @@ feature -- Report fill
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_3.head_of_unit_cookie>>)
 			report_id := execute_selection_query_from_file_with_args (query_file_name, args).item (1, 1)
-
 			query_file_name := "db/sql_queries/sections/section_3/add_conference_publication.sql"
 				-- report_id, title
 			from
@@ -400,7 +398,6 @@ feature -- Report fill
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
-
 			query_file_name := "db/sql_queries/sections/section_3/add_journal_publication.sql"
 				-- report_id, title
 			from
@@ -412,73 +409,51 @@ feature -- Report fill
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
-
 			query_file_name := "db/sql_queries/sections/section_3/add_grant.sql"
-			-- granting_agency_name,
-			-- report_id, title,
-			-- granting_agency_name,
-			-- start_of_period, end_of_period,
-			-- prev_grant_name, amount
-			-- report_id, title
+				-- granting_agency_name,
+				-- report_id, title,
+				-- granting_agency_name,
+				-- start_of_period, end_of_period,
+				-- prev_grant_name, amount
+				-- report_id, title
 			from
 				i := a_section_3.grants.lower
 			until
 				i > a_section_3.grants.upper
 			loop
-				create args.make_from_array (<<
-				a_section_3.grants.at (i).granting_agency, report_id,
-				a_section_3.grants.at (i).project_title,
-				a_section_3.grants.at (i).granting_agency,
-				a_section_3.grants.at (i).grant_period_start,
-				a_section_3.grants.at (i).grant_period_end,
-				a_section_3.grants.at (i).grant_continuation,
-				a_section_3.grants.at (i).grant_amount, report_id,
-				a_section_3.grants.at (i).project_title>>)
+				create args.make_from_array (<<a_section_3.grants.at (i).granting_agency, report_id, a_section_3.grants.at (i).project_title, a_section_3.grants.at (i).granting_agency, a_section_3.grants.at (i).grant_period_start, a_section_3.grants.at (i).grant_period_end, a_section_3.grants.at (i).grant_continuation, a_section_3.grants.at (i).grant_amount, report_id, a_section_3.grants.at (i).project_title>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
-
 			query_file_name := "db/sql_queries/sections/section_3/add_research_collaboration.sql"
-			-- country_of_institution_name,
-			-- institution_name, report_id,
-			-- country_of_institution_name,
-			-- institution_name,
-			-- contact_with_institution
+				-- country_of_institution_name,
+				-- institution_name, report_id,
+				-- country_of_institution_name,
+				-- institution_name,
+				-- contact_with_institution
 			from
 				i := a_section_3.research_collaborations.lower
 			until
 				i > a_section_3.research_collaborations.upper
 			loop
-				create args.make_from_array (<<
-				a_section_3.research_collaborations.at (i).country,
-				a_section_3.research_collaborations.at (i).institution_name,
-				report_id, a_section_3.research_collaborations.at (i).country,
-				a_section_3.research_collaborations.at (i).institution_name,
-				a_section_3.research_collaborations.at (i).contacts>>)
+				create args.make_from_array (<<a_section_3.research_collaborations.at (i).country, a_section_3.research_collaborations.at (i).institution_name, report_id, a_section_3.research_collaborations.at (i).country, a_section_3.research_collaborations.at (i).institution_name, a_section_3.research_collaborations.at (i).contacts>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
-
 			query_file_name := "db/sql_queries/sections/section_3/add_research_project.sql"
-			-- report_id, inno_personnel_involved,
-			-- external_personnel_involved,
-			-- start_of_period, end_of_period,
-			-- sources_of_financing
+				-- report_id, title, inno_personnel_involved,
+				-- external_personnel_involved,
+				-- start_of_period, end_of_period,
+				-- sources_of_financing
 			from
 				i := a_section_3.research_projects.lower
 			until
 				i > a_section_3.research_projects.upper
 			loop
-				create args.make_from_array (<<
-				report_id, a_section_3.research_projects.at (i).inno_personnel_involved,
-				a_section_3.research_projects.at (i).external_personnel,
-				a_section_3.research_projects.at (i).start_date,
-				a_section_3.research_projects.at (i).end_date,
-				a_section_3.research_projects.at (i).source_of_financing>>)
+				create args.make_from_array (<<report_id, a_section_3.research_projects.at (i).project_title, a_section_3.research_projects.at (i).inno_personnel_involved, a_section_3.research_projects.at (i).external_personnel, a_section_3.research_projects.at (i).start_date, a_section_3.research_projects.at (i).end_date, a_section_3.research_projects.at (i).source_of_financing>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
-
 		end
 
 feature -- Selection queries
