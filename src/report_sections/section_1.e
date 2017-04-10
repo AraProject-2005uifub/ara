@@ -16,7 +16,7 @@ feature {NONE} -- Initialization
 		require
 			cursor_not_void: cursor /= Void
 			cookie_not_void: cookie /= Void
-			cookie_not_empty: cookie /= ""
+			cookie_not_empty: not (cookie ~ "")
 		do
 			head_of_unit_cookie := cookie
 			name_of_unit := cursor.item.string_representation

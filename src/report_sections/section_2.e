@@ -16,7 +16,7 @@ feature -- Init
 		require
 			cursor_not_void: cursor /= Void
 			cookie_not_void: cookie /= Void
-			cookie_not_empty: cookie /= ""
+			cookie_not_empty: not (cookie ~ "")
 		local
 			i: INTEGER
 			course_name, semester, level, number_of_students, kind_of_exam, student_name, nature_of_work: STRING
@@ -119,6 +119,9 @@ feature -- Init
 		ensure
 			courses_not_empty: not courses.is_empty
 			examinations_not_empty: not examinations.is_empty
+			students_not_empty: not students.is_empty
+			students_reports_not_empty: not students_reports.is_empty
+			theses_not_empty: not theses.is_empty
 		end
 
 feature -- Fields

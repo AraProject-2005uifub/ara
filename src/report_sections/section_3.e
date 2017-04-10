@@ -13,6 +13,10 @@ create
 feature -- Init
 
 	make (cursor: ITERATION_CURSOR [WSF_VALUE]; cookie: STRING)
+		require
+			cursor_not_void: cursor /= Void
+			cookie_not_void: cookie /= Void
+			cookie_not_empty: not (cookie ~ "")
 		local
 			i: INTEGER
 			project_title, granting_agency, grant_period_start, grant_period_end, grant_continuation, grant_amount: STRING
@@ -106,6 +110,12 @@ feature -- Init
 				cursor.forth
 				i := i + 1
 			end
+		ensure
+			grants_not_empty: not grants.is_empty
+			research_collaborations_not_empty: not research_collaborations.is_empty
+			research_prpjects_not_empty: not research_projects.is_empty
+			conference_publications_not_empty: not conference_publications.is_empty
+			journal_publications_not_empty: not journal_publications.is_empty
 		end
 
 feature -- Access

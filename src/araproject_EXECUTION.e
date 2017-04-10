@@ -20,7 +20,6 @@ feature {NONE} -- Initialization
 	db: DB_ADAPTER
 		once ("OBJECT")
 			create Result.init_if_need_or_open
-				--	Result.add_admin ("Admin Adminich", "admin", "admin", "111")
 		end
 
 feature -- Execution
@@ -261,18 +260,6 @@ feature -- Execution
 						create html_page.make_html ("www/auth_bad.html/")
 						response.send (html_page)
 					end
-						--					if user.username ~ "admin" and user.password ~ "admin" then
-						--						response.set_status_code ({HTTP_STATUS_CODE}.found)
-						--						response.redirect_now ("/admin/")
-						--					else
-						--						if user.username ~ "prof1" and user.password ~ "password" then
-						--							response.set_status_code ({HTTP_STATUS_CODE}.found)
-						--							response.redirect_now ("/report/")
-						--						else
-						--							create html_page.make_html ("www/auth_bad.html")
-						--							response.send(html_page)
-						--						end
-						--					end
 				elseif request.path_info.same_string ("/add_user/") then
 					create user.make
 					if attached {WSF_STRING} request.form_parameter ("full_name") as full_name then

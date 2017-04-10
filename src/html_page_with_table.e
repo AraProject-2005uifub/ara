@@ -12,8 +12,13 @@ create
 
 feature -- Init
 	make(data_table: ARRAY2[STRING])
+	require
+		data_table_not_void: data_table /= Void
+		data_table_not_empty: not data_table.is_empty
 	do
 		table := data_table
+	ensure
+		table_set: not table.is_empty
 	end
 
 feature -- Only one
