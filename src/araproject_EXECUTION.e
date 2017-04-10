@@ -87,6 +87,12 @@ feature -- Execution
 				elseif request.path_info.same_string ("/ua_publications/") or request.path_info.same_string ("/ua_publications") then
 					create html_page.make_html ("www/ua_publications.html")
 					response.send (html_page)
+				elseif request.path_info.same_string ("/404/") then
+					create html_page.make_html ("www/404.html")
+					response.send (html_page)
+				else
+					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/404/")
 				end
 			elseif request.is_post_request_method then
 				if request.path_info.same_string ("/auth/") then
