@@ -9,7 +9,7 @@ INSERT OR IGNORE INTO students (
 VALUES (
 	"$"
 );
-
+--|
 INSERT INTO student_reports (
 	report_id, 
 	student_id, 
@@ -22,3 +22,4 @@ VALUES(
 	"$",
 	"$"
 );
+--|

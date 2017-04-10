@@ -14,7 +14,7 @@ VALUES (
 	"$",
 	(SELECT id FROM organization_types WHERE name = "Granting agency")
 );
-
+--|
 INSERT INTO grants (
 	report_id, 
 	title, 
@@ -31,5 +31,6 @@ VALUES(
 	date("$"),
 	date("$"),
 	"$",
-	real("$")
+	"$"
 );
+--|

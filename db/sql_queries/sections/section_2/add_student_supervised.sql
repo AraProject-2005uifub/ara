@@ -9,7 +9,7 @@ INSERT OR IGNORE INTO students (
 VALUES (
 	"$"
 );
-
+--|
 INSERT INTO students_supervised (
 	report_id, 
 	student_id, 
@@ -20,3 +20,4 @@ VALUES(
 	(SELECT id FROM students WHERE name = "$"),
 	"$"
 );
+--|

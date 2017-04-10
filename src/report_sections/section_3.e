@@ -22,6 +22,8 @@ feature -- Init
 			research_project: RESEARCH_PROJECT
 			research_collaboration: RESEARCH_COLLABORATION
 		do
+			head_of_unit_cookie := cookie
+
 			create grants.make_empty
 			from
 				i := 1
@@ -115,5 +117,7 @@ feature -- Access
 	research_projects: ARRAY [RESEARCH_PROJECT]
 
 	conference_publications, journal_publications: ARRAY [STRING]
+
+	head_of_unit_cookie: STRING
 
 end

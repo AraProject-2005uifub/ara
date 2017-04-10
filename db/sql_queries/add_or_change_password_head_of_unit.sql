@@ -11,7 +11,7 @@ VALUES (
 	-1,
 	"$"
 );
-
+--|
 INSERT OR REPLACE INTO users (
 	name, 
 	username, 
@@ -23,6 +23,7 @@ VALUES (
 	"$", 
 	"$", 
 	"$", 
-	"3", 
+	"2", 
 	(SELECT id FROM unit_members WHERE name == "$")
 );
+--|

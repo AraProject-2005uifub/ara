@@ -12,7 +12,7 @@ VALUES (
 	"$", 
 	(SELECT username FROM users WHERE cookie == "$")
 );
-
+--|
 INSERT INTO reports (
 	unit_id, 
 	start_of_period, 
@@ -23,5 +23,6 @@ VALUES (
 	(SELECT id FROM units WHERE name == "$"), 
 	"$", 
 	"$", 
-	(SELECT username FROM users WHERE cookie == "$")
+	"$"
 );
+--|

@@ -83,12 +83,20 @@ feature -- Execution
 						user.set_password (password.string_representation)
 					end
 					role_db := db.check_password (user.username, user.password)
+					io.put_string("Eiffel Web Server: Got user of type " + role_db)
+					io.new_line
 					if role_db ~ "admin" then
 						if attached {WSF_STRING} request.cookie ("session_id") as session then
 							db.update_cookie (user.username, session.string_representation)
 						end
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
 						response.redirect_now ("/admin/")
+					elseif role_db ~ "head_of_unit" then
+						if attached {WSF_STRING} request.cookie ("session_id") as session then
+							db.update_cookie (user.username, session.string_representation)
+						end
+						response.set_status_code ({HTTP_STATUS_CODE}.found)
+						response.redirect_now ("/report_general")
 					else
 						create html_page.make_html ("www/auth_bad.html/")
 						response.send (html_page)
@@ -140,12 +148,16 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_teaching.make (request.form_parameters.new_cursor, session.string_representation)
 					end
+					db.add_section_2(report_teaching)
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_research/")
 				elseif request.path_info.same_string ("/report_research/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_research.make (request.form_parameters.new_cursor, session.string_representation)
 					end
+					db.add_section_3(report_research)
+					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/")
 				end
 			end
 		end

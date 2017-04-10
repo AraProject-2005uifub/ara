@@ -17,3 +17,4 @@ VALUES(
 	(SELECT id FROM levels WHERE name = "$"),
 	"$"
 );
+--|

@@ -12,16 +12,16 @@ INSERT OR IGNORE INTO countries (
 VALUES(
 	"$"
 );
-
+--|
 INSERT OR IGNORE INTO organizations (
 	name,
 	type_id
 )
 VALUES(
 	"$",
-	(SELECT FROM organization_types WHERE name = "Institution")
+	(SELECT id FROM organization_types WHERE name = "Institution")
 );
-
+--|
 INSERT INTO research_collaborations (
 	report_id,
 	country_of_institution_id,
@@ -34,3 +34,4 @@ VALUES (
 	"$",
 	"$"
 );
+--|

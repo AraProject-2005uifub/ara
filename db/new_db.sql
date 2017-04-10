@@ -74,6 +74,8 @@ CREATE TABLE "examinations" (
 
 "course_name" TEXT NOT NULL,
 
+"semester" TEXT NOT NULL,
+
 "kind_of_exam_id" INTEGER NOT NULL,
 
 "num_of_students" INTEGER NOT NULL,

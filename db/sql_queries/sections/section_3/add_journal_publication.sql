@@ -5,11 +5,11 @@
 INSERT INTO publications (
 	report_id,
 	title,
-	kind_of_publication_id,
+	kind_of_publication_id
 )
 VALUES (
 	"$",
 	"$",
-	(SELECT id FROM kind_of_publications WHERE name = "Journal")
+	(SELECT id FROM kinds_of_publications WHERE name = "Journal")
 );
-y
+--|
