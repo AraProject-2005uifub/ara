@@ -19,7 +19,7 @@ feature {NONE} -- Initialization
 
 	db: DB_ADAPTER
 		once ("OBJECT")
-			create Result.open
+			create Result.init_if_need_or_open
 				--	Result.add_admin ("Admin Adminich", "admin", "admin", "111")
 		end
 
@@ -66,12 +66,33 @@ feature -- Execution
 						io.new_line
 					end
 					response.send (html_page)
-				elseif request.path_info.same_string ("/report_teaching/") or request.path_info.same_string ("/report_teaching/") then
+				elseif request.path_info.same_string ("/report_teaching/") or request.path_info.same_string ("/report_teaching") then
 					create html_page.make_html ("www/report_teaching.html")
 					response.send (html_page)
-				elseif request.path_info.same_string ("/report_research/") or request.path_info.same_string ("/report_research/") then
+				elseif request.path_info.same_string ("/report_research/") or request.path_info.same_string ("/report_research") then
 					create html_page.make_html ("www/report_research.html")
 					response.send (html_page)
+				elseif request.path_info.same_string ("/report_successful/") or request.path_info.same_string ("/report_successful") then
+					create html_page.make_html ("www/report_successful.html/")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/ua_main/") or request.path_info.same_string ("/ua_main") then
+					create html_page.make_html ("www/ua_main.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/ua_courses/") or request.path_info.same_string ("/ua_courses") then
+					create html_page.make_html ("www/ua_courses.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/ua_information/") or request.path_info.same_string ("/ua_information") then
+					create html_page.make_html ("www/ua_information.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/ua_publications/") or request.path_info.same_string ("/ua_publications") then
+					create html_page.make_html ("www/ua_publications.html")
+					response.send (html_page)
+				elseif request.path_info.same_string ("/404/") then
+					create html_page.make_html ("www/404.html")
+					response.send (html_page)
+				else
+					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/404/")
 				end
 			elseif request.is_post_request_method then
 				if request.path_info.same_string ("/auth/") then
@@ -83,12 +104,26 @@ feature -- Execution
 						user.set_password (password.string_representation)
 					end
 					role_db := db.check_password (user.username, user.password)
+					io.put_string("Eiffel Web Server: Got user of type " + role_db)
+					io.new_line
 					if role_db ~ "admin" then
 						if attached {WSF_STRING} request.cookie ("session_id") as session then
 							db.update_cookie (user.username, session.string_representation)
 						end
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
 						response.redirect_now ("/admin/")
+					elseif role_db ~ "head_of_unit" then
+						if attached {WSF_STRING} request.cookie ("session_id") as session then
+							db.update_cookie (user.username, session.string_representation)
+						end
+						response.set_status_code ({HTTP_STATUS_CODE}.found)
+						response.redirect_now ("/report_general")
+					elseif role_db ~ "ui_admin" then
+						if attached {WSF_STRING} request.cookie ("session_id") as session then
+							db.update_cookie (user.username, session.string_representation)
+						end
+						response.set_status_code ({HTTP_STATUS_CODE}.found)
+						response.redirect_now ("/ua_main/")
 					else
 						create html_page.make_html ("www/auth_bad.html/")
 						response.send (html_page)
@@ -133,17 +168,33 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_general.make (report_iterator, session.string_representation)
 					end
+					db.add_section_1(report_general)
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_teaching/")
 				elseif request.path_info.same_string ("/report_teaching/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_teaching.make (request.form_parameters.new_cursor, session.string_representation)
 					end
+					db.add_section_2(report_teaching)
 					response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_research/")
 				elseif request.path_info.same_string ("/report_research/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_research.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					db.add_section_3(report_research)
+          response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_successful/")
+				elseif request.path_info.same_string ("/admin_choose/") then
+					if attached {WSF_VALUE}request.form_parameter ("query") as query then
+						response.set_status_code ({HTTP_STATUS_CODE}.found)
+						if query.string_representation ~ "All publications of the university in a given year" then
+							response.redirect_now ("/ua_publications/")
+						elseif query.string_representation ~ "Information of a given unit over several years" then
+							response.redirect_now ("/ua_information/")
+						elseif query.string_representation ~ "Courses taught by a Laboratory between initial and final date" then
+							response.redirect_now ("/ua_courses/")
+						end
 					end
 				end
 			end
