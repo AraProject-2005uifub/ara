@@ -34,12 +34,14 @@ feature -- Execution
 		local
 			header: HTTP_HEADER
 			html_page: WSF_FILE_RESPONSE
-			answer, role_db: STRING
+			html_page_from_table: HTML_PAGE_WITH_TABLE
+			answer, role_db, html_string: STRING
 			user: USER
 			report_iterator: ITERATION_CURSOR [WSF_VALUE]
 			report_general: SECTION_1
 			report_teaching: SECTION_2
 			report_research: SECTION_3
+			data_table: ARRAY2[STRING]
 		do
 			if request.is_get_request_method then
 				if request.path_info.same_string ("/") then
@@ -219,10 +221,22 @@ feature -- Execution
 						response.send (html_page)
 					end
 				elseif request.path_info.same_string ("/404/") then
-					create html_page.make_html ("www/404.html")
-					response.send (html_page)
+					create data_table.make_filled ("0", 3, 3)
+					data_table.put ("Header1", 1, 1)
+					data_table.put ("Header2", 1, 2)
+					data_table.put ("Header3", 1, 3)
+					data_table.put ("Header1_value", 2, 1)
+					data_table.put ("Header2_value", 2, 2)
+					data_table.put ("Header3_value", 2, 3)
+					data_table.put ("Header1_1_value", 3, 1)
+					data_table.put ("Header2_2_value", 3, 2)
+					data_table.put ("Header3_3_value", 3, 3)
+					create html_page_from_table.make (data_table)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
 				else
-					response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.set_status_code ({HTTP_STATUS_CODE}.not_found)
 					response.redirect_now ("/404/")
 				end
 			elseif request.is_post_request_method then
