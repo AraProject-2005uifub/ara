@@ -14,12 +14,12 @@ feature -- Init
 
 	make_with_data (l_project_title, l_granting_agency, l_grant_period_start, l_grant_period_end, l_grant_continuation, l_grant_amount: STRING)
 		require
-			project_title_not_void: project_title /= Void
-			granting_agency_not_void: granting_agency /= Void
-			grant_period_start_not_void: grant_period_start /= Void
-			grant_period_end_not_void: grant_period_end /= Void
-			grant_continuation_not_void: grant_continuation /= Void
-			grant_amount_not_void: grant_amount /= Void
+			project_title_not_void: l_project_title /= Void
+			granting_agency_not_void: l_granting_agency /= Void
+			grant_period_start_not_void: l_grant_period_start /= Void
+			grant_period_end_not_void: l_grant_period_end /= Void
+			grant_continuation_not_void: l_grant_continuation /= Void
+			grant_amount_not_void: l_grant_amount /= Void
 		do
 			project_title := l_project_title
 			granting_agency := l_granting_agency

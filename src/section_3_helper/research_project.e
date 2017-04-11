@@ -14,12 +14,12 @@ feature -- Init
 
 	make_with_data (l_project_title, l_inno_personnel_involved, l_external_personnel, l_start_date, l_end_date, l_source_of_financing: STRING)
 		require
-			project_title_not_void: project_title /= Void
-			inno_personnel_involved_not_void: inno_personnel_involved /= Void
-			external_personnel_not_void: external_personnel /= Void
-			start_date_not_void: start_date /= Void
-			end_date_not_void: end_date /= Void
-			source_of_financing_not_void: source_of_financing /= Void
+			project_title_not_void: l_project_title /= Void
+			inno_personnel_involved_not_void: l_inno_personnel_involved /= Void
+			external_personnel_not_void: l_external_personnel /= Void
+			start_date_not_void: l_start_date /= Void
+			end_date_not_void: l_end_date /= Void
+			source_of_financing_not_void: l_source_of_financing /= Void
 		do
 			project_title := l_project_title
 			inno_personnel_involved := l_inno_personnel_involved

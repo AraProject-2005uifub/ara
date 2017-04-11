@@ -14,8 +14,8 @@ feature -- Init
 
 	make_with_data (l_student_name, l_nature_of_work: STRING)
 		require
-			student_name_not_void: student_name /= Void
-			nature_of_work_not_void: nature_of_work /= Void
+			student_name_not_void: l_student_name /= Void
+			nature_of_work_not_void: l_nature_of_work /= Void
 		do
 			student_name := l_student_name
 			nature_of_work := l_nature_of_work

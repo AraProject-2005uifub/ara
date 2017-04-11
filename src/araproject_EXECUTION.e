@@ -318,13 +318,46 @@ feature -- Execution
 					end
 				elseif request.path_info.same_string ("/admin_publication/") then
 					if attached {WSF_VALUE}request.form_parameter ("year") as year then
-						create html_page_from_table.make (db.get_all_publications_of_a_given_year (year.string_representation))
+						create html_page_from_table.make (db.get_all_publications_during_several_years (year.string_representation, year.string_representation))
 						html_string := html_page_from_table.create_html_from_local_table
 						response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
 						response.put_string (html_string)
 					end
+				elseif request.path_info.same_string ("/admin_courses/") then
+					if attached {WSF_VALUE}request.form_parameter ("initial_date") as date_i then
+						if attached {WSF_VALUE}request.form_parameter ("final_date") as date_f then
+							if attached {WSF_VALUE}request.form_parameter ("unit_name") as unit_name then
+								create html_page_from_table.make (db.get_courses_taught_by_unit_in_a_given_period
+									(date_i.string_representation, date_f.string_representation, unit_name.string_representation))
+								html_string := html_page_from_table.create_html_from_local_table
+								response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+								response.put_string (html_string)
+							end
+						end
+					end
+				elseif request.path_info.same_string ("/admin_information/") then
+					if attached {WSF_VALUE}request.form_parameter ("year_initial") as year_i then
+						if attached {WSF_VALUE}request.form_parameter ("year_final") as year_f then
+							if attached {WSF_VALUE}request.form_parameter ("unit_name") as unit_name then
+								create html_page_from_table.make_from_several_arrays (
+									create {ARRAY[ARRAY2[STRING]]}.make_from_array(<<
+									db.get_courses_taught_by_unit_in_a_given_period
+									(year_i.string_representation + "-01-01",
+										year_f.string_representation + "-12-31",
+										unit_name.string_representation),
+									db.get_all_publications_of_a_given_unit_during_several_years
+									(year_i.string_representation,
+										year_f.string_representation,
+										unit_name.string_representation)
+									>>))
+
+								html_string := html_page_from_table.create_html_from_local_table
+								response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+								response.put_string (html_string)
+							end
+						end
+					end
 				end
 			end
 		end
-
 end
