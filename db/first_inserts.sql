@@ -25,3 +25,9 @@ INSERT INTO kinds_of_exams (name) VALUES ("Repetition exam");
 
 INSERT INTO users (name, username, password, kind_of_user_id) 
 VALUES ( "Admin", "admin", "1CD29B65", 1);
+
+INSERT INTO users (name, username, password, kind_of_user_id) 
+VALUES ( "Head of Unit", "head", "2EA5EE65", 2);
+
+INSERT INTO users (name, username, password, kind_of_user_id) 
+VALUES ( "University admin", "ua", "0BCB7A65", 3);

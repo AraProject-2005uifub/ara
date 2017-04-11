@@ -1,5 +1,5 @@
 note
-	description: "Class for database. For clients: use DB class instead."
+	description: "Class for database operations handling."
 	date: "17.03.2017"
 	revision: "1"
 
@@ -33,7 +33,6 @@ feature -- Initialization
 
 	db_first_init
 			-- Initializes a new main database.
-			--s
 			-- WARNING! If db exists, it will be dropped and recreated!
 		require
 			db_file_name_correct: is_normal_string (db_file_name)
@@ -80,6 +79,7 @@ feature {NONE} -- Implementation
 	execute_insertion_query (a_query: STRING)
 			-- Executes a query with gaining no data.
 		require
+			a_query_not_empty: is_normal_string(a_query)
 		local
 			db_insert_statement: SQLITE_INSERT_STATEMENT
 		do
@@ -91,7 +91,6 @@ feature {NONE} -- Implementation
 	execute_insertion_query_from_file (a_file_name: STRING)
 			-- Executes query from sql files
 		require
-			db_opened: not db.is_closed
 			a_file_name_not_empty: is_normal_string (a_file_name)
 		local
 			query: STRING
@@ -104,11 +103,12 @@ feature {NONE} -- Implementation
 			execute_insertion_query (query)
 		end
 
-	execute_selection_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING]): ARRAY2 [STRING]
+	execute_selection_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING]; 
+		get_column_names: BOOLEAN): ARRAY2 [STRING]
+			-- Executes selection query from file, replasing the placeholders ($)
+			-- with arguments.
 		require
 			a_file_name_not_empty: is_normal_string (a_file_name)
-			args_not_empty: True -- TODO FIX
-			-- TODO check bounds of the array
 		local
 			query: STRING
 			i, r: INTEGER
@@ -124,14 +124,14 @@ feature {NONE} -- Implementation
 				query.insert_string (args.at (i), r)
 				i := i + 1
 			end
-			Result := execute_selection_query (query)
+			Result := execute_selection_query (query, get_column_names)
 		end
 
 	execute_inertion_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING])
+			-- Executes insertion query from file, replasing the placeholders ($)
+			-- with arguments.
 		require
 			a_file_name_not_empty: is_normal_string (a_file_name)
-			args_not_empty: True -- TODO FIX
-			-- TODO check bounds of the array
 		local
 			query: STRING
 			i, r: INTEGER
@@ -150,7 +150,8 @@ feature {NONE} -- Implementation
 			separate_and_execute_insertion_query (query)
 		end
 
-	execute_selection_query (a_query: STRING): ARRAY2 [STRING]
+	execute_selection_query (a_query: STRING; get_column_names: BOOLEAN): ARRAY2 [STRING]
+			-- Executes a query with gaining data.
 		local
 			db_query_statement: SQLITE_QUERY_STATEMENT
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -160,9 +161,30 @@ feature {NONE} -- Implementation
 			create Result.make_filled ("", 1, 1)
 			create db_query_statement.make (a_query, db)
 			cursor := db_query_statement.execute_new
+
+			if get_column_names then
+
 			from
 				cursor.start
+				col := 1
 				row := 1
+			until
+				cursor.after or col > cursor.item.count.as_integer_32
+			loop
+				Result.resize_with_default ("", row, col)
+				Result.put (cursor.item.column_name (col.as_natural_32), row, col)
+				col := col + 1
+			end
+
+			end
+
+
+			from
+				if get_column_names then
+				row := 2
+			else
+				row := 1
+			end
 			until
 				cursor.after
 			loop
@@ -182,6 +204,8 @@ feature {NONE} -- Implementation
 		end
 
 	separate_and_execute_insertion_query (query: STRING)
+			-- Separates file on several inertion queries, if needed,
+			-- before execution"
 		require
 			query_not_empty_and_attached: is_normal_string (query)
 		local
@@ -202,6 +226,7 @@ feature {NONE} -- Implementation
 		end
 
 	read_whole_file (a_file_name: STRING): STRING
+			-- Reads the whole file.
 		require
 			a_file_name_not_empty: is_normal_string (a_file_name)
 		local
@@ -213,8 +238,9 @@ feature {NONE} -- Implementation
 		end
 
 	hash_password (password: STRING): STRING
+			-- Generates hash for password.
+			-- Small protection of user data with static salt.
 		local
-			query: STRING
 			hash: STRING
 		do
 			hash := password + password_salt
@@ -222,7 +248,7 @@ feature {NONE} -- Implementation
 		end
 
 	log (log_string: STRING)
-			-- Logs
+			-- Logs a string.
 		do
 			io.put_string ("DB: " + log_string + "%N")
 		end
@@ -232,8 +258,6 @@ feature -- Insertion queries
 	add_admin (name: STRING; username: STRING; password: STRING)
 		local
 			query_file_name: STRING
-			unit_member_id: STRING
-			hash: STRING
 			args: ARRAY [STRING]
 		do
 			query_file_name := sql_queries_path + "add_or_change_password_admin.sql"
@@ -244,8 +268,6 @@ feature -- Insertion queries
 	add_university_admin (name: STRING; username: STRING; password: STRING)
 		local
 			query_file_name: STRING
-			unit_member_id: STRING
-			hash: STRING
 			args: ARRAY [STRING]
 		do
 			query_file_name := sql_queries_path + "add_or_change_password_university_admin.sql"
@@ -254,17 +276,16 @@ feature -- Insertion queries
 		end
 
 	add_head_of_unit (name, username, password: STRING)
-			-- Adds user in the table
 		local
 			query_file_name: STRING
-			unit_member_id: STRING
-			hash: STRING
 			args: ARRAY [STRING]
 		do
 			query_file_name := sql_queries_path + "add_or_change_password_head_of_unit.sql"
 			create args.make_from_array (<<name, name, username, hash_password (password), name>>)
 			execute_inertion_query_from_file_with_args (query_file_name, args)
 		end
+
+feature -- User session
 
 	update_cookie (username, cookie: STRING)
 		require
@@ -283,7 +304,34 @@ feature -- Insertion queries
 		local
 			reply: ARRAY [STRING]
 		do
-			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE cookie == %"" + cookie + "%";")
+			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE cookie == %"" + cookie + "%";", False)
+			if reply.is_empty then
+				Result := ""
+			elseif reply [1] ~ "1" then
+				Result := admin_alias_string
+			elseif reply [1] ~ "2" then
+				Result := head_of_unit_alias_string
+			elseif reply [1] ~ "3" then
+				Result := ui_admin_alias_string
+			end
+		end
+
+	check_password (username, password: STRING): STRING
+			-- Check pair of username and password.
+			-- Return string with core of user role,
+			-- or empty string if user with such credentials was not found.
+		require
+			username_not_empty: is_normal_string (username)
+			password_not_empty: is_normal_string (password)
+		local
+			hash: STRING
+			reply: ARRAY [STRING]
+		do
+			create reply.make_filled ("", 1, 1)
+			Result := ""
+			hash := password + password_salt
+			hash := hash.hash_code.to_hex_string
+			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE username == %"" + username + "%" AND password == %"" + hash + "%";", False)
 			if reply.is_empty then
 				Result := ""
 			elseif reply [1] ~ "1" then
@@ -310,7 +358,9 @@ feature -- Report fill
 				-- name_of_unit, head_of_unit_cookie,
 				-- name_of_unit, start_of_period,
 				-- end_of_period, head_of_unit_cookie
-			create args.make_from_array (<<a_section_1.name_of_unit, a_section_1.head_of_unit_cookie, a_section_1.name_of_unit, a_section_1.start_of_period, a_section_1.end_of_period, a_section_1.head_of_unit_cookie>>)
+			create args.make_from_array (<<a_section_1.name_of_unit, a_section_1.head_of_unit_cookie, 
+				a_section_1.name_of_unit, a_section_1.start_of_period, 
+				a_section_1.end_of_period, a_section_1.head_of_unit_cookie>>)
 			execute_inertion_query_from_file_with_args (query_file_name, args)
 		end
 
@@ -326,7 +376,7 @@ feature -- Report fill
 			query_file_name := "db/sql_queries/get_report_id.sql"
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_2.head_of_unit_cookie>>)
-			report_id := execute_selection_query_from_file_with_args (query_file_name, args).item (1, 1)
+			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
 			query_file_name := "db/sql_queries/sections/section_2/add_course_taught.sql"
 				-- report_id, name_of_course,
 				-- semester, level, num_of_students
@@ -335,7 +385,9 @@ feature -- Report fill
 			until
 				i > a_section_2.courses.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_2.courses.at (i).course_name, a_section_2.courses.at (i).semester, a_section_2.courses.at (i).level, a_section_2.courses.at (i).number_of_students>>)
+				create args.make_from_array (<<report_id, a_section_2.courses.at (i).course_name, 
+					a_section_2.courses.at (i).semester, a_section_2.courses.at (i).level, 
+					a_section_2.courses.at (i).number_of_students>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -347,7 +399,10 @@ feature -- Report fill
 			until
 				i > a_section_2.examinations.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_2.examinations.at (i).course_name, a_section_2.examinations.at (i).semester, a_section_2.examinations.at (i).kind_of_exam, a_section_2.examinations.at (i).number_of_students>>)
+				create args.make_from_array (<<report_id, a_section_2.examinations.at (i).course_name, 
+					a_section_2.examinations.at (i).semester, 
+					a_section_2.examinations.at (i).kind_of_exam, 
+					a_section_2.examinations.at (i).number_of_students>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -362,7 +417,12 @@ feature -- Report fill
 			until
 				i > a_section_2.theses.upper
 			loop
-				create args.make_from_array (<<a_section_2.theses.at (i).student_name, a_section_2.theses.at (i).supervisor_name, report_id, a_section_2.theses.at (i).institute, a_section_2.theses.at (i).degree, report_id, a_section_2.theses.at (i).student_name, a_section_2.theses.at (i).title, a_section_2.theses.at (i).degree, a_section_2.theses.at (i).supervisor_name, a_section_2.theses.at (i).institute>>)
+				create args.make_from_array (<<a_section_2.theses.at (i).student_name, 
+					a_section_2.theses.at (i).supervisor_name, report_id, 
+					a_section_2.theses.at (i).institute, a_section_2.theses.at (i).degree, 
+					report_id, a_section_2.theses.at (i).student_name, a_section_2.theses.at (i).title, 
+					a_section_2.theses.at (i).degree, a_section_2.theses.at (i).supervisor_name, 
+					a_section_2.theses.at (i).institute>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -374,7 +434,10 @@ feature -- Report fill
 			until
 				i > a_section_2.students_reports.upper
 			loop
-				create args.make_from_array (<<a_section_2.students_reports.at (i).student_name, report_id, a_section_2.students_reports.at (i).student_name, a_section_2.students_reports.at (i).report_title, a_section_2.students_reports.at (i).publication_plans>>)
+				create args.make_from_array (<<a_section_2.students_reports.at (i).student_name, 
+					report_id, a_section_2.students_reports.at (i).student_name, 
+					a_section_2.students_reports.at (i).report_title, 
+					a_section_2.students_reports.at (i).publication_plans>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -386,7 +449,9 @@ feature -- Report fill
 			until
 				i > a_section_2.students.upper
 			loop
-				create args.make_from_array (<<a_section_2.students.at (i).student_name, report_id, a_section_2.students.at (i).student_name, a_section_2.students.at (i).nature_of_work>>)
+				create args.make_from_array (<<a_section_2.students.at (i).student_name, report_id, 
+					a_section_2.students.at (i).student_name, 
+					a_section_2.students.at (i).nature_of_work>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -404,7 +469,7 @@ feature -- Report fill
 			query_file_name := "db/sql_queries/get_report_id.sql"
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_3.head_of_unit_cookie>>)
-			report_id := execute_selection_query_from_file_with_args (query_file_name, args).item (1, 1)
+			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
 			query_file_name := "db/sql_queries/sections/section_3/add_conference_publication.sql"
 				-- report_id, title
 			from
@@ -439,7 +504,14 @@ feature -- Report fill
 			until
 				i > a_section_3.grants.upper
 			loop
-				create args.make_from_array (<<a_section_3.grants.at (i).granting_agency, report_id, a_section_3.grants.at (i).project_title, a_section_3.grants.at (i).granting_agency, a_section_3.grants.at (i).grant_period_start, a_section_3.grants.at (i).grant_period_end, a_section_3.grants.at (i).grant_continuation, a_section_3.grants.at (i).grant_amount, report_id, a_section_3.grants.at (i).project_title>>)
+				create args.make_from_array (<<a_section_3.grants.at (i).granting_agency, 
+					report_id, a_section_3.grants.at (i).project_title, 
+					a_section_3.grants.at (i).granting_agency, 
+					a_section_3.grants.at (i).grant_period_start, 
+					a_section_3.grants.at (i).grant_period_end, 
+					a_section_3.grants.at (i).grant_continuation, 
+					a_section_3.grants.at (i).grant_amount, report_id, 
+					a_section_3.grants.at (i).project_title>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -454,7 +526,11 @@ feature -- Report fill
 			until
 				i > a_section_3.research_collaborations.upper
 			loop
-				create args.make_from_array (<<a_section_3.research_collaborations.at (i).country, a_section_3.research_collaborations.at (i).institution_name, report_id, a_section_3.research_collaborations.at (i).country, a_section_3.research_collaborations.at (i).institution_name, a_section_3.research_collaborations.at (i).contacts>>)
+				create args.make_from_array (<<a_section_3.research_collaborations.at (i).country, 
+					a_section_3.research_collaborations.at (i).institution_name, 
+					report_id, a_section_3.research_collaborations.at (i).country, 
+					a_section_3.research_collaborations.at (i).institution_name, 
+					a_section_3.research_collaborations.at (i).contacts>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
@@ -468,41 +544,56 @@ feature -- Report fill
 			until
 				i > a_section_3.research_projects.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_3.research_projects.at (i).project_title, a_section_3.research_projects.at (i).inno_personnel_involved, a_section_3.research_projects.at (i).external_personnel, a_section_3.research_projects.at (i).start_date, a_section_3.research_projects.at (i).end_date, a_section_3.research_projects.at (i).source_of_financing>>)
+				create args.make_from_array (<<report_id, a_section_3.research_projects.at (i).project_title,
+				 a_section_3.research_projects.at (i).inno_personnel_involved, 
+				 a_section_3.research_projects.at (i).external_personnel, 
+				 a_section_3.research_projects.at (i).start_date, 
+				 a_section_3.research_projects.at (i).end_date, 
+				 a_section_3.research_projects.at (i).source_of_financing>>)
 				execute_inertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 		end
 
-feature -- Selection queries
+feature -- Data retrieval for university administrators
 
-	check_password (username, password: STRING): STRING
-		require
-			username_not_empty: is_normal_string (username)
-			password_not_empty: is_normal_string (password)
+	get_all_publications_during_several_years (start_year, end_year: STRING): ARRAY2[STRING]
 		local
-			hash: STRING
-			reply: ARRAY [STRING]
+			query_file_name: STRING
+			args: ARRAY [STRING]
 		do
-			create reply.make_filled ("", 1, 1)
-			Result := ""
-			hash := password + password_salt
-			hash := hash.hash_code.to_hex_string
-			reply := execute_selection_query ("SELECT kind_of_user_id FROM users WHERE username == %"" + username + "%" AND password == %"" + hash + "%";")
-			if reply.is_empty then
-				Result := ""
-			elseif reply [1] ~ "1" then
-				Result := admin_alias_string
-			elseif reply [1] ~ "2" then
-				Result := head_of_unit_alias_string
-			elseif reply [1] ~ "3" then
-				Result := ui_admin_alias_string
-			end
+			query_file_name := "db/sql_queries/ua_queries/get_all_publications_during_several_years.sql"
+			-- year, year
+			create args.make_from_array (<<start_year, end_year>>)
+			Result := execute_selection_query_from_file_with_args (query_file_name, args, True)
+		end
+
+	get_all_publications_of_a_given_unit_during_several_years (start_year, end_year, unit_name: STRING): ARRAY2[STRING]
+		local
+			query_file_name: STRING
+			args: ARRAY [STRING]
+		do
+			query_file_name := "db/sql_queries/ua_queries/get_all_publications_of_a_given_unit_during_several_years.sql"
+			-- year, year
+			create args.make_from_array (<<start_year, end_year, unit_name>>)
+			Result := execute_selection_query_from_file_with_args (query_file_name, args, True)
+		end
+
+	get_courses_taught_by_unit_in_a_given_period (start_date, end_date, unit_name: STRING): ARRAY2[STRING]
+		local
+			query_file_name: STRING
+			args: ARRAY [STRING]
+		do
+			query_file_name := "db/sql_queries/ua_queries/get_courses_taught_by_unit_in_a_given_period.sql"
+			-- start_date, end_date, unit_name
+			create args.make_from_array (<<start_date, end_date, unit_name>>)
+			Result := execute_selection_query_from_file_with_args (query_file_name, args, True)
 		end
 
 feature -- Contract checkers
 
 	db_file_exist: BOOLEAN
+			-- Checks if file of db exists.
 		require
 			a_file_name_correct: is_normal_string (db_file_name)
 		do
@@ -513,26 +604,6 @@ feature -- Contract checkers
 			-- Returns if string is not void and not empty.
 		do
 			Result := a_string /= Void and not a_string.is_empty
-		end
-
-feature -- Data retrieval for university administrators
-
-	get_all_publications_of_a_given_year (year: STRING): ARRAY2[STRING]
-		local
-			query_file_name: STRING
-			args: ARRAY [STRING]
-		do
-			query_file_name := "db/sql_queries/ua_queries/get_all_publications_of_a_given_year.sql"
-			create args.make_from_array (<<year, year>>)
-			Result := execute_selection_query_from_file_with_args (query_file_name, args)
-		end
-
-	information_of_a_unit_over_several_years (unit_name: STRING; start_year: STRING; end_year: STRING): ARRAY2[STRING]
-		do
-		end
-
-	courses_taught_by_unit_between_dates (unit_name: STRING; start_date: STRING; end_date: STRING): ARRAY2[STRING]
-		do
 		end
 
 invariant

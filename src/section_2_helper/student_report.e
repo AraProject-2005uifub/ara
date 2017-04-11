@@ -14,9 +14,9 @@ feature -- Init
 
 	make_with_data (l_student_name, l_report_title, l_publication_plans: STRING)
 		require
-			student_name_not_void: student_name /= Void
-			report_title_not_void: report_title /= Void
-			publication_plans_not_void: publication_plans /= Void
+			student_name_not_void: l_student_name /= Void
+			report_title_not_void: l_report_title /= Void
+			publication_plans_not_void: l_publication_plans /= Void
 		do
 			student_name := l_student_name
 			report_title := l_report_title

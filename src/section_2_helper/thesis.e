@@ -14,12 +14,12 @@ feature -- Init
 
 	make_with_data (l_student_name, l_degree, l_supervisor_name, l_other, l_institute, l_title: STRING)
 		require
-			student_name_not_void: student_name /= Void
-			degree_not_void: degree /= Void
-			supervisor_name_not_void: supervisor_name /= Void
-			other_not_void: other /= Void
-			institute_not_void: institute /= Void
-			title_not_void: title /= Void
+			student_name_not_void: l_student_name /= Void
+			degree_not_void: l_degree /= Void
+			supervisor_name_not_void: l_supervisor_name /= Void
+			other_not_void: l_other /= Void
+			institute_not_void: l_institute /= Void
+			title_not_void: l_title /= Void
 		do
 			student_name := l_student_name
 			degree := l_degree
