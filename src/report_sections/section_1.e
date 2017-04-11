@@ -13,6 +13,10 @@ feature {NONE} -- Initialization
 	make (cursor: ITERATION_CURSOR [WSF_VALUE]; cookie: STRING)
 			-- Iterates through a given cursor to get and fill
 			-- some fields of the class.
+		require
+			cursor_not_void: cursor /= Void
+			cookie_not_void: cookie /= Void
+			cookie_not_empty: not (cookie ~ "")
 		do
 			head_of_unit_cookie := cookie
 			name_of_unit := cursor.item.string_representation
@@ -22,6 +26,11 @@ feature {NONE} -- Initialization
 			start_of_period := cursor.item.string_representation
 			cursor.forth
 			end_of_period := cursor.item.string_representation
+		ensure
+			cookie_set: head_of_unit_cookie = cookie
+			name_of_unit_set: name_of_unit /= old name_of_unit
+			start_of_period_set: start_of_period /= old start_of_period
+			end_of_period_set: end_of_period /= old end_of_period
 		end
 
 
