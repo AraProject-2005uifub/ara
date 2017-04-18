@@ -13,7 +13,7 @@ VALUES (
 	(SELECT username FROM users WHERE cookie == "$")
 );
 --|
-INSERT INTO reports (
+INSERT or IGNORE INTO reports (
 	unit_id, 
 	start_of_period, 
 	end_of_period, 
