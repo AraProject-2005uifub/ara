@@ -96,10 +96,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -112,10 +114,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -128,10 +132,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -142,10 +148,12 @@ feature -- Execution
 							create html_page.make_html ("www/report_research.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -156,10 +164,12 @@ feature -- Execution
 							create html_page.make_html ("www/report_successful.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -170,10 +180,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_main.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -184,10 +196,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_courses.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -198,10 +212,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_information.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -212,10 +228,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_publications.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end

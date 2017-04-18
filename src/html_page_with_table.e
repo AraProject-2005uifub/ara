@@ -1,6 +1,4 @@
 note
-	description: "Class makes an HTML page with table(s).
-	It is not commented and cheched well, so it would be better."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
