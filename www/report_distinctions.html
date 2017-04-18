@@ -17,7 +17,7 @@
 
         <div class="panel-body">
 
-          <form action="/report_outside_activities/" method="POST" role="form">
+          <form action="/report_distinctions/" method="POST" role="form">
 
             <label for="award"><p>Paper awards:</p></label>
             <button type="button" class="btn btn-sm btn-default" onclick="removeAward()" style="float: right">Remove article</button>
@@ -78,17 +78,19 @@
     var award = document.getElementById("award").innerHTML;
     awardIter++;
     award = award.replace(/award/, "award" + awardIter);
-    award = award.replace(/author/g, "author1" + awardIter);
-    award = award.replace(/title/g, "title" + awardIter);
-    award = award.replace(/conference/g, "conference" + awardIter);
-    award = award.replace(/wording/g, "wording" + awardIter);
-    award = award.replace(/date_info/g, "date_info" + awardIter);
+    award = award.replace(/author/, "author1" + awardIter);
+    award = award.replace(/title/, "title" + awardIter);
+    award = award.replace(/conference/, "conference" + awardIter);
+    award = award.replace(/wording/, "wording" + awardIter);
+    award = award.replace(/date_info/, "date_info" + awardIter);
     $("#awards").append(award);
   }
 
   function removeAward() {
-    $("#award" + awardIter).remove();
-    awardIter--;
+    if (awardIter > 1) {
+      $("#award" + awardIter).remove();
+      awardIter--;
+    }
   }
 
   function addMembership() {
@@ -101,8 +103,10 @@
   }
 
   function removeMembership() {
-    $("#membership" + membershipIter).remove();
-    membershipIter--;
+    if (membershipIter > 1) {
+      $("#membership" + membershipIter).remove();
+      membershipIter--;
+    }
   }
 
   function addPrize() {
@@ -117,8 +121,10 @@
   }
 
   function removePrize() {
-    $("#prize" + prizeIter).remove();
-    prizeIter--;
+    if (prizeIter > 1) {
+      $("#prize" + prizeIter).remove();
+      prizeIter--;
+    }
   }
 
 </script>
