@@ -319,6 +319,8 @@ CREATE TABLE "publications" (
 
 "title" TEXT NOT NULL,
 
+"date" TEXT NOT NULL,
+
 "kind_of_publication_id" INTEGER NOT NULL,
 
 PRIMARY KEY ("id") ,
