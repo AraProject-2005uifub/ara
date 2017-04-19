@@ -51,7 +51,7 @@ feature -- Init
 				date := cursor.item.string_representation
 				cursor.forth
 				create membership.make_with_data (name, date)
-				memberships.force (membersip, i)
+				memberships.force (membership, i)
 				i := i + 1
 			end
 			create prizes.make_empty
