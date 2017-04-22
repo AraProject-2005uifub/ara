@@ -400,7 +400,7 @@ feature -- Execution
 					response.redirect_now ("/report_distinctions/")
 				elseif request.path_info.same_string ("/report_distinctions/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
-						create report_disctinctions.make (request.form_parameters.new_cursor, session.string_representation)
+						create report_distinctions.make (request.form_parameters.new_cursor, session.string_representation)
 					end
 					-- db.add_section_3(report_research)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
