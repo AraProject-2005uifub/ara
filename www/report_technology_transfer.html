@@ -18,7 +18,7 @@
 
         <div class="panel-body">
 
-          <form action="/report_distinctions/" method="POST" role="form">
+          <form action="/report_technology_transfer/" method="POST" role="form">
 
             <label for="Patents"><p>Patents:</p></label>
             <button type="button" class="btn btn-sm btn-default" onclick="removePatent()" style="float: right">Remove patent</button>
@@ -64,8 +64,10 @@
   }
 
   function removePatent() {
-    $("#patent" + patentIter).remove();
-    patentIter--;
+    if (patentIter > 1) {
+      $("#patent" + patentIter).remove();
+      patentIter--;
+    }
   }
 
   function addLicense() {
@@ -77,8 +79,10 @@
   }
 
   function removeLicense() {
-    $("#license" + licenseIter).remove();
-    licenseIter--;
+    if (licenseIter > 1) {
+      $("#license" + licenseIter).remove();
+      licenseIter--;
+    }
   }
 
 </script>

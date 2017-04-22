@@ -40,6 +40,10 @@ feature -- Execution
 			report_general: SECTION_1
 			report_teaching: SECTION_2
 			report_research: SECTION_3
+			report_technology_transfer: SECTION_4
+			report_distinctions: SECTION_5
+			report_outside_activities: SECTION_6
+			report_other: SECTION_7
 			data_table: ARRAY2[STRING]
 		do
 			if request.is_get_request_method then
@@ -96,10 +100,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -112,10 +118,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -128,10 +136,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -142,10 +152,76 @@ feature -- Execution
 							create html_page.make_html ("www/report_research.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_technology_transfer/") or request.path_info.same_string ("/report_technology_transfer") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_technology_transfer.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_disctinctions/") or request.path_info.same_string ("/report_distinctions") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_distinctions.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_outside_activities/") or request.path_info.same_string ("/report_outside_activities") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_outside_activities.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_other/") or request.path_info.same_string ("/report_other") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_other.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -156,10 +232,12 @@ feature -- Execution
 							create html_page.make_html ("www/report_successful.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -170,10 +248,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_main.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -184,10 +264,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_courses.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -198,10 +280,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_information.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -212,10 +296,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_publications.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -303,8 +389,36 @@ feature -- Execution
 						create report_research.make (request.form_parameters.new_cursor, session.string_representation)
 					end
 					db.add_section_3(report_research)
-          response.set_status_code ({HTTP_STATUS_CODE}.found)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_technology_transfer/")
+				elseif request.path_info.same_string ("/report_technology_transfer/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_technology_transfer.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					-- db.add_section_3(report_research)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_distinctions/")
+				elseif request.path_info.same_string ("/report_distinctions/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_distinctions.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					-- db.add_section_3(report_research)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_outside_activities/")
+				elseif request.path_info.same_string ("/report_outside_activities/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_outside_activities.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					-- db.add_section_3(report_research)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_successful/")
+				elseif request.path_info.same_string ("/report_other/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_outside_activities.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					-- db.add_section_3(report_research)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_other/")
 				elseif request.path_info.same_string ("/admin_choose/") then
 					if attached {WSF_VALUE}request.form_parameter ("query") as query then
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
