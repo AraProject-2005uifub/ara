@@ -17,15 +17,22 @@ feature {NONE} -- Initialization
 			cursor_not_void: cursor /= Void
 			cookie_not_void: cookie /= Void
 			cookie_not_empty: not (cookie ~ "")
+		local
+			start_year, end_year: INTEGER
 		do
 			head_of_unit_cookie := cookie
 			name_of_unit := cursor.item.string_representation
 			cursor.forth
 			name_of_head_of_unit := cursor.item.string_representation
 			cursor.forth
-			start_of_period := cursor.item.string_representation
-			cursor.forth
-			end_of_period := cursor.item.string_representation
+
+			-- Start of period is assuming from YYYY-08-15, as it is a date
+			-- of starting of the student's year in Innopolis university.
+			-- End of period is 1 year ahead, minus 1 day, to avoid overlapping.
+			start_year := cursor.item.string_representation.to_integer
+			end_year := start_year + 1
+			start_of_period := start_year.out + "-08-15"
+			end_of_period := end_year.out + "-08-14"
 		ensure
 			cookie_set: head_of_unit_cookie = cookie
 			name_of_unit_set: name_of_unit /= old name_of_unit

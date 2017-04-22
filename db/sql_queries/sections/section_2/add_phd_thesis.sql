@@ -22,7 +22,7 @@ VALUES (
 	(SELECT unit_id FROM reports WHERE id == "$")
 );
 --|
-INSERT INTO organizations (
+INSERT OR IGNORE INTO organizations (
 	name,
 	type_id
 )
@@ -31,7 +31,7 @@ VALUES (
 	(SELECT id FROM organization_types WHERE name = "University")
 );
 --|
-INSERT INTO degrees (
+INSERT OR IGNORE INTO degrees (
 	name
 )
 VALUES (

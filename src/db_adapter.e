@@ -103,7 +103,7 @@ feature {NONE} -- Implementation
 			execute_insertion_query (query)
 		end
 
-	execute_selection_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING]; 
+	execute_selection_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING];
 		get_column_names: BOOLEAN): ARRAY2 [STRING]
 			-- Executes selection query from file, replasing the placeholders ($)
 			-- with arguments.
@@ -127,7 +127,7 @@ feature {NONE} -- Implementation
 			Result := execute_selection_query (query, get_column_names)
 		end
 
-	execute_inertion_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING])
+	execute_insertion_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING])
 			-- Executes insertion query from file, replasing the placeholders ($)
 			-- with arguments.
 		require
@@ -204,7 +204,7 @@ feature {NONE} -- Implementation
 		end
 
 	separate_and_execute_insertion_query (query: STRING)
-			-- Separates file on several inertion queries, if needed,
+			-- Separates file on several insertion queries, if needed,
 			-- before execution"
 		require
 			query_not_empty_and_attached: is_normal_string (query)
@@ -262,7 +262,7 @@ feature -- Insertion queries
 		do
 			query_file_name := sql_queries_path + "add_or_change_password_admin.sql"
 			create args.make_from_array (<<name, username, hash_password (password)>>)
-			execute_inertion_query_from_file_with_args (query_file_name, args)
+			execute_insertion_query_from_file_with_args (query_file_name, args)
 		end
 
 	add_university_admin (name: STRING; username: STRING; password: STRING)
@@ -272,7 +272,7 @@ feature -- Insertion queries
 		do
 			query_file_name := sql_queries_path + "add_or_change_password_university_admin.sql"
 			create args.make_from_array (<<name, username, hash_password (password)>>)
-			execute_inertion_query_from_file_with_args (query_file_name, args)
+			execute_insertion_query_from_file_with_args (query_file_name, args)
 		end
 
 	add_head_of_unit (name, username, password: STRING)
@@ -282,7 +282,7 @@ feature -- Insertion queries
 		do
 			query_file_name := sql_queries_path + "add_or_change_password_head_of_unit.sql"
 			create args.make_from_array (<<name, name, username, hash_password (password), name>>)
-			execute_inertion_query_from_file_with_args (query_file_name, args)
+			execute_insertion_query_from_file_with_args (query_file_name, args)
 		end
 
 feature -- User session
@@ -358,10 +358,10 @@ feature -- Report fill
 				-- name_of_unit, head_of_unit_cookie,
 				-- name_of_unit, start_of_period,
 				-- end_of_period, head_of_unit_cookie
-			create args.make_from_array (<<a_section_1.name_of_unit, a_section_1.head_of_unit_cookie, 
-				a_section_1.name_of_unit, a_section_1.start_of_period, 
+			create args.make_from_array (<<a_section_1.name_of_unit, a_section_1.head_of_unit_cookie,
+				a_section_1.name_of_unit, a_section_1.start_of_period,
 				a_section_1.end_of_period, a_section_1.head_of_unit_cookie>>)
-			execute_inertion_query_from_file_with_args (query_file_name, args)
+			execute_insertion_query_from_file_with_args (query_file_name, args)
 		end
 
 	add_section_2 (a_section_2: SECTION_2)
@@ -377,6 +377,11 @@ feature -- Report fill
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_2.head_of_unit_cookie>>)
 			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
+
+			query_file_name := "db/sql_queries/sections/section_2/clear_section_2.sql"
+			create args.make_from_array (<<report_id, report_id, report_id, report_id, report_id>>)
+			execute_insertion_query_from_file_with_args(query_file_name, args)
+
 			query_file_name := "db/sql_queries/sections/section_2/add_course_taught.sql"
 				-- report_id, name_of_course,
 				-- semester, level, num_of_students
@@ -385,10 +390,10 @@ feature -- Report fill
 			until
 				i > a_section_2.courses.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_2.courses.at (i).course_name, 
-					a_section_2.courses.at (i).semester, a_section_2.courses.at (i).level, 
+				create args.make_from_array (<<report_id, a_section_2.courses.at (i).course_name,
+					a_section_2.courses.at (i).semester, a_section_2.courses.at (i).level,
 					a_section_2.courses.at (i).number_of_students>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_2/add_examination.sql"
@@ -399,11 +404,11 @@ feature -- Report fill
 			until
 				i > a_section_2.examinations.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_2.examinations.at (i).course_name, 
-					a_section_2.examinations.at (i).semester, 
-					a_section_2.examinations.at (i).kind_of_exam, 
+				create args.make_from_array (<<report_id, a_section_2.examinations.at (i).course_name,
+					a_section_2.examinations.at (i).semester,
+					a_section_2.examinations.at (i).kind_of_exam,
 					a_section_2.examinations.at (i).number_of_students>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_2/add_phd_thesis.sql"
@@ -417,13 +422,13 @@ feature -- Report fill
 			until
 				i > a_section_2.theses.upper
 			loop
-				create args.make_from_array (<<a_section_2.theses.at (i).student_name, 
-					a_section_2.theses.at (i).supervisor_name, report_id, 
-					a_section_2.theses.at (i).institute, a_section_2.theses.at (i).degree, 
-					report_id, a_section_2.theses.at (i).student_name, a_section_2.theses.at (i).title, 
-					a_section_2.theses.at (i).degree, a_section_2.theses.at (i).supervisor_name, 
+				create args.make_from_array (<<a_section_2.theses.at (i).student_name,
+					a_section_2.theses.at (i).supervisor_name, report_id,
+					a_section_2.theses.at (i).institute, a_section_2.theses.at (i).degree,
+					report_id, a_section_2.theses.at (i).student_name, a_section_2.theses.at (i).title,
+					a_section_2.theses.at (i).degree, a_section_2.theses.at (i).supervisor_name,
 					a_section_2.theses.at (i).institute>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_2/add_student_report.sql"
@@ -434,11 +439,11 @@ feature -- Report fill
 			until
 				i > a_section_2.students_reports.upper
 			loop
-				create args.make_from_array (<<a_section_2.students_reports.at (i).student_name, 
-					report_id, a_section_2.students_reports.at (i).student_name, 
-					a_section_2.students_reports.at (i).report_title, 
+				create args.make_from_array (<<a_section_2.students_reports.at (i).student_name,
+					report_id, a_section_2.students_reports.at (i).student_name,
+					a_section_2.students_reports.at (i).report_title,
 					a_section_2.students_reports.at (i).publication_plans>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_2/add_student_supervised.sql"
@@ -449,10 +454,10 @@ feature -- Report fill
 			until
 				i > a_section_2.students.upper
 			loop
-				create args.make_from_array (<<a_section_2.students.at (i).student_name, report_id, 
-					a_section_2.students.at (i).student_name, 
+				create args.make_from_array (<<a_section_2.students.at (i).student_name, report_id,
+					a_section_2.students.at (i).student_name,
 					a_section_2.students.at (i).nature_of_work>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 		end
@@ -470,6 +475,11 @@ feature -- Report fill
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_3.head_of_unit_cookie>>)
 			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
+
+			query_file_name := "db/sql_queries/sections/section_3/clear_section_3.sql"
+			create args.make_from_array (<<report_id, report_id, report_id, report_id>>)
+			execute_insertion_query_from_file_with_args(query_file_name, args)
+
 			query_file_name := "db/sql_queries/sections/section_3/add_conference_publication.sql"
 				-- report_id, title
 			from
@@ -477,8 +487,10 @@ feature -- Report fill
 			until
 				i > a_section_3.conference_publications.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_3.conference_publications.at (i)>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				create args.make_from_array (<<report_id,
+				a_section_3.conference_publications.at (i).publication,
+				a_section_3.conference_publications.at (i).date>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_3/add_journal_publication.sql"
@@ -488,8 +500,10 @@ feature -- Report fill
 			until
 				i > a_section_3.journal_publications.upper
 			loop
-				create args.make_from_array (<<report_id, a_section_3.journal_publications.at (i)>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				create args.make_from_array (<<report_id, 
+					a_section_3.journal_publications.at (i).publication,
+				a_section_3.journal_publications.at (i).date>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_3/add_grant.sql"
@@ -504,15 +518,15 @@ feature -- Report fill
 			until
 				i > a_section_3.grants.upper
 			loop
-				create args.make_from_array (<<a_section_3.grants.at (i).granting_agency, 
-					report_id, a_section_3.grants.at (i).project_title, 
-					a_section_3.grants.at (i).granting_agency, 
-					a_section_3.grants.at (i).grant_period_start, 
-					a_section_3.grants.at (i).grant_period_end, 
-					a_section_3.grants.at (i).grant_continuation, 
-					a_section_3.grants.at (i).grant_amount, report_id, 
+				create args.make_from_array (<<a_section_3.grants.at (i).granting_agency,
+					report_id, a_section_3.grants.at (i).project_title,
+					a_section_3.grants.at (i).granting_agency,
+					a_section_3.grants.at (i).grant_period_start,
+					a_section_3.grants.at (i).grant_period_end,
+					a_section_3.grants.at (i).grant_continuation,
+					a_section_3.grants.at (i).grant_amount, report_id,
 					a_section_3.grants.at (i).project_title>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_3/add_research_collaboration.sql"
@@ -526,12 +540,12 @@ feature -- Report fill
 			until
 				i > a_section_3.research_collaborations.upper
 			loop
-				create args.make_from_array (<<a_section_3.research_collaborations.at (i).country, 
-					a_section_3.research_collaborations.at (i).institution_name, 
-					report_id, a_section_3.research_collaborations.at (i).country, 
-					a_section_3.research_collaborations.at (i).institution_name, 
+				create args.make_from_array (<<a_section_3.research_collaborations.at (i).country,
+					a_section_3.research_collaborations.at (i).institution_name,
+					report_id, a_section_3.research_collaborations.at (i).country,
+					a_section_3.research_collaborations.at (i).institution_name,
 					a_section_3.research_collaborations.at (i).contacts>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 			query_file_name := "db/sql_queries/sections/section_3/add_research_project.sql"
@@ -545,12 +559,12 @@ feature -- Report fill
 				i > a_section_3.research_projects.upper
 			loop
 				create args.make_from_array (<<report_id, a_section_3.research_projects.at (i).project_title,
-				 a_section_3.research_projects.at (i).inno_personnel_involved, 
-				 a_section_3.research_projects.at (i).external_personnel, 
-				 a_section_3.research_projects.at (i).start_date, 
-				 a_section_3.research_projects.at (i).end_date, 
+				 a_section_3.research_projects.at (i).inno_personnel_involved,
+				 a_section_3.research_projects.at (i).external_personnel,
+				 a_section_3.research_projects.at (i).start_date,
+				 a_section_3.research_projects.at (i).end_date,
 				 a_section_3.research_projects.at (i).source_of_financing>>)
-				execute_inertion_query_from_file_with_args (query_file_name, args)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
 				i := i + 1
 			end
 		end

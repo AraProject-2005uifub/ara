@@ -58,7 +58,7 @@ CREATE TABLE "degrees" (
 
 "id" INTEGER NOT NULL,
 
-"name" TEXT NOT NULL,
+"name" TEXT UNIQUE NOT NULL,
 
 PRIMARY KEY ("id") 
 
@@ -225,7 +225,7 @@ CREATE TABLE "organizations" (
 
 "id" INTEGER NOT NULL,
 
-"name" TEXT NOT NULL,
+"name" TEXT UNIQUE NOT NULL,
 
 "type_id" INTEGER NOT NULL,
 
@@ -265,7 +265,7 @@ CREATE TABLE "phd_theses" (
 
 "student_id" INTEGER NOT NULL,
 
-"title" TEXT NOT NULL,
+"title" TEXT UNIQUE NOT NULL,
 
 "degree_id" INTEGER NOT NULL,
 
@@ -318,6 +318,8 @@ CREATE TABLE "publications" (
 "report_id" INTEGER NOT NULL,
 
 "title" TEXT NOT NULL,
+
+"date" TEXT NOT NULL,
 
 "kind_of_publication_id" INTEGER NOT NULL,
 
