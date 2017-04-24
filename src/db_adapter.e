@@ -103,6 +103,17 @@ feature {NONE} -- Implementation
 			execute_insertion_query (query)
 		end
 
+	execute_selection_query_from_file (a_file_name: STRING; get_column_names: BOOLEAN): ARRAY2 [STRING]
+		require
+			a_file_name_not_empty: is_normal_string (a_file_name)
+		local
+			query: STRING
+			i, r: INTEGER
+		do
+			query := read_whole_file (a_file_name)
+			Result := execute_selection_query (query, get_column_names)
+		end
+
 	execute_selection_query_from_file_with_args (a_file_name: STRING; args: ARRAY [STRING];
 		get_column_names: BOOLEAN): ARRAY2 [STRING]
 			-- Executes selection query from file, replasing the placeholders ($)
@@ -610,7 +621,7 @@ feature -- Data retrieval for university administrators
 			args: ARRAY [STRING]
 		do
 			query_file_name := "db/sql_queries/ua_queries/get_number_of_supervised_students_by_laboratories.sql"
-			Result := execute_selection_query_from_file (query_file_name)
+			Result := execute_selection_query_from_file (query_file_name, True)
 		end
 
 	get_number_of_research_collaboration: ARRAY2[STRING]
@@ -619,7 +630,7 @@ feature -- Data retrieval for university administrators
 			args: ARRAY [STRING]
 		do
 			query_file_name := "db/sql_queries/ua_queries/get_number_of_research_collaboration.sql"
-			Result := execute_selection_query_from_file (query_file_name)
+			Result := execute_selection_query_from_file (query_file_name, True)
 		end
 
 	get_patents_got_by_all_units_during_given_period(start_date, end_date: STRING): ARRAY2[STRING]
@@ -639,7 +650,7 @@ feature -- Data retrieval for university administrators
 			args: ARRAY [STRING]
 		do
 			query_file_name := "db/sql_queries/ua_queries/get_information_about_industrial_collaboration.sql"
-			Result := execute_selection_query_from_file (query_file_name)
+			Result := execute_selection_query_from_file (query_file_name, True)
 		end
 
 
