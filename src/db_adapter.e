@@ -500,7 +500,7 @@ feature -- Report fill
 			until
 				i > a_section_3.journal_publications.upper
 			loop
-				create args.make_from_array (<<report_id, 
+				create args.make_from_array (<<report_id,
 					a_section_3.journal_publications.at (i).publication,
 				a_section_3.journal_publications.at (i).date>>)
 				execute_insertion_query_from_file_with_args (query_file_name, args)
@@ -610,7 +610,7 @@ feature -- Data retrieval for university administrators
 			args: ARRAY [STRING]
 		do
 			query_file_name := "db/sql_queries/ua_queries/get_number_of_supervised_students_by_laboratories.sql"
-			Result := execute_selection_query_from_files (query_file_name)
+			Result := execute_selection_query_from_file (query_file_name)
 		end
 
 	get_number_of_research_collaboration: ARRAY2[STRING]
@@ -619,7 +619,7 @@ feature -- Data retrieval for university administrators
 			args: ARRAY [STRING]
 		do
 			query_file_name := "db/sql_queries/ua_queries/get_number_of_research_collaboration.sql"
-			Result := execute_selection_query_from_files (query_file_name)
+			Result := execute_selection_query_from_file (query_file_name)
 		end
 
 	get_patents_got_by_all_units_during_given_period(start_date, end_date: STRING): ARRAY2[STRING]
@@ -633,15 +633,13 @@ feature -- Data retrieval for university administrators
 			Result := execute_selection_query_from_file_with_args (query_file_name, args, True)
 		end
 
-	get_information_about_industrial_collaboration(industrial_collaboration: STRING): ARRAY2[STRING]
+	get_information_about_industrial_collaboration: ARRAY2[STRING]
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
 		do
 			query_file_name := "db/sql_queries/ua_queries/get_information_about_industrial_collaboration.sql"
-			-- industrial_collaboration
-			create args.make_from_array (<<industrial_collaboration>>)
-			Result := execute_selection_query_from_file_with_args (query_file_name, args, True)
+			Result := execute_selection_query_from_file (query_file_name)
 		end
 
 

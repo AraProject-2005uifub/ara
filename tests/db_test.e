@@ -94,9 +94,40 @@ feature -- Test routines
 			a:ARRAY2[STRING]
 		do
 			create db.init_if_need_or_open
-			a := db.get_courses_taught_by_unit_in_a_given_period("2000", "2099", "asqwe")
+			a := db.get_courses_taught_by_unit_in_a_given_period("2000", "2099", "unit")
 		end
 
+	get_number_of_supervised_students_by_laboratories_test
+		local
+			a:ARRAY2[STRING]
+		do
+			create db.init_if_need_or_open
+			a := db.get_number_of_supervised_students_by_laboratories
+		end
+
+	get_number_of_research_collaboration_test
+		local
+			a:ARRAY2[STRING]
+		do
+			create db.init_if_need_or_open
+			a := db.get_number_of_research_collaboration
+		end
+
+	get_patents_got_by_all_units_during_given_period_test
+		local
+			a:ARRAY2[STRING]
+		do
+			create db.init_if_need_or_open
+			a := db.get_patents_got_by_all_units_during_given_period("2000", "2099")
+		end
+
+	get_information_about_industrial_collaboration_test
+		local
+			a:ARRAY2[STRING]
+		do
+			create db.init_if_need_or_open
+			a := db.get_information_about_industrial_collaboration
+		end
 
 
 
