@@ -24,7 +24,7 @@ feature -- Test routines
 
 	course_create_test
 		do
-			create course.make_with_data("a", "b", "c", "d")
+			create course.make_with_data("a", "b", "c", "1")
 		end
 
 	exam_create_test

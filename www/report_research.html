@@ -92,7 +92,7 @@
 
           <p>&nbsp;</p>
 
-          <button type="next" class="btn btn-sm btn-primary" style="float: right">Submit</button>
+          <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
         </div>
       </div>
     </div>
@@ -149,7 +149,7 @@
     resCol = resCol.replace(/resCol/, "resCol" + collaborationIter);
     resCol = resCol.replace(/country/g, "country" + collaborationIter);
     resCol = resCol.replace(/institution_name/g, "institution_name" + collaborationIter);
-    resCol = resCol.replace(/contacts/g, "contacts" + collaborationIter);
+    resCol = resCol.replace(/contacts/, "contacts" + collaborationIter);
     resCol = resCol.replace(/nature/g, "nature" + collaborationIter);
     $("#resCols").append(resCol);
   }

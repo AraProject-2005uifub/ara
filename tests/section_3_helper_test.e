@@ -23,12 +23,12 @@ feature -- Test routines
 
 	grant_create_test
 		do
-			create grant.make_with_data ("a,", "b", "c", "d", "e", "1")
+			create grant.make_with_data ("a,", "b", "2016-12-12", "2016-12-12", "e", "1")
 		end
 
 	publications_create_test
 		do
-			create publications.make_with_data ("a", "c")
+			create publications.make_with_data ("a", "2016-12-12")
 		end
 
 	research_collaboration_create_test
@@ -38,7 +38,7 @@ feature -- Test routines
 
 	research_project_create_test
 		do
-			create research_project.make_with_data ("a", "b", "c", "d", "e", "f")
+			create research_project.make_with_data ("a", "b", "c", "2016-12-12", "2016-12-12", "f")
 		end
 
 end

@@ -36,19 +36,19 @@ feature -- Test routines
 	db_add_admin_test
 		do
 			create db.init_if_need_or_open
-			db.add_admin ("dsaffsd", "dsaffsd", "dsaffsd")
+			db.add_admin ("new_admin", "new_admin", "new_admin")
 		end
 
 	db_add_university_admin_test
 		do
 			create db.init_if_need_or_open
-			db.add_university_admin ("dasda", "dsaffsd", "dsaffsd")
+			db.add_university_admin ("new_ua", "new_ua", "new_ua")
 		end
 
 	db_add_head_of_unit_test
 		do
 			create db.init_if_need_or_open
-			db.add_head_of_unit ("test", "test", "test")
+			db.add_head_of_unit ("new_head", "new_head", "new_head")
 		end
 
 	update_cookie_test
@@ -128,10 +128,6 @@ feature -- Test routines
 			create db.init_if_need_or_open
 			a := db.get_information_about_industrial_collaboration
 		end
-
-
-
-
 end
 
 
