@@ -74,7 +74,7 @@
     var license = document.getElementById("license").innerHTML;
     licenseIter++;
     license = license.replace(/license/, "license" + licenseIter);
-    license = license.replace(/license_info/, "license_info" + licenseIter);
+    license = license.replace(/license_info/g, "license_info" + licenseIter);
     $("#licenses").append(license);
   }
 

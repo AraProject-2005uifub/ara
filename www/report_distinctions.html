@@ -78,11 +78,11 @@
     var award = document.getElementById("award").innerHTML;
     awardIter++;
     award = award.replace(/award/, "award" + awardIter);
-    award = award.replace(/author/, "author1" + awardIter);
-    award = award.replace(/title/, "title" + awardIter);
-    award = award.replace(/conference/, "conference" + awardIter);
-    award = award.replace(/wording/, "wording" + awardIter);
-    award = award.replace(/date_info/, "date_info" + awardIter);
+    award = award.replace(/author/g, "author" + awardIter);
+    award = award.replace(/title/g, "title" + awardIter);
+    award = award.replace(/conference/g, "conference" + awardIter);
+    award = award.replace(/wording/g, "wording" + awardIter);
+    award = award.replace(/date_info/g, "date_info" + awardIter);
     $("#awards").append(award);
   }
 
@@ -97,8 +97,8 @@
     var membership = document.getElementById("membership").innerHTML;
     membershipIter++;
     membership = membership.replace(/membership/, "membership" + membershipIter);
-    membership = membership.replace(/member_name/, "member_name" + membershipIter);
-    membership = membership.replace(/date_info/, "m_date_info" + membershipIter);
+    membership = membership.replace(/member_name/g, "member_name" + membershipIter);
+    membership = membership.replace(/date_info/g, "m_date_info" + membershipIter);
     $("#memberships").append(membership);
   }
 
@@ -113,10 +113,10 @@
     var prize = document.getElementById("prize").innerHTML;
     prizeIter++;
     prize = prize.replace(/prize/, "prize" + prizeIter);
-    prize = prize.replace(/recepient/, "recepient" + prizeIter);
-    prize = prize.replace(/prize_name/, "prize_name" + prizeIter);
-    prize = prize.replace(/institution/, "institution" + prizeIter);
-    prize = prize.replace(/date_info/, "p_date_info" + prizeIter);
+    prize = prize.replace(/recepient/g, "recepient" + prizeIter);
+    prize = prize.replace(/prize_name/g, "prize_name" + prizeIter);
+    prize = prize.replace(/institution/g, "institution" + prizeIter);
+    prize = prize.replace(/date_info/g, "p_date_info" + prizeIter);
     $("#prizes").append(prize);
   }
 

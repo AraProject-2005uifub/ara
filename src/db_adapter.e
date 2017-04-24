@@ -580,6 +580,181 @@ feature -- Report fill
 			end
 		end
 
+	add_section_4 (a_section_4: SECTION_4)
+			-- Writes info from the argument into the database.
+		require
+			a_section_4_not_void: a_section_4 /= Void
+		local
+			query_file_name, report_id: STRING
+			args: ARRAY [STRING]
+			i: INTEGER
+		do
+			query_file_name := "db/sql_queries/get_report_id.sql"
+				-- head_of_unit_cookie
+			create args.make_from_array (<<a_section_4.head_of_unit_cookie>>)
+			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
+
+			query_file_name := "db/sql_queries/sections/section_4/clear_section_4.sql"
+			create args.make_from_array (<<report_id, report_id>>)
+			execute_insertion_query_from_file_with_args(query_file_name, args)
+
+			query_file_name := "db/sql_queries/sections/section_4/add_ip_licensing.sql"
+				-- report_id, ip_licensing
+			from
+				i := a_section_4.licenses.lower
+			until
+				i > a_section_4.licenses.upper
+			loop
+				create args.make_from_array (<<report_id,
+				a_section_4.licenses.at (i)>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+			end
+
+			query_file_name := "db/sql_queries/sections/section_4/add_patent.sql"
+				-- country_name, report_id,
+				-- description, country_name
+			from
+				i := a_section_4.patents.lower
+			until
+				i > a_section_4.patents.upper
+			loop
+				create args.make_from_array (<<a_section_4.patents.at (i).country,
+				report_id, a_section_4.patents.at (i).description,
+				a_section_4.patents.at (i).country>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+			end
+		end
+
+	add_section_5 (a_section_5: SECTION_5)
+			-- Writes info from the argument into the database.
+		require
+			a_section_5_not_void: a_section_5 /= Void
+		local
+			query_file_name, report_id: STRING
+			args: ARRAY [STRING]
+			i: INTEGER
+		do
+			query_file_name := "db/sql_queries/get_report_id.sql"
+				-- head_of_unit_cookie
+			create args.make_from_array (<<a_section_5.head_of_unit_cookie>>)
+			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
+
+			query_file_name := "db/sql_queries/sections/section_5/clear_section_5.sql"
+			create args.make_from_array (<<report_id, report_id, report_id>>)
+			execute_insertion_query_from_file_with_args(query_file_name, args)
+
+			query_file_name := "db/sql_queries/sections/section_5/add_best_paper_award.sql"
+				-- report_id, author, article_title,
+				-- wording, awarding_organization, date
+			from
+				i := a_section_5.paper_awards.lower
+			until
+				i > a_section_5.paper_awards.upper
+			loop
+				create args.make_from_array (<<report_id,
+				a_section_5.paper_awards.at (i).author,
+				a_section_5.paper_awards.at (i).title,
+				a_section_5.paper_awards.at (i).wording,
+				a_section_5.paper_awards.at (i).conference,
+				a_section_5.paper_awards.at (i).date>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+			end
+
+			query_file_name := "db/sql_queries/sections/section_5/add_membership.sql"
+				-- report_id, name, date
+			from
+				i := a_section_5.memberships.lower
+			until
+				i > a_section_5.memberships.upper
+			loop
+				create args.make_from_array (<<report_id,
+				a_section_5.memberships.at (i).name,
+				a_section_5.memberships.at (i).date>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+			end
+
+			query_file_name := "db/sql_queries/sections/section_5/add_prize.sql"
+				-- recipient, report_id, recipient,
+				-- title, granting_institution, date
+			from
+				i := a_section_5.prizes.lower
+			until
+				i > a_section_5.prizes.upper
+			loop
+				create args.make_from_array (<<
+				a_section_5.prizes.at (i).recepient, report_id,
+				a_section_5.prizes.at (i).recepient,
+				a_section_5.prizes.at (i).name,
+				a_section_5.prizes.at (i).granting_institution,
+				a_section_5.prizes.at (i).date>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+			end
+		end
+
+	add_section_6 (a_section_6: SECTION_6)
+			-- Writes info from the argument into the database.
+		require
+			a_section_6_not_void: a_section_6 /= Void
+		local
+			query_file_name, report_id: STRING
+			args: ARRAY [STRING]
+			i: INTEGER
+		do
+			query_file_name := "db/sql_queries/get_report_id.sql"
+				-- head_of_unit_cookie
+			create args.make_from_array (<<a_section_6.head_of_unit_cookie>>)
+			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
+
+			query_file_name := "db/sql_queries/sections/section_6/clear_section_6.sql"
+			create args.make_from_array (<<report_id, report_id, report_id>>)
+			execute_insertion_query_from_file_with_args(query_file_name, args)
+
+			query_file_name := "db/sql_queries/sections/section_6/add_industry_collaboration.sql"
+				-- report_id, company_name,
+				-- nature_of_collaboration
+			from
+				i := a_section_6.collaborations.lower
+			until
+				i > a_section_6.collaborations.upper
+			loop
+				create args.make_from_array (<<report_id,
+				a_section_6.collaborations.at (i).company,
+				a_section_6.collaborations.at (i).nature>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+			end
+
+		end
+
+		add_section_7 (a_section_7: SECTION_7)
+			-- Writes info from the argument into the database.
+		require
+			a_section_7_not_void: a_section_7 /= Void
+		local
+			query_file_name, report_id: STRING
+			args: ARRAY [STRING]
+			i: INTEGER
+		do
+			query_file_name := "db/sql_queries/get_report_id.sql"
+				-- head_of_unit_cookie
+			create args.make_from_array (<<a_section_7.head_of_unit_cookie>>)
+			report_id := execute_selection_query_from_file_with_args (query_file_name, args, False).item (1, 1)
+
+			query_file_name := "db/sql_queries/sections/section_7/add_other_information.sql"
+				-- other_info, id
+				create args.make_from_array (<<a_section_7.other, report_id>>)
+				execute_insertion_query_from_file_with_args (query_file_name, args)
+				i := i + 1
+		end
+
+
+
+
 feature -- Data retrieval for university administrators
 
 	get_all_publications_during_several_years (start_year, end_year: STRING): ARRAY2[STRING]

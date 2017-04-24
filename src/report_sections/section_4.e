@@ -18,7 +18,7 @@ feature -- INit
 			cookie_not_void: cookie /= Void
 			cookie_not_empty: not (cookie ~ "")
 		local
-			head_of_unit_cookie, patent_country, patent_description: STRING
+			patent_country, patent_description: STRING
 			patent: PATENT
 			i: INTEGER
 		do
@@ -58,4 +58,5 @@ feature -- Access
 
 	licenses: ARRAY [STRING]
 
+	head_of_unit_cookie: STRING
 end

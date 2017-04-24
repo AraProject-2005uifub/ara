@@ -411,7 +411,7 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_technology_transfer.make (request.form_parameters.new_cursor, session.string_representation)
 					end
-					-- db.add_section_3(report_research)
+					db.add_section_4(report_technology_transfer)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_distinctions/")
 				elseif request.path_info.same_string ("/report_distinctions/") then
