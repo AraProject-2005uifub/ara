@@ -27,7 +27,7 @@ feature -- INit
 			from
 				i := 1
 			until
-				cursor.after or not (cursor.item.name ~ "patient_country" + i.out)
+				cursor.after or not (cursor.item.name ~ "patent_country" + i.out)
 			loop
 				patent_country := cursor.item.string_representation
 				cursor.forth

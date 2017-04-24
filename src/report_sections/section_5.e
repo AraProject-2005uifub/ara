@@ -73,6 +73,8 @@ feature -- Init
 				date := cursor.item.string_representation
 				cursor.forth
 				create prize.make_with_data (recepient, name, granting_institution, date)
+				prizes.force (prize, i)
+				i := i+1
 			end
 		ensure
 			paper_awards_not_empty: not paper_awards.is_empty
