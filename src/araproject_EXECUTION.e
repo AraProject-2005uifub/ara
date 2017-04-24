@@ -427,14 +427,14 @@ feature -- Execution
 					end
 					-- db.add_section_3(report_research)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
-					response.redirect_now ("/report_successful/")
+					response.redirect_now ("/report_other/")
 				elseif request.path_info.same_string ("/report_other/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
-						create report_outside_activities.make (request.form_parameters.new_cursor, session.string_representation)
+						create report_other.make (request.form_parameters.new_cursor, session.string_representation)
 					end
 					-- db.add_section_3(report_research)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
-					response.redirect_now ("/report_other/")
+					response.redirect_now ("/report_successful/")
 				elseif request.path_info.same_string ("/admin_choose/") then
 					if attached {WSF_VALUE}request.form_parameter ("query") as query then
 						response.set_status_code ({HTTP_STATUS_CODE}.found)
