@@ -13,6 +13,10 @@ create
 feature -- INit
 
 	make (cursor: ITERATION_CURSOR [WSF_VALUE]; cookie: STRING)
+		require
+			cursor_not_void: cursor /= Void
+			cookie_not_void: cookie /= Void
+			cookie_not_empty: not (cookie ~ "")
 		local
 			head_of_unit_cookie, patent_country, patent_description: STRING
 			patent: PATENT
@@ -43,6 +47,9 @@ feature -- INit
 				cursor.forth
 				i := i + 1
 			end
+		ensure
+			patents_not_empty: not patents.is_empty
+			licenses_not_empty: not licenses.is_empty
 		end
 
 feature -- Access

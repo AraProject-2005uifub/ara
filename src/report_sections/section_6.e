@@ -11,6 +11,10 @@ create
 
 feature -- Init
 	make(cursor: ITERATION_CURSOR[WSF_VALUE]; cookie: STRING)
+		require
+			cursor_not_void: cursor /= Void
+			cookie_not_void: cookie /= Void
+			cookie_not_empty: not (cookie ~ "")
 		local
 			head_of_unit_cookie, company, nature: STRING
 			collaboration: COLLABORATION
@@ -31,6 +35,8 @@ feature -- Init
 				collaborations.force (collaboration, i)
 				i := i + 1
 			end
+		ensure
+			collaborations_not_empty: not collaborations.is_empty
 		end
 
 feature -- Access

@@ -12,6 +12,10 @@ create
 
 feature -- Init
 	make(cursor: ITERATION_CURSOR[WSF_VALUE]; cookie: STRING)
+		require
+			cursor_not_void: cursor /= Void
+			cookie_not_void: cookie /= Void
+			cookie_not_empty: not (cookie ~ "")
 		local
 			paper_award: PAPER_AWARD
 			membership: MEMBERSHIP
@@ -70,6 +74,10 @@ feature -- Init
 				cursor.forth
 				create prize.make_with_data (recepient, name, granting_institution, date)
 			end
+		ensure
+			paper_awards_not_empty: not paper_awards.is_empty
+			memberships_not_empty: not memberships.is_empty
+			prizes_not_empty:  not prizes.is_empty
 		end
 
 feature -- Access
