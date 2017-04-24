@@ -305,6 +305,22 @@ feature -- Execution
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
+				elseif request.path_info.same_string ("/ua_patents/") or request.path_info.same_string ("/ua_patents") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "ui_admin" then
+							create html_page.make_html ("www/ua_patents.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
 				elseif request.path_info.same_string ("/404/") then
 					create html_page.make_html ("www/404.html")
 					response.send (html_page)
@@ -428,6 +444,14 @@ feature -- Execution
 							response.redirect_now ("/ua_information/")
 						elseif query.string_representation ~ "Courses taught by a Laboratory between initial and final date" then
 							response.redirect_now ("/ua_courses/")
+						elseif query.string_representation ~ "Number of supervised students by Laboratories" then
+							-- Report from database
+						elseif query.string_representation ~ "Number of research collaboration" then
+							-- Report from database
+						elseif query.string_representation ~ "Patents got by all Units during given period" then
+							response.redirect_now ("/ua_patents/")
+						elseif query.string_representation ~ "Information about industrial collaboration" then
+							-- Report from database
 						end
 					end
 				elseif request.path_info.same_string ("/admin_publication/") then
@@ -471,6 +495,8 @@ feature -- Execution
 							end
 						end
 					end
+				elseif request.path_info.same_string ("/admin_patents/") then
+					-- Report from database
 				end
 			end
 		end
