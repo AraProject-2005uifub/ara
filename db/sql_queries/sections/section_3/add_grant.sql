@@ -27,7 +27,7 @@ INSERT INTO grants (
 VALUES(
 	"$",
 	"$",
-	(SELECT id FROm organizations WHERE name = "$"),
+	(SELECT id FROM organizations WHERE name = "$"),
 	date("$"),
 	date("$"),
 	"$",

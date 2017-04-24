@@ -177,7 +177,7 @@ feature -- Execution
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
-				elseif request.path_info.same_string ("/report_disctinctions/") or request.path_info.same_string ("/report_distinctions") then
+				elseif request.path_info.same_string ("/report_distinctions/") or request.path_info.same_string ("/report_distinctions") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						role_db := db.check_user_role_by_cookie (session.string_representation)
 						if role_db ~ "head_of_unit" then
