@@ -19,7 +19,6 @@ feature
 feature -- Test routines
 
 	db_first_init_test
-			-- New test routine
 		do
 			create db.db_first_init
 		end
@@ -49,7 +48,7 @@ feature -- Test routines
 	db_add_head_of_unit_test
 		do
 			create db.init_if_need_or_open
-			db.add_head_of_unit ("dsaasdfffsd", "dsaffsd", "dsaffsd")
+			db.add_head_of_unit ("test", "test", "test")
 		end
 
 	update_cookie_test
@@ -97,6 +96,9 @@ feature -- Test routines
 			create db.init_if_need_or_open
 			a := db.get_courses_taught_by_unit_in_a_given_period("2000", "2099", "asqwe")
 		end
+
+
+
 
 
 end
