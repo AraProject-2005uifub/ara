@@ -14,6 +14,14 @@
 
     </div>
   </div>
+  <div class = "col-md-10 col-md-offset-5">
+      <button type="logout" class="btn btn-sm btn-primary" onclick="logOut()" style="float:left">Log out</button>
+    </div>
 </body>
-</body>
+<script>
+  function logOut() {
+    document.cookie = "session_id=sdsds;expires=Thu, 01 Jan 1970 00:00:01 GMT; path=/";
+    window.location.replace("/auth/");
+  }
+</script>
 </html>

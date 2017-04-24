@@ -54,7 +54,7 @@ feature -- Test routines
 	update_cookie_test
 		do
 			create db.init_if_need_or_open
-			db.update_cookie ("adminf", "asdads")
+			db.update_cookie ("admin", "asdads")
 		end
 
 	check_user_role_by_cookie_test
