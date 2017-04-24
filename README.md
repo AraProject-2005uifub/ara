@@ -8,6 +8,7 @@ It is dependent on such Eiffel libraries, as:
   - sqlite
   - standalone
   - wsf
+  - testing (needed for application testing)
 
 
 HOW TO RUN:
