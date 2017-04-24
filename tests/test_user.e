@@ -19,20 +19,16 @@ feature -- Variables
 feature -- Test routines
 
 	user_make_empty
-			-- New test routine
 		do
 			create user.make
 		end
 
-	user_make_valid
+	user_make
 		do
 			create user.make_with_username_password("name", "login", "Password")
 		end
---	user_make_invalid
---		do
---			create user.make_with_username_password (Void, Void, Void)
---		end
-	set_fields_valid
+
+	set_fields
 		do
 			create user.make
 			user.set_full_name("name")
@@ -41,17 +37,6 @@ feature -- Test routines
 			user.set_role("role")
 			user.set_cookie_session("cookie")
 		end
-
---	set_fields_invalid
---		do
---			create user.make
---			user.set_full_name(Void)
---			user.set_username(Void)
---			user.set_password(Void)
---			user.set_role(Void)
---			user.set_cookie_session(Void)
---		end
-
 end
 
 

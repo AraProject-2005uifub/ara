@@ -21,21 +21,12 @@ feature
 feature -- Test routines
 
 	html_page_with_table_make
-			-- New test routine
 		local
 			array: ARRAY2 [STRING]
 		do
 			create array.make_filled ("s", 1, 1)
 			create page.make (array)
 		end
-
---	html_page_with_table_make_invalid
---			-- New test routine
---		local
---			array: ARRAY2 [STRING]
---		do
---			create page.make (array)
---		end
 
 	html_page_make_from_several_arrays
 		local
@@ -50,15 +41,6 @@ feature -- Test routines
 			array [2] := array2
 			create page.make_from_several_arrays (array)
 		end
-
---	html_page_make_from_several_arrays_invalid
---		local
---			array1: ARRAY2 [STRING]
---			array2: ARRAY2 [STRING]
---			array: ARRAY [ARRAY2 [STRING]]
---		do
---			create page.make_from_several_arrays (array)
---		end
 
 	html_page_creation
 		local
