@@ -2,7 +2,7 @@
 
 -- report_id, ip_licensing
 
-INSERT OR UPDATE INTO ip_licensies (
+INSERT OR REPLACE INTO ip_licensies (
 	report_id,
 	license
 )

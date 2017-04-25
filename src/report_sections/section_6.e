@@ -16,7 +16,7 @@ feature -- Init
 			cookie_not_void: cookie /= Void
 			cookie_not_empty: not (cookie ~ "")
 		local
-			head_of_unit_cookie, company, nature: STRING
+			company, nature: STRING
 			collaboration: COLLABORATION
 			i: INTEGER
 		do
@@ -41,4 +41,5 @@ feature -- Init
 
 feature -- Access
 	collaborations: ARRAY[COLLABORATION]
+	head_of_unit_cookie: STRING
 end

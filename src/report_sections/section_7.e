@@ -15,8 +15,6 @@ feature -- Init
 			cursor_not_void: cursor /= Void
 			cookie_not_void: cookie /= Void
 			cookie_not_empty: not (cookie ~ "")
-		local
-			head_of_unit_cookie: STRING
 		do
 			head_of_unit_cookie := cookie
 			other := cursor.item.string_representation
@@ -26,5 +24,5 @@ feature -- Init
 
 feature -- Access
 	other: STRING
-
+	head_of_unit_cookie: STRING
 end

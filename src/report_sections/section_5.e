@@ -20,7 +20,7 @@ feature -- Init
 			paper_award: PAPER_AWARD
 			membership: MEMBERSHIP
 			prize: PRIZE
-			head_of_unit_cookie, author, title, conference, wording, date, name, recepient, granting_institution: STRING
+			author, title, conference, wording, date, name, recepient, granting_institution: STRING
 			i: INTEGER
 		do
 			head_of_unit_cookie := cookie
@@ -86,4 +86,5 @@ feature -- Access
 	paper_awards: ARRAY[PAPER_AWARD]
 	memberships: ARRAY[MEMBERSHIP]
 	prizes: ARRAY[PRIZE]
+	head_of_unit_cookie: STRING
 end

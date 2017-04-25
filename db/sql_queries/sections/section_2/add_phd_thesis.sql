@@ -38,7 +38,7 @@ VALUES (
 	"$"
 );
 --|
-INSERT INTO phd_theses (
+INSERT OR REPLACE INTO phd_theses (
 	report_id, 
 	student_id, 
 	title, 

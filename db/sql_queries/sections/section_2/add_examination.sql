@@ -3,7 +3,7 @@
 -- report_id, name_of_course, 
 -- semester, kind_of_exam, num_of_students
 
-INSERT INTO examinations (
+INSERT OR REPLACE INTO examinations (
 	report_id, 
 	course_name,
 	semester,

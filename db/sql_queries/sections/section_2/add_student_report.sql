@@ -10,7 +10,7 @@ VALUES (
 	"$"
 );
 --|
-INSERT INTO student_reports (
+INSERT OR REPLACE INTO student_reports (
 	report_id, 
 	student_id, 
 	title, 

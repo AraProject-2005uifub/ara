@@ -45,9 +45,9 @@
   function addCol() {
     var collaboration = document.getElementById("collaboration").innerHTML;
     iter++;
-    collaboration = collaboration.replace(/coll/g, "coll" + iter);
-    collaboration = collaboration.replace(/company/, "company" + iter);
-    collaboration = collaboration.replace(/nature/, "nature" + iter);
+    collaboration = collaboration.replace(/coll/, "coll" + iter);
+    collaboration = collaboration.replace(/company/g, "company" + iter);
+    collaboration = collaboration.replace(/nature/g, "nature" + iter);
     $("#colls").append(collaboration);
   }
 
