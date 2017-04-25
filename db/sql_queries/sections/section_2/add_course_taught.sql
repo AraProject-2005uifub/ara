@@ -3,7 +3,7 @@
 -- report_id, name_of_course, 
 -- semester, level, num_of_students
 
-INSERT INTO courses_taught (
+INSERT OR REPLACE INTO courses_taught (
 	report_id, 
 	name, 
 	semester, 

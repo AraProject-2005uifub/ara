@@ -12,7 +12,8 @@
 	<div class="container" style="margin-top:30px">
     <div class="col-md-8 col-md-offset-2">
       <div class="panel panel-default">
-      <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Welcome, university administrator! </p> <p>Please, choose query you want to perform and press select button.</p></STRONG></h2></div>        
+      <button type="logout" class="btn btn-sm btn-default" onclick="logOut()" style = "float: right">Log out</button>
+      <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Welcome, university administrator! </p> <p>Please, choose query you want to perform and press select button.</p><p>(you will be redirected to additional page if more information is required)</p></STRONG></h2></div>        
 
         <div class="panel-body">
 
@@ -22,13 +23,16 @@
                 <option>All publications of the university in a given year</option>
                 <option>Information of a given unit over several years</option>
                 <option>Courses taught by a Laboratory between initial and final date</option>
+                <option>Number of supervised students by Laboratories</option>
+                <option>Number of research collaboration</option>
+                <option>Patents got by all Units during given period</option>
+                <option>Information about industrial collaboration</option>
               </select>
 
               <p>&nbsp;</p>
 
             <button type="select" class="btn btn-sm btn-default" style="float: right">Select</button>
           </form>
-          <button type="logout" class="btn btn-sm btn-primary" onclick="logOut()">Log out</button>
         </div>
       </div>
     </div>

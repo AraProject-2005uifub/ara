@@ -6,7 +6,7 @@
 -- start_of_period, end_of_period,
 -- prev_grant_name, amount
 
-INSERT INTO organizations (
+INSERT OR IGNORE INTO organizations (
 	name,
 	type_id
 )
@@ -27,7 +27,7 @@ INSERT INTO grants (
 VALUES(
 	"$",
 	"$",
-	(SELECT id FROm organizations WHERE name = "$"),
+	(SELECT id FROM organizations WHERE name = "$"),
 	date("$"),
 	date("$"),
 	"$",

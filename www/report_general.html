@@ -12,6 +12,7 @@
 <body>
 	<div class="container" style="margin-top:30px">
     <div class="col-md-8 col-md-offset-2">
+    <button type="logout" class="btn btn-sm btn-default" onclick="logOut()" style="float:right">Log out</button>
       <div class="panel panel-default">
         <div class="panel-heading"><h2 class="panel-title"><STRONG><p>Welcome, professor! </p> <p>Please, fill correctly forms on the next pages and press submit button on the last page to send a report.</p><p>General information:</p></STRONG></h2>
 
@@ -32,16 +33,17 @@
             </div>
 
             <div class="form-group">
-             <p><strong>Start of reporting period:</strong></p> <input type="date" class="form-control" name="calendar_start" min ="2000-01-01" max = "2099-12-31" required></p>
-           </div>
-
-           <div class="form-group">
-            <p><strong>End of reporting period:</strong></p> <input type="date" class="form-control" name="calendar_end" min ="2000-01-01" max = "2099-12-31" required>
-          </div>
+             <p><strong>Start of reporting period year:</strong></p> 
+             <p>The report will be written for the period of one student year,
+             starting from the 15, August of the year you will provide 
+             till the 14, August of the next year.</p> 
+             <input type="number" class="form-control" name="year_start" 
+             min ="2000" max = "2099" 
+             placeholder="Year between 2000 and 2099"  required>  
+            </div>
 
           <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
         </form>
-        <button type="logout" class="btn btn-sm btn-primary" onclick="logOut()">Log out</button>
         </div>
       </div>
     </div>

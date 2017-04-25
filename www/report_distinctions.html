@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+
 </head>
 <body>
 	<div class="container" style="margin-top:30px">
@@ -17,7 +17,7 @@
 
         <div class="panel-body">
 
-          <form action="/report_outside_activities/" method="POST" role="form">
+          <form action="/report_distinctions/" method="POST" role="form">
 
             <label for="award"><p>Paper awards:</p></label>
             <button type="button" class="btn btn-sm btn-default" onclick="removeAward()" style="float: right">Remove article</button>
@@ -41,7 +41,7 @@
             <div id = "memberships">
               <div id = "membership1">
                 <p><input type="text" name="member_name1" class="form-control" id="member_name1" placeholder="Member name" required></p>
-                <p>Date of membership:</p> <p> <input type="date" class="form-control" id="date_info1" name="date_info1" min ="2000-01-01" max = "2099-12-31" required></p>
+                <p>Date of membership:</p> <p> <input type="date" class="form-control" id="m_date_info1" name="m_date_info1" min ="2000-01-01" max = "2099-12-31" required></p>
               </div>
             </div>
 
@@ -56,7 +56,7 @@
                 <p><input type="text" name="recepient1" class="form-control" id="recepient1" placeholder="Recepient" required></p>
                 <p><input type="text" name="prize_name1" class="form-control" id="prize_name1" placeholder="Prize name" required></p>
                 <p><input type="text" name="institution1" class="form-control" id="institution1" placeholder="Granting institution" required></p>
-                <p>Date:</p> <p> <input type="date" class="form-control" id="date_info1" name="date_info1" min ="2000-01-01" max = "2099-12-31" required></p>
+                <p>Date:</p> <p> <input type="date" class="form-control" id="p_date_info1" name="p_date_info1" min ="2000-01-01" max = "2099-12-31" required></p>
               </div>
             </div>
 
@@ -78,7 +78,7 @@
     var award = document.getElementById("award").innerHTML;
     awardIter++;
     award = award.replace(/award/, "award" + awardIter);
-    award = award.replace(/author/g, "author1" + awardIter);
+    award = award.replace(/author/g, "author" + awardIter);
     award = award.replace(/title/g, "title" + awardIter);
     award = award.replace(/conference/g, "conference" + awardIter);
     award = award.replace(/wording/g, "wording" + awardIter);
@@ -87,38 +87,44 @@
   }
 
   function removeAward() {
-    $("#award" + awardIter).remove();
-    awardIter--;
+    if (awardIter > 1) {
+      $("#award" + awardIter).remove();
+      awardIter--;
+    }
   }
 
   function addMembership() {
     var membership = document.getElementById("membership").innerHTML;
     membershipIter++;
     membership = membership.replace(/membership/, "membership" + membershipIter);
-    membership = membership.replace(/member_name/, "member_name" + membershipIter);
-    membership = membership.replace(/date_info/, "date_info" + membershipIter);
+    membership = membership.replace(/member_name/g, "member_name" + membershipIter);
+    membership = membership.replace(/date_info/g, "m_date_info" + membershipIter);
     $("#memberships").append(membership);
   }
 
   function removeMembership() {
-    $("#membership" + membershipIter).remove();
-    membershipIter--;
+    if (membershipIter > 1) {
+      $("#membership" + membershipIter).remove();
+      membershipIter--;
+    }
   }
 
   function addPrize() {
     var prize = document.getElementById("prize").innerHTML;
     prizeIter++;
     prize = prize.replace(/prize/, "prize" + prizeIter);
-    prize = prize.replace(/recepient/, "recepient" + prizeIter);
-    prize = prize.replace(/prize_name/, "prize_name" + prizeIter);
-    prize = prize.replace(/institution/, "institution" + prizeIter);
-    prize = prize.replace(/date_info/, "date_info" + prizeIter);
+    prize = prize.replace(/recepient/g, "recepient" + prizeIter);
+    prize = prize.replace(/prize_name/g, "prize_name" + prizeIter);
+    prize = prize.replace(/institution/g, "institution" + prizeIter);
+    prize = prize.replace(/date_info/g, "p_date_info" + prizeIter);
     $("#prizes").append(prize);
   }
 
   function removePrize() {
-    $("#prize" + prizeIter).remove();
-    prizeIter--;
+    if (prizeIter > 1) {
+      $("#prize" + prizeIter).remove();
+      prizeIter--;
+    }
   }
 
 </script>
@@ -135,7 +141,7 @@
 
 </script>
 
-<script id = "membership" language = "text"> 
+<script id = "membership" language = "text">
   <div id = "membership">
     <hr>
     <p><input type="text" name="member_name" class="form-control" id="member_name" placeholder="Member name" required></p>

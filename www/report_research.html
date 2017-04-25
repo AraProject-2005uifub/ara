@@ -73,6 +73,7 @@
           <div id = "conference_publications">
             <div id = "conference_publication1">
               <p><input type="text" name="con_publication1" class="form-control" id="con_publication1" placeholder="Publication author and name" required></p>
+              <p><input type="date" name="con_pub_date" class="form-control" id="con_pub_date" placeholder="Conference date" required></p>
             </div>
           </div>
 
@@ -85,12 +86,13 @@
           <div id = "journal_publications">
             <div id = "journal_publication1">
               <p><input type="text" name="jou_publication1" class="form-control" id="jou_publication1" placeholder="Publication author and name" required></p>
+              <p><input type="date" name="jou_pub_date" class="form-control" id="jou_pub_date" placeholder="Publication date" required></p>
             </div>
           </div>
 
           <p>&nbsp;</p>
 
-          <button type="next" class="btn btn-sm btn-primary" style="float: right">Submit</button>
+          <button type="next" class="btn btn-sm btn-default" style="float: right">Next</button>
         </div>
       </div>
     </div>
@@ -147,7 +149,7 @@
     resCol = resCol.replace(/resCol/, "resCol" + collaborationIter);
     resCol = resCol.replace(/country/g, "country" + collaborationIter);
     resCol = resCol.replace(/institution_name/g, "institution_name" + collaborationIter);
-    resCol = resCol.replace(/contacts/g, "contacts" + collaborationIter);
+    resCol = resCol.replace(/contacts/, "contacts" + collaborationIter);
     resCol = resCol.replace(/nature/g, "nature" + collaborationIter);
     $("#resCols").append(resCol);
   }
@@ -164,6 +166,7 @@
     conferenceIter++;
     conPub = conPub.replace(/conference_publication/, "conference_publication" + conferenceIter);
     conPub = conPub.replace(/con_publication/g, "con_publication" + conferenceIter);
+    conPub = conPub.replace(/con_pub_date/g, "con_pub_date" + conferenceIter);
     $("#conference_publications").append(conPub);
   }
 
@@ -179,6 +182,7 @@
     journalIter++;
     jouPub = jouPub.replace(/journal_publication/, "journal_publication" + journalIter);
     jouPub = jouPub.replace(/jou_publication/g, "jou_publication" + journalIter);
+    jouPub = jouPub.replace(/jou_pub_date/g, "jou_pub_date" + journalIter);
     $("#journal_publications").append(jouPub);
   }
 
@@ -228,6 +232,7 @@
   <div id = "conference_publication">
     <hr>
     <p><input type="text" name="con_publication" class="form-control" id="con_publication" placeholder="Publication author and name" required></p>
+    <p><input type="date" name="con_pub_date" class="form-control" id="con_pub_date" placeholder="Conference date" required></p>
   </div>
 </script>
 
@@ -235,6 +240,7 @@
   <div id = "journal_publication">
     <hr>
     <p><input type="text" name="jou_publication" class="form-control" id="jou_publication" placeholder="Publication author and name" required></p>
+    <p><input type="date" name="jou_pub_date" class="form-control" id="jou_pub_date" placeholder="Publication date" required></p>
   </div>
 </script>
 </html>

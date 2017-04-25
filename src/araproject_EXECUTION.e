@@ -40,6 +40,10 @@ feature -- Execution
 			report_general: SECTION_1
 			report_teaching: SECTION_2
 			report_research: SECTION_3
+			report_technology_transfer: SECTION_4
+			report_distinctions: SECTION_5
+			report_outside_activities: SECTION_6
+			report_other: SECTION_7
 			data_table: ARRAY2[STRING]
 		do
 			if request.is_get_request_method then
@@ -96,10 +100,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -112,10 +118,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -128,10 +136,12 @@ feature -- Execution
 							io.new_line
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -142,10 +152,76 @@ feature -- Execution
 							create html_page.make_html ("www/report_research.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_technology_transfer/") or request.path_info.same_string ("/report_technology_transfer") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_technology_transfer.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_distinctions/") or request.path_info.same_string ("/report_distinctions") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_distinctions.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_outside_activities/") or request.path_info.same_string ("/report_outside_activities") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_outside_activities.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/report_other/") or request.path_info.same_string ("/report_other") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "head_of_unit" then
+							create html_page.make_html ("www/report_other.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -156,10 +232,12 @@ feature -- Execution
 							create html_page.make_html ("www/report_successful.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -170,10 +248,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_main.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -184,10 +264,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_courses.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -198,10 +280,12 @@ feature -- Execution
 							create html_page.make_html ("www/ua_information.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
@@ -212,16 +296,49 @@ feature -- Execution
 							create html_page.make_html ("www/ua_publications.html")
 							response.send (html_page)
 						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 							create html_page.make_html ("www/access_denied.html")
 							response.send (html_page)
 						end
 					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+						create html_page.make_html ("www/access_denied.html")
+						response.send (html_page)
+					end
+				elseif request.path_info.same_string ("/ua_patents/") or request.path_info.same_string ("/ua_patents") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						role_db := db.check_user_role_by_cookie (session.string_representation)
+						if role_db ~ "ui_admin" then
+							create html_page.make_html ("www/ua_patents.html")
+							response.send (html_page)
+						else
+							response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
+							create html_page.make_html ("www/access_denied.html")
+							response.send (html_page)
+						end
+					else
+						response.set_status_code ({HTTP_STATUS_CODE}.unauthorized)
 						create html_page.make_html ("www/access_denied.html")
 						response.send (html_page)
 					end
 				elseif request.path_info.same_string ("/404/") then
 					create html_page.make_html ("www/404.html")
 					response.send (html_page)
+				elseif request.path_info.same_string ("/admin_num_of_students/") then
+					create html_page_from_table.make (db.get_number_of_supervised_students_by_laboratories)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
+				elseif request.path_info.same_string ("/admin_num_of_res_col/") then
+					create html_page_from_table.make (db.get_number_of_research_collaboration)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
+				elseif request.path_info.same_string ("/admin_ind_col/") then
+					create html_page_from_table.make (db.get_information_about_industrial_collaboration)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
 				else
 					response.set_status_code ({HTTP_STATUS_CODE}.not_found)
 					response.redirect_now ("/404/")
@@ -303,7 +420,35 @@ feature -- Execution
 						create report_research.make (request.form_parameters.new_cursor, session.string_representation)
 					end
 					db.add_section_3(report_research)
-          response.set_status_code ({HTTP_STATUS_CODE}.found)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_technology_transfer/")
+				elseif request.path_info.same_string ("/report_technology_transfer/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_technology_transfer.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					db.add_section_4(report_technology_transfer)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_distinctions/")
+				elseif request.path_info.same_string ("/report_distinctions/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_distinctions.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					db.add_section_5(report_distinctions)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_outside_activities/")
+				elseif request.path_info.same_string ("/report_outside_activities/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_outside_activities.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					db.add_section_6(report_outside_activities)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
+					response.redirect_now ("/report_other/")
+				elseif request.path_info.same_string ("/report_other/") then
+					if attached {WSF_VALUE}request.cookie ("session_id") as session then
+						create report_other.make (request.form_parameters.new_cursor, session.string_representation)
+					end
+					db.add_section_7(report_other)
+          			response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_successful/")
 				elseif request.path_info.same_string ("/admin_choose/") then
 					if attached {WSF_VALUE}request.form_parameter ("query") as query then
@@ -314,6 +459,14 @@ feature -- Execution
 							response.redirect_now ("/ua_information/")
 						elseif query.string_representation ~ "Courses taught by a Laboratory between initial and final date" then
 							response.redirect_now ("/ua_courses/")
+						elseif query.string_representation ~ "Number of supervised students by Laboratories" then
+							response.redirect_now ("/admin_num_of_students/")
+						elseif query.string_representation ~ "Number of research collaboration" then
+							response.redirect_now ("/admin_num_of_res_col/")
+						elseif query.string_representation ~ "Patents got by all Units during given period" then
+							response.redirect_now ("/ua_patents/")
+						elseif query.string_representation ~ "Information about industrial collaboration" then
+							response.redirect_now ("/admin_ind_col/")
 						end
 					end
 				elseif request.path_info.same_string ("/admin_publication/") then
@@ -355,6 +508,21 @@ feature -- Execution
 								response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
 								response.put_string (html_string)
 							end
+						end
+					end
+				elseif request.path_info.same_string ("/admin_patents/") then
+					if attached {WSF_VALUE}request.form_parameter ("initial_date") as year_i then
+						if attached {WSF_VALUE}request.form_parameter ("final_date") as year_f then
+								create html_page_from_table.make_from_several_arrays (
+									create {ARRAY[ARRAY2[STRING]]}.make_from_array(<<
+									db.get_patents_got_by_all_units_during_given_period
+									(year_i.string_representation,
+										year_f.string_representation)
+									>>))
+
+								html_string := html_page_from_table.create_html_from_local_table
+								response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+								response.put_string (html_string)
 						end
 					end
 				end

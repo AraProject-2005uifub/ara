@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-  
+
 </head>
 <body>
 	<div class="container" style="margin-top:30px">
@@ -17,7 +17,7 @@
 
         <div class="panel-body">
 
-          <form action="/report_other/" method="POST" role="form">
+          <form action="/report_outside_activities/" method="POST" role="form">
 
             <label for="industry"><p>Industry collaborations:</p></label>
             <button type="button" class="btn btn-sm btn-default" onclick="removeCol()" style="float: right">Remove collaboration</button>
@@ -45,15 +45,17 @@
   function addCol() {
     var collaboration = document.getElementById("collaboration").innerHTML;
     iter++;
-    collaboration = collaboration.replace(/coll/g, "coll" + iter);
-    collaboration = collaboration.replace(/company/, "company" + iter);
-    collaboration = collaboration.replace(/nature/, "nature" + iter);
+    collaboration = collaboration.replace(/coll/, "coll" + iter);
+    collaboration = collaboration.replace(/company/g, "company" + iter);
+    collaboration = collaboration.replace(/nature/g, "nature" + iter);
     $("#colls").append(collaboration);
   }
 
   function removeCol() {
-    $("#coll" + iter).remove();
-    iter--;
+    if (iter > 1){
+      $("#coll" + iter).remove();
+      iter--;
+    }
   }
 </script>
 

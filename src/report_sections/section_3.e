@@ -22,6 +22,8 @@ feature -- Init
 			project_title, granting_agency, grant_period_start, grant_period_end, grant_continuation, grant_amount: STRING
 			inno_personnel_involved, external_personnel, start_date, end_date, source_of_financing, country, institution_name: STRING
 			contacts, nature: STRING
+			publication_title, publication_date: STRING
+			publication: PUBLICATION
 			grant: GRANT
 			research_project: RESEARCH_PROJECT
 			research_collaboration: RESEARCH_COLLABORATION
@@ -96,8 +98,12 @@ feature -- Init
 			until
 				cursor.after or not (cursor.item.name ~ "con_publication" + i.out)
 			loop
-				conference_publications.force (cursor.item.string_representation, i)
+				publication_title := cursor.item.string_representation
 				cursor.forth
+				publication_date := cursor.item.string_representation
+				cursor.forth
+				create publication.make_with_data (publication_title, publication_date)
+				conference_publications.force (publication, i)
 				i := i + 1
 			end
 			create journal_publications.make_empty
@@ -106,8 +112,12 @@ feature -- Init
 			until
 				cursor.after or not (cursor.item.name ~ "jou_publication" + i.out)
 			loop
-				journal_publications.force (cursor.item.string_representation, i)
+				publication_title := cursor.item.string_representation
 				cursor.forth
+				publication_date := cursor.item.string_representation
+				cursor.forth
+				create publication.make_with_data (publication_title, publication_date)
+				journal_publications.force (publication, i)
 				i := i + 1
 			end
 		ensure
@@ -126,7 +136,9 @@ feature -- Access
 
 	research_projects: ARRAY [RESEARCH_PROJECT]
 
-	conference_publications, journal_publications: ARRAY [STRING]
+	conference_publications: ARRAY [PUBLICATION]
+
+	journal_publications: ARRAY [PUBLICATION]
 
 	head_of_unit_cookie: STRING
 
