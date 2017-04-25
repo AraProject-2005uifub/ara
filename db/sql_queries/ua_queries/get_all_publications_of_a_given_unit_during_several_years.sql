@@ -13,7 +13,4 @@ FROM
 					ON publications.report_id = reports.id
 						AND (reports.start_of_period >= "$-01-01" 
 							OR reports.end_of_period <= "$-12-31")
-								AND (reports.unit_id in (SELECT id FROM units WHERE name = "$"))
-
-
-);
+								AND (reports.unit_id in (SELECT id FROM units WHERE name = "$")));
