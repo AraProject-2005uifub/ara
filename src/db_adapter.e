@@ -771,7 +771,7 @@ feature -- Report fill
 				-- other_info, id
 			create args.make_from_array (<<a_section_7.other, report_id>>)
 			execute_insertion_query_from_file_with_args (query_file_name, args)
-		
+
 		end
 
 
@@ -795,8 +795,8 @@ feature -- Data retrieval for university administrators
 
 	get_all_publications_of_a_given_unit_during_several_years (start_year, end_year, unit_name: STRING): ARRAY2[STRING]
 		require
-			start_date_not_void : is_normal_string(start_date)
-			end_date_not_void : is_normal_string(end_date)
+			start_year_not_void : is_normal_string(start_year)
+			end_year_not_void : is_normal_string(end_year)
 			unit_name_not_void : is_normal_string(unit_name)
 		local
 			query_file_name: STRING
