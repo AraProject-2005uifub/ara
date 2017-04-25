@@ -106,6 +106,7 @@ feature {NONE} -- Implementation
 	execute_selection_query_from_file (a_file_name: STRING; get_column_names: BOOLEAN): ARRAY2 [STRING]
 		require
 			a_file_name_not_empty: is_normal_string (a_file_name)
+			get_column_names_not_void: get_column_names /= Void
 		local
 			query: STRING
 			i, r: INTEGER
@@ -120,6 +121,7 @@ feature {NONE} -- Implementation
 			-- with arguments.
 		require
 			a_file_name_not_empty: is_normal_string (a_file_name)
+			args_not_void: args /= Void
 		local
 			query: STRING
 			i, r: INTEGER
@@ -143,6 +145,7 @@ feature {NONE} -- Implementation
 			-- with arguments.
 		require
 			a_file_name_not_empty: is_normal_string (a_file_name)
+			args_not_void: args /= Void
 		local
 			query: STRING
 			i, r: INTEGER
@@ -163,6 +166,9 @@ feature {NONE} -- Implementation
 
 	execute_selection_query (a_query: STRING; get_column_names: BOOLEAN): ARRAY2 [STRING]
 			-- Executes a query with gaining data.
+		require
+			a_query_not_empty: is_normal_string (a_query)
+			get_column_names_not_void: get_column_names /= Void
 		local
 			db_query_statement: SQLITE_QUERY_STATEMENT
 			cursor: SQLITE_STATEMENT_ITERATION_CURSOR
@@ -251,6 +257,8 @@ feature {NONE} -- Implementation
 	hash_password (password: STRING): STRING
 			-- Generates hash for password.
 			-- Small protection of user data with static salt.
+		require
+			password_not_empty: is_normal_string (password)
 		local
 			hash: STRING
 		do
@@ -260,6 +268,8 @@ feature {NONE} -- Implementation
 
 	log (log_string: STRING)
 			-- Logs a string.
+		require
+			log_string_not_empty: is_normal_string (log_string)
 		do
 			io.put_string ("DB: " + log_string + "%N")
 		end
@@ -267,6 +277,10 @@ feature {NONE} -- Implementation
 feature -- Insertion queries
 
 	add_admin (name: STRING; username: STRING; password: STRING)
+		require
+			name_not_empty: is_normal_string (name)
+			username_not_empty: is_normal_string (username)
+			password_not_empty: is_normal_string (password)
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
@@ -277,6 +291,10 @@ feature -- Insertion queries
 		end
 
 	add_university_admin (name: STRING; username: STRING; password: STRING)
+		require
+			name_not_empty: is_normal_string (name)
+			username_not_empty: is_normal_string (username)
+			password_not_empty: is_normal_string (password)
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
@@ -287,6 +305,10 @@ feature -- Insertion queries
 		end
 
 	add_head_of_unit (name, username, password: STRING)
+		require
+			name_not_empty: is_normal_string (name)
+			username_not_empty: is_normal_string (username)
+			password_not_empty: is_normal_string (password)
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
@@ -758,6 +780,9 @@ feature -- Report fill
 feature -- Data retrieval for university administrators
 
 	get_all_publications_during_several_years (start_year, end_year: STRING): ARRAY2[STRING]
+		require
+			start_year_not_void : is_normal_string(start_year)
+			end_year_not_void : is_normal_string(end_year)
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
@@ -769,6 +794,10 @@ feature -- Data retrieval for university administrators
 		end
 
 	get_all_publications_of_a_given_unit_during_several_years (start_year, end_year, unit_name: STRING): ARRAY2[STRING]
+		require
+			start_date_not_void : is_normal_string(start_date)
+			end_date_not_void : is_normal_string(end_date)
+			unit_name_not_void : is_normal_string(unit_name)
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
@@ -780,6 +809,10 @@ feature -- Data retrieval for university administrators
 		end
 
 	get_courses_taught_by_unit_in_a_given_period (start_date, end_date, unit_name: STRING): ARRAY2[STRING]
+		require
+			start_date_not_void : is_normal_string(start_date)
+			end_date_not_void : is_normal_string(end_date)
+			unit_name_not_void : is_normal_string(unit_name)
 		local
 			query_file_name: STRING
 			args: ARRAY [STRING]
