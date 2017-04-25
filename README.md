@@ -41,3 +41,5 @@ To write new report you can use **username = head**, **password = head**. You wi
 To retrive data from DB as university administrator you can use **username = ua**, **password = ua**.
 
 For any questions, please contact t.asapov@ or t.tolparov@ or d.salakhutdinov@ innopolis.ru.
+
+GitHub repo: https://github.com/AraProject-2005uifub/ara.git
