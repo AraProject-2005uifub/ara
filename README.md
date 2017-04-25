@@ -13,10 +13,16 @@ It is dependent on such Eiffel libraries, as:
 
 #### HOW TO RUN:
 
-
 1. Compile project using **EiffelStudio 17 or higher**.
 2. Run using EiffelStudio.
 3. Open your browser and go to http://127.0.0.1:9990. 
+
+
+#### TESTING:
+
+**We tested the backend of application using Eiifel testig library**. We performed both autotests and custom manually written tests and were satisfied by the results.
+**Frontend was tested manually**, by all 3 memebers of our team.
+
 
 #### WARNING!
 
@@ -24,6 +30,7 @@ This is a pretty stable version, but it is pretty recomended to follow this rule
   - **avoid using non-latin and non-numeric symbols in fields**
   - use **Google Chrome** as your browser
 We ask you to follow them, as we had no requirements to make a really severe and secure application.
+
 
 #### IMPORTANT!
 
