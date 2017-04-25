@@ -119,7 +119,7 @@ CONSTRAINT "fk_grants_organizations_1" FOREIGN KEY ("granting_agency_id") REFERE
 );
 
 
-CREATE TABLE "industry_collaboration" (
+CREATE TABLE "industry_collaborations" (
 
 "id" INTEGER NOT NULL,
 
@@ -131,7 +131,7 @@ CREATE TABLE "industry_collaboration" (
 
 PRIMARY KEY ("id") ,
 
-CONSTRAINT "fk_industry_collaboration_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id")
+CONSTRAINT "fk_industry_collaborations_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id")
 
 );
 
@@ -287,19 +287,21 @@ CREATE TABLE "prizes" (
 
 "id" INTEGER NOT NULL,
 
+"report_id" INTEGER NOT NULL,
+
 "recipient_unit_member_id" INTEGER NOT NULL,
 
 "title" TEXT NOT NULL,
 
-"granting_organization_id" INTEGER NOT NULL,
+"granting_organization_name" TEXT NOT NULL,
 
 "a_date" TEXT NOT NULL,
 
 PRIMARY KEY ("id") ,
 
-CONSTRAINT "fk_prizes_granting_agencies_1" FOREIGN KEY ("granting_organization_id") REFERENCES "organizations" ("id"),
+CONSTRAINT "fk_prizes_unit_members_1" FOREIGN KEY ("recipient_unit_member_id") REFERENCES "unit_members" ("id"),
 
-CONSTRAINT "fk_prizes_unit_members_1" FOREIGN KEY ("recipient_unit_member_id") REFERENCES "unit_members" ("id")
+CONSTRAINT "fk_prizes_reports_1" FOREIGN KEY ("report_id") REFERENCES "reports" ("id")
 
 );
 

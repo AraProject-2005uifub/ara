@@ -7,3 +7,4 @@ SET
 	other_information = "$"
 WHERE 
 	id = "$";
+--|

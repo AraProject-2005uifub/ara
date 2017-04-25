@@ -418,21 +418,21 @@ feature -- Execution
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_distinctions.make (request.form_parameters.new_cursor, session.string_representation)
 					end
-					-- db.add_section_3(report_research)
+					db.add_section_5(report_distinctions)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_outside_activities/")
 				elseif request.path_info.same_string ("/report_outside_activities/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_outside_activities.make (request.form_parameters.new_cursor, session.string_representation)
 					end
-					-- db.add_section_3(report_research)
+					db.add_section_6(report_outside_activities)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_other/")
 				elseif request.path_info.same_string ("/report_other/") then
 					if attached {WSF_VALUE}request.cookie ("session_id") as session then
 						create report_other.make (request.form_parameters.new_cursor, session.string_representation)
 					end
-					-- db.add_section_3(report_research)
+					db.add_section_7(report_other)
           			response.set_status_code ({HTTP_STATUS_CODE}.found)
 					response.redirect_now ("/report_successful/")
 				elseif request.path_info.same_string ("/admin_choose/") then

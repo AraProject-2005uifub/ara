@@ -1,6 +1,6 @@
 -- add_prize.sql
 
--- recipient, report_id, recipient,
+-- recipient, report_id, report_id recipient,
 -- title, granting_institution, date
 
 INSERT OR IGNORE INTO unit_members (
@@ -12,16 +12,18 @@ VALUES (
 	(SELECT unit_id FROM reports WHERE id == "$")
 );
 --|
-INSERT OR RELPACE INTO prizes (
+INSERT OR REPLACE INTO prizes (
+	report_id,
 	recipient_unit_member_id,
 	title,
-	granting_organization_id,
+	granting_organization_name,
 	a_date
 )
 VALUES (
+	"$",
 	(SELECT id FROM unit_members WHERE name = "$"),
 	"$",
-	(SELECT id FROM organizations WHERE name = "$"),
+	"$",
 	date("$")
 );
 --|

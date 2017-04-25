@@ -5,7 +5,7 @@
 INSERT OR REPLACE INTO memberships (
 	report_id,
 	name,
-	a_date,
+	a_date
 )
 VALUES (
 	"$",

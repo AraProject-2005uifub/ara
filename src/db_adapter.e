@@ -678,7 +678,7 @@ feature -- Report fill
 			end
 
 			query_file_name := "db/sql_queries/sections/section_5/add_prize.sql"
-				-- recipient, report_id, recipient,
+				-- recipient, report_id, report_id, recipient,
 				-- title, granting_institution, date
 			from
 				i := a_section_5.prizes.lower
@@ -686,7 +686,7 @@ feature -- Report fill
 				i > a_section_5.prizes.upper
 			loop
 				create args.make_from_array (<<
-				a_section_5.prizes.at (i).recepient, report_id,
+				a_section_5.prizes.at (i).recepient, report_id, report_id,
 				a_section_5.prizes.at (i).recepient,
 				a_section_5.prizes.at (i).name,
 				a_section_5.prizes.at (i).granting_institution,
@@ -738,8 +738,8 @@ feature -- Report fill
 		local
 			query_file_name, report_id: STRING
 			args: ARRAY [STRING]
-			i: INTEGER
 		do
+			io.put_string("RRRRRRRRRRRRRRR$dkdkdkdkdkdkkee")
 			query_file_name := "db/sql_queries/get_report_id.sql"
 				-- head_of_unit_cookie
 			create args.make_from_array (<<a_section_7.head_of_unit_cookie>>)
@@ -747,9 +747,9 @@ feature -- Report fill
 
 			query_file_name := "db/sql_queries/sections/section_7/add_other_information.sql"
 				-- other_info, id
-				create args.make_from_array (<<a_section_7.other, report_id>>)
-				execute_insertion_query_from_file_with_args (query_file_name, args)
-				i := i + 1
+			create args.make_from_array (<<a_section_7.other, report_id>>)
+			execute_insertion_query_from_file_with_args (query_file_name, args)
+		
 		end
 
 
