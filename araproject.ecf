@@ -48,6 +48,6 @@
 			<concurrency support="scoop"/>
 			<void_safety support="none"/>
 		</capability>
-		<tests name="tests" location="C:\Users\InfoLight\Documents\GitHub\ara\tests\"/>
+		<tests name="tests" location="tests/"/>
 	</target>
 </system>
