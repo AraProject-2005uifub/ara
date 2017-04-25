@@ -324,6 +324,21 @@ feature -- Execution
 				elseif request.path_info.same_string ("/404/") then
 					create html_page.make_html ("www/404.html")
 					response.send (html_page)
+				elseif request.path_info.same_string ("/admin_num_of_students/") then
+					create html_page_from_table.make (db.get_number_of_supervised_students_by_laboratories)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
+				elseif request.path_info.same_string ("/admin_num_of_res_col/") then
+					create html_page_from_table.make (db.get_number_of_research_collaboration)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
+				elseif request.path_info.same_string ("/admin_ind_col/") then
+					create html_page_from_table.make (db.get_information_about_industrial_collaboration)
+					html_string := html_page_from_table.create_html_from_local_table
+					response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+					response.put_string (html_string)
 				else
 					response.set_status_code ({HTTP_STATUS_CODE}.not_found)
 					response.redirect_now ("/404/")
@@ -445,13 +460,13 @@ feature -- Execution
 						elseif query.string_representation ~ "Courses taught by a Laboratory between initial and final date" then
 							response.redirect_now ("/ua_courses/")
 						elseif query.string_representation ~ "Number of supervised students by Laboratories" then
-							-- Report from database
+							response.redirect_now ("/admin_num_of_students/")
 						elseif query.string_representation ~ "Number of research collaboration" then
-							-- Report from database
+							response.redirect_now ("/admin_num_of_res_col/")
 						elseif query.string_representation ~ "Patents got by all Units during given period" then
 							response.redirect_now ("/ua_patents/")
 						elseif query.string_representation ~ "Information about industrial collaboration" then
-							-- Report from database
+							response.redirect_now ("/admin_ind_col/")
 						end
 					end
 				elseif request.path_info.same_string ("/admin_publication/") then
@@ -496,7 +511,20 @@ feature -- Execution
 						end
 					end
 				elseif request.path_info.same_string ("/admin_patents/") then
-					-- Report from database
+					if attached {WSF_VALUE}request.form_parameter ("initial_date") as year_i then
+						if attached {WSF_VALUE}request.form_parameter ("final_date") as year_f then
+								create html_page_from_table.make_from_several_arrays (
+									create {ARRAY[ARRAY2[STRING]]}.make_from_array(<<
+									db.get_patents_got_by_all_units_during_given_period
+									(year_i.string_representation,
+										year_f.string_representation)
+									>>))
+
+								html_string := html_page_from_table.create_html_from_local_table
+								response.put_header ({HTTP_STATUS_CODE}.ok, <<["Content-Type", "text/html"], ["Content-Length", ""+html_string.capacity.out+""]>>)
+								response.put_string (html_string)
+						end
+					end
 				end
 			end
 		end
