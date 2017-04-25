@@ -21,7 +21,7 @@ It is dependent on such Eiffel libraries, as:
 #### TESTING:
 
 **We tested the backend of application using Eiifel testig library**. We performed both autotests and custom manually written tests and were satisfied by the results.
-**Frontend was tested manually**, by all 3 memebers of our team.
+**Frontend was tested manually**, by all 3 memebers of our team. Some of manual tests are included here
 
 
 #### WARNING!
